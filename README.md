@@ -1,9 +1,9 @@
 WebAction
 =========
 
-[![Coverage Status](https://coveralls.io/repos/corneltek/WebAction/badge.svg?branch=master)](https://coveralls.io/r/corneltek/WebAction?branch=master)
-[![Build Status](https://travis-ci.org/corneltek/WebAction.svg?branch=master)](https://travis-ci.org/corneltek/WebAction)
-[![Latest Stable Version](https://poser.pugx.org/corneltek/webaction/v/stable)](https://packagist.org/packages/corneltek/webaction) [![Total Downloads](https://poser.pugx.org/corneltek/webaction/downloads)](https://packagist.org/packages/corneltek/webaction) [![Latest Unstable Version](https://poser.pugx.org/corneltek/webaction/v/unstable)](https://packagist.org/packages/corneltek/webaction) [![License](https://poser.pugx.org/corneltek/webaction/license)](https://packagist.org/packages/corneltek/webaction)
+[![Coverage Status](https://coveralls.io/repos/c9s/WebAction/badge.svg?branch=master)](https://coveralls.io/r/c9s/WebAction?branch=master)
+[![Build Status](https://travis-ci.org/c9s/WebAction.svg?branch=master)](https://travis-ci.org/c9s/WebAction)
+[![Latest Stable Version](https://poser.pugx.org/c9s/webaction/v/stable)](https://packagist.org/packages/c9s/webaction) [![Total Downloads](https://poser.pugx.org/c9s/webaction/downloads)](https://packagist.org/packages/c9s/webaction) [![Latest Unstable Version](https://poser.pugx.org/c9s/webaction/v/unstable)](https://packagist.org/packages/c9s/webaction) [![License](https://poser.pugx.org/c9s/webaction/license)](https://packagist.org/packages/c9s/webaction)
 
 ## What's this?
 
