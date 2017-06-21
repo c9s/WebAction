@@ -5,36 +5,37 @@ WebAction
 [![Build Status](https://travis-ci.org/corneltek/WebAction.svg?branch=master)](https://travis-ci.org/corneltek/WebAction)
 [![Latest Stable Version](https://poser.pugx.org/corneltek/webaction/v/stable)](https://packagist.org/packages/corneltek/webaction) [![Total Downloads](https://poser.pugx.org/corneltek/webaction/downloads)](https://packagist.org/packages/corneltek/webaction) [![Latest Unstable Version](https://poser.pugx.org/corneltek/webaction/v/unstable)](https://packagist.org/packages/corneltek/webaction) [![License](https://poser.pugx.org/corneltek/webaction/license)](https://packagist.org/packages/corneltek/webaction)
 
-WebAction is a library that let you share the business logics across
-controllers, pages, ajax requests.
+## What's this?
 
-Sometimes, you need to reuse code across your controllers, pages, ajax
-requests, you might sit down and write a shared controller class to share the
-common code for reuse. This approach might work well for small applications,
-, however, when your application is getting bigger and bigger, it will be very complex to
-share the common code, and hard to maintain.
+WebAction is a library that let you share the business logics across
+controllers, pages, ajax requests bottom-up from your data schema.
+
+## Why does this exist?
+
+Chances are, you need to reuse CRUD logics or business logics across different
+controllers, pages, ajax requests, and so you might sit down and write a shared
+controller class to share the common code.
+
+This approach might work well for small applications. However, when your
+application is getting bigger and bigger, it will be very complex to share the
+common code, and hard to maintain.
+
+## The solution
 
 WebAction provides a way to wrap your common code up, and make these common
 code reuseable in everywhere in the application.
 
-Besides of sharing the logics across your controllers, you may also define the
-parameters with types, validators, form widget type and a lot of parameter
-options, and render your Action as a web form.
+You can simply define the parameters with names, types, validators,
+canonicalizer, filters to handle the form reequests, render the form widgets and integrate with your ORM.
 
-    [Web Form] => [Input: paramters] => [ Parameter Validation ] 
-            => [Execute the logic in Action]  
-                => [Return result: Success or Failure, Data: processed data]
-                    => [Render result on the web page]
+And this, also reduces, simplifies your application code.
 
-Hence, you don't need to handle the ajax mechanisums, controller handlers,
-parameter validations, WebAction\\Action does all the jobs for you
-automatically, so you can focus on the core logics that you only need to
-handle.
+
+## The workflow
 
 Action is just like API (application programming interface),
 which can be triggered from HTTP requests, Ajax requests, or
 from backend, here is the work flow:
-
 
 ![WebAction - PHP](http://i.imgur.com/GtA3Prz.png)
 
