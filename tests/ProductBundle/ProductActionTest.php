@@ -1,8 +1,8 @@
 <?php
-use ActionKit\RecordAction\BaseRecordAction;
-use ActionKit\ActionTemplate\UpdateOrderingRecordActionTemplate;
-use ActionKit\ActionRunner;
-use ActionKit\ActionGenerator;
+use WebAction\RecordAction\BaseRecordAction;
+use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
+use WebAction\ActionRunner;
+use WebAction\ActionGenerator;
 use Maghead\Testing\ModelTestCase;
 
 use ProductBundle\Action\CreateProduct;
@@ -293,7 +293,7 @@ class ProductActionTest extends ModelTestCase
     }
 
     /**
-     * @expectedException \ActionKit\Exception\ActionException
+     * @expectedException \WebAction\Exception\ActionException
      */
     public function testRecordActionWithActionException()
     {

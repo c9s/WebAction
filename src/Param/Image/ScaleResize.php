@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\Param\Image;
+namespace WebAction\Param\Image;
 
 use ImageKit\ImageProcessor;
 

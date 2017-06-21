@@ -1,9 +1,9 @@
 <?php
-namespace ActionKit\View;
+namespace WebAction\View;
 
 use FormKit;
 use FormKit\Layout\GenericLayout;
-use ActionKit\Action;
+use WebAction\Action;
 
 /**
  * BaseView create a basic form view for action.
@@ -43,7 +43,7 @@ abstract class BaseView
 
     /**
      *
-     * @param ActionKit\Action $action
+     * @param WebAction\Action $action
      * @param array $options
      */
     public function __construct(Action $action, array $options = array())
@@ -175,7 +175,7 @@ abstract class BaseView
     /**
      * Set action object
      *
-     * @param ActionKit\Action
+     * @param WebAction\Action
      */
     public function setAction(Action $action)
     {
@@ -184,7 +184,7 @@ abstract class BaseView
 
     public function isRecordAction()
     {
-        return $this->action instanceof \ActionKit\RecordAction\BaseRecordAction;
+        return $this->action instanceof \WebAction\RecordAction\BaseRecordAction;
     }
 
     /**

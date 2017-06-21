@@ -1,10 +1,10 @@
 <?php
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\ActionRunner;
-use ActionKit\ActionTemplate\CodeGenActionTemplate;
-use ActionKit\GeneratedAction;
-use ActionKit\Exception\RequiredConfigKeyException;
+use WebAction\ActionRunner;
+use WebAction\ActionTemplate\CodeGenActionTemplate;
+use WebAction\GeneratedAction;
+use WebAction\Exception\RequiredConfigKeyException;
 
 class RecordActionTemplate extends CodeGenActionTemplate
 {
@@ -26,9 +26,9 @@ class RecordActionTemplate extends CodeGenActionTemplate
     public function register(ActionRunner $runner, $asTemplate, array $options = array())
     {
         if (isset($options['use'])) {
-            array_unshift($options['use'], '\\ActionKit\\Action', '\\ActionKit\\RecordAction\\BaseRecordAction');
+            array_unshift($options['use'], '\\WebAction\\Action', '\\WebAction\\RecordAction\\BaseRecordAction');
         } else {
-            $options['use'] = ['\\ActionKit\\Action', '\\ActionKit\\RecordAction\\BaseRecordAction'];
+            $options['use'] = ['\\WebAction\\Action', '\\WebAction\\RecordAction\\BaseRecordAction'];
         }
 
         if (!isset($options['namespace'])) {
@@ -53,10 +53,10 @@ class RecordActionTemplate extends CodeGenActionTemplate
             $traits = array();
             if (isset($options['allowed_roles']) || isset($type['allowed_roles'])) {
                 $properties['allowedRoles'] = isset($type['allowed_roles']) ? $type['allowed_roles'] : $options['allowed_roles'];
-                $traits = ['ActionKit\\ActionTrait\\RoleChecker'];
+                $traits = ['WebAction\\ActionTrait\\RoleChecker'];
             }
             $configs = [
-                'extends' => "\\ActionKit\\RecordAction\\{$type['prefix']}RecordAction",
+                'extends' => "\\WebAction\\RecordAction\\{$type['prefix']}RecordAction",
                 'properties' => $properties,
                 'traits' => $traits,
                 'use' => $options['use']

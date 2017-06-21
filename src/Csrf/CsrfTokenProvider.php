@@ -1,8 +1,8 @@
 <?php
-namespace ActionKit\Csrf;
+namespace WebAction\Csrf;
 
-use ActionKit\Csrf\CsrfToken;
-use ActionKit\Csrf\CsrfStorage;
+use WebAction\Csrf\CsrfToken;
+use WebAction\Csrf\CsrfStorage;
 use Exception;
 
 class CsrfTokenProvider

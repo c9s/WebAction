@@ -1,11 +1,11 @@
 <?php
 namespace ProductBundle\Action;
-use ActionKit;
+use WebAction;
 use ProductBundle\Model\ProductImage;
 use ProductBundle\Model\Feature;
 use ProductBundle\Model\Resource;
 use ProductBundle\Model\FeatureRel;
-use ActionKit\RecordAction\CreateRecordAction;
+use WebAction\RecordAction\CreateRecordAction;
 
 class CreateProduct extends CreateRecordAction
 {

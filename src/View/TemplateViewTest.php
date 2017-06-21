@@ -1,12 +1,12 @@
 <?php
 
-namespace ActionKit\View;
+namespace WebAction\View;
 
 class TemplateViewTest extends \PHPUnit\Framework\TestCase
 {
     public function test()
     {
-        $actionClass = \ActionKit\RecordAction\BaseRecordAction::createCRUDClass(\User\Model\User::class,'Create');
+        $actionClass = \WebAction\RecordAction\BaseRecordAction::createCRUDClass(\User\Model\User::class,'Create');
 
         $action = new $actionClass;
         $this->assertNotNull($action);

@@ -1,10 +1,10 @@
 <?php
 
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\ActionRunner;
-use ActionKit\GeneratedAction;
-use ActionKit\Testing\ActionTestCase;
+use WebAction\ActionRunner;
+use WebAction\GeneratedAction;
+use WebAction\Testing\ActionTestCase;
 
 class CodeGenActionTemplateTest extends ActionTestCase
 {

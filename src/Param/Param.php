@@ -1,10 +1,10 @@
 <?php
-namespace ActionKit\Param;
+namespace WebAction\Param;
 
 use CascadingAttribute;
-use ActionKit\MessagePool;
-use ActionKit\Action;
-use ActionKit\ValueType\BaseType;
+use WebAction\MessagePool;
+use WebAction\Action;
+use WebAction\ValueType\BaseType;
 use DateTime;
 use InvalidArgumentException;
 use Exception;
@@ -21,7 +21,7 @@ class Param extends CascadingAttribute
     public static $supportedIsa = ['Int', 'Num', 'Str', 'Bool', 'Dir', 'DateTime', 'Timestamp', 'Ip', 'Ipv4', 'Ipv6', 'Path', 'Regex', 'Url', 'Email', 'Json'];
 
     /**
-     * @var ActionKit\Action action object referenece
+     * @var WebAction\Action action object referenece
      * */
     protected $action;
 
@@ -410,7 +410,7 @@ class Param extends CascadingAttribute
         if ('+' == $class[0]) {
             $class = substr($class, 1);
         } else {
-            $class = \Maghead\Utils::resolveClass($class, [\App\Widget::class, \ActionKit\Widget::class, static::$widgetNamespace], $this->action);
+            $class = \Maghead\Utils::resolveClass($class, [\App\Widget::class, \WebAction\Widget::class, static::$widgetNamespace], $this->action);
         }
 
         // create new widget object.

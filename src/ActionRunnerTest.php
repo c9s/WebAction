@@ -1,11 +1,11 @@
 <?php
 
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\ActionTemplate\TwigActionTemplate;
-use ActionKit\ActionTemplate\RecordActionTemplate;
-use ActionKit\ActionTemplate\CodeGenActionTemplate;
-use ActionKit\Testing\ActionTestAssertions;
+use WebAction\ActionTemplate\TwigActionTemplate;
+use WebAction\ActionTemplate\RecordActionTemplate;
+use WebAction\ActionTemplate\CodeGenActionTemplate;
+use WebAction\Testing\ActionTestAssertions;
 use User\Model\UserSchema;
 
 class CreateUserWithMoniker extends Action
@@ -34,7 +34,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     {
         $container = new ServiceContainer;
         $runner = new ActionRunner($container);
-        $runner->run('ActionKit::CreateUserWithMoniker', []);
+        $runner->run('WebAction::CreateUserWithMoniker', []);
         $result = $runner->getResult('create-user');
         $this->assertNotNull($result);
         $this->assertEquals("foo", $result->data('name'));
@@ -49,11 +49,11 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $runner = new ActionRunner($container);
         $runner->registerAutoloader();
         $runner->registerAction('TwigActionTemplate', [
-            'template' => '@ActionKit/RecordAction.html.twig',
+            'template' => '@WebAction/RecordAction.html.twig',
             'action_class' => 'User\\Action\\BulkCreateUser',
             'variables' => [
                 'record_class' => 'User\\Model\\User',
-                'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction',
+                'base_class' => 'WebAction\\RecordAction\\CreateRecordAction',
             ]
         ]);
 
@@ -71,11 +71,11 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $runner = new ActionRunner($container);
         $runner->registerAutoloader();
         $runner->registerAction('TwigActionTemplate', array(
-            'template' => '@ActionKit/RecordAction.html.twig',
+            'template' => '@WebAction/RecordAction.html.twig',
             'action_class' => 'User\\Action\\BulkCreateUser',
             'variables' => array(
                 'record_class' => 'User\\Model\\User',
-                'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+                'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
             )
         ));
 
@@ -106,7 +106,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $result = $runner->run('User::Action::CreateUser',[ 
             'email' => 'foo@foo'
         ]);
-        $this->assertInstanceOf('ActionKit\\Result', $result);
+        $this->assertInstanceOf('WebAction\\Result', $result);
 
         $json = $result->__toString();
         $this->assertNotNull($json, 'json output');
@@ -150,7 +150,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $container = new ServiceContainer;
         $runner = new ActionRunner($container);
 
-        $runner['User::Action::CreateUser'] = new \ActionKit\Result;
+        $runner['User::Action::CreateUser'] = new \WebAction\Result;
 
         $this->assertTrue( isset($runner['User::Action::CreateUser']) );
 
@@ -160,7 +160,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
 
     /**
-    *   @expectedException  ActionKit\Exception\InvalidActionNameException
+    *   @expectedException  WebAction\Exception\InvalidActionNameException
     */
     public function testHandleWithInvalidActionNameException()
     {
@@ -172,7 +172,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     }
 
     /**
-    *   @expectedException  ActionKit\Exception\InvalidActionNameException
+    *   @expectedException  WebAction\Exception\InvalidActionNameException
     */
     public function testHandleWithInvalidActionNameExceptionWithEmptyActionName()
     {
@@ -183,7 +183,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     }
 
     /**
-    *   @expectedException  ActionKit\Exception\ActionNotFoundException
+    *   @expectedException  WebAction\Exception\ActionNotFoundException
     */
     public function testHandleWithActionNotFoundException()
     {
@@ -195,7 +195,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     }
 
     /**
-    *   @expectedException  ActionKit\Exception\InvalidActionNameException
+    *   @expectedException  WebAction\Exception\InvalidActionNameException
     */
     public function testRunnerWithInvalidActionNameException()
     {
@@ -205,7 +205,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     }
 
     /**
-    *   @expectedException  ActionKit\Exception\ActionNotFoundException
+    *   @expectedException  WebAction\Exception\ActionNotFoundException
     */
     public function testRunnerWithActionNotFoundException()
     {

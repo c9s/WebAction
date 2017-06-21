@@ -1,12 +1,12 @@
 <?php
-namespace ActionKit\Testing;
+namespace WebAction\Testing;
 
-use ActionKit\ActionTemplate\CodeGenActionTemplate;
-use ActionKit\ActionTemplate\RecordActionTemplate;
-use ActionKit\ActionRunner;
-use ActionKit\Action;
-use ActionKit\GeneratedAction;
-use ActionKit\Testing\ActionTestCase;
+use WebAction\ActionTemplate\CodeGenActionTemplate;
+use WebAction\ActionTemplate\RecordActionTemplate;
+use WebAction\ActionRunner;
+use WebAction\Action;
+use WebAction\GeneratedAction;
+use WebAction\Testing\ActionTestCase;
 
 trait ActionTestAssertions
 {

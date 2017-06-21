@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\View;
+namespace WebAction\View;
 
 use FormKit;
 use FormKit\Element;
@@ -16,7 +16,7 @@ use FormKit\Layout\GenericLayout;
  *
  Usage in twig template:
 
-    {% set subview = CRUD.Action.asView('ActionKit\\View\\StackView',{ "no_form": 1 }) %}
+    {% set subview = CRUD.Action.asView('WebAction\\View\\StackView',{ "no_form": 1 }) %}
 
     {{ subview.buildRelationalActionViewForExistingRecords('categories').render() |raw }}
 
@@ -26,7 +26,7 @@ use FormKit\Layout\GenericLayout;
 
   Or you can use it directly:
 
-    $view = new \ActionKit\View\ManyToManyCheckboxView;
+    $view = new \WebAction\View\ManyToManyCheckboxView;
     echo $view->render($relationId, $record, $superset);
 
  */

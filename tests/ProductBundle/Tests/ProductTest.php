@@ -1,15 +1,15 @@
 <?php
-use ActionKit\ActionRunner;
-use ActionKit\ActionRequest;
-use ActionKit\Testing\ActionTestCase;
-use ActionKit\ServiceContainer;
-use ActionKit\ActionTemplate\TwigActionTemplate;
-use ActionKit\ActionTemplate\UpdateOrderingRecordActionTemplate;
-use ActionKit\ActionTemplate\RecordActionTemplate;
-use ActionKit\Testing\ActionTestAssertions;
-use ActionKit\RecordAction\UpdateRecordAction;
+use WebAction\ActionRunner;
+use WebAction\ActionRequest;
+use WebAction\Testing\ActionTestCase;
+use WebAction\ServiceContainer;
+use WebAction\ActionTemplate\TwigActionTemplate;
+use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
+use WebAction\ActionTemplate\RecordActionTemplate;
+use WebAction\Testing\ActionTestAssertions;
+use WebAction\RecordAction\UpdateRecordAction;
 
-use ActionKit\Param\Param;
+use WebAction\Param\Param;
 
 use ProductBundle\Model\Product;
 use ProductBundle\Model\ProductCollection;
@@ -428,7 +428,7 @@ class ProductBundleTest extends ModelTestCase
         $create = new CreateProductImage(['title' => 'Test Image'], [ 'request' => $request ]);
         $ret = $create->invoke();
         $this->assertTrue($ret);
-        $this->assertInstanceOf('ActionKit\Result', $create->getResult());
+        $this->assertInstanceOf('WebAction\Result', $create->getResult());
     }
 
     /**
@@ -450,7 +450,7 @@ class ProductBundleTest extends ModelTestCase
         ], [ 'files' => $files ]);
         $ret = $create->invoke();
         $this->assertTrue($ret);
-        $this->assertInstanceOf('ActionKit\Result', $create->getResult());
+        $this->assertInstanceOf('WebAction\Result', $create->getResult());
     }
 
     public function testCreateProductImageWithFilesArray()
@@ -506,7 +506,7 @@ class ProductBundleTest extends ModelTestCase
         $create = new CreateProductFile([ ], [ 'files' => $files ]);
         $ret = $create->invoke();
         $this->assertTrue($ret);
-        $this->assertInstanceOf('ActionKit\Result', $create->getResult());
+        $this->assertInstanceOf('WebAction\Result', $create->getResult());
     }
 
 

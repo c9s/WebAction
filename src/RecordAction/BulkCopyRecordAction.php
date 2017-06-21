@@ -1,8 +1,8 @@
 <?php
-namespace ActionKit\RecordAction;
+namespace WebAction\RecordAction;
 
 use Exception;
-use ActionKit\Utils;
+use WebAction\Utils;
 
 function duplicate_file($from)
 {

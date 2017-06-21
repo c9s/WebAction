@@ -1,8 +1,8 @@
 <?php
 
-namespace ActionKit\Param;
+namespace WebAction\Param;
 
-use ActionKit\Action;
+use WebAction\Action;
 
 class ImageParamTest extends \PHPUnit\Framework\TestCase
 {

@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit\View;
+namespace WebAction\View;
 
-use ActionKit\View\BaseView;
+use WebAction\View\BaseView;
 use FormKit;
 use FormKit\Element;
 use FormKit\Widget\Label;
@@ -105,13 +105,13 @@ SCRIPT;
         if (! $relation) {
             $relation = $this->action->getRelation($relationId);
         }
-        $view  = isset($relation['view']) ? new $relation['view'] : new \ActionKit\View\ManyToManyCheckboxView;
+        $view  = isset($relation['view']) ? new $relation['view'] : new \WebAction\View\ManyToManyCheckboxView;
         return $view->render($relationId, $record, $subset, $collection);
     }
 
     public function renderManyToManyEditor($record, $relationId, $superset)
     {
-        $view  = isset($relation['view']) ? new $relation['view'] : new \ActionKit\View\ManyToManyCheckboxView;
+        $view  = isset($relation['view']) ? new $relation['view'] : new \WebAction\View\ManyToManyCheckboxView;
         return $view->render($relationId, $record, $superset);
     }
 
@@ -270,7 +270,7 @@ SCRIPT;
         //
         $formIndex = $action->setParamNamesWithIndex($relationId);
 
-        $viewClass = isset($relation['view']) ? $relation['view'] : 'ActionKit\View\StackView';
+        $viewClass = isset($relation['view']) ? $relation['view'] : 'WebAction\View\StackView';
 
         $subview = new $viewClass($action, array(
             'no_form' => 1,

@@ -1,15 +1,15 @@
 <?php
 
 
-namespace ActionKit\FieldView;
+namespace WebAction\FieldView;
 
-use ActionKit\Param\Param;
+use WebAction\Param\Param;
 
 class BootstrapFieldViewTest extends \PHPUnit\Framework\TestCase
 {
     public function testText()
     {
-        $column = new Param('account', new \ActionKit\Action);
+        $column = new Param('account', new \WebAction\Action);
         $column->required(1);
 
         $field = new BootstrapFieldView($column, array(

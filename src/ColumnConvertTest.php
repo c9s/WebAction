@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit;
+namespace WebAction;
 
 use Maghead\Testing\ModelTestCase;
 
@@ -12,11 +12,11 @@ use OrderBundle\Model\OrderItem;
 use Maghead\Schema\RuntimeColumn;
 use Magsql\Raw;
 
-use ActionKit\Param\Param;
+use WebAction\Param\Param;
 use DateTime;
 use Closure;
 
-class CreateOrder extends \ActionKit\RecordAction\CreateRecordAction
+class CreateOrder extends \WebAction\RecordAction\CreateRecordAction
 {
     public $recordClass = Order::class;
 }

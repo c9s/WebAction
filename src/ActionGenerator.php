@@ -1,8 +1,8 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\ActionTemplate\ActionTemplate;
-use ActionKit\Exception\UndefinedTemplateException;
+use WebAction\ActionTemplate\ActionTemplate;
+use WebAction\Exception\UndefinedTemplateException;
 use Exception;
 use UniversalCache;
 use ReflectionClass;
@@ -11,16 +11,16 @@ use ReflectionClass;
  * Action Generator Synopsis
  *
  *    $generator = new ActionGenerator;
- *    $generator->registerTemplate('TwigActionTemplate', new ActionKit\ActionTemplate\TwigActionTemplate());
+ *    $generator->registerTemplate('TwigActionTemplate', new WebAction\ActionTemplate\TwigActionTemplate());
  *
  *    $className = 'User\Action\BulkDeleteUser';
  *    $generatedAction = $generator->generate('TwigActionTemplate',
  *        $className,
  *        array(
- *            'template' => '@ActionKit/RecordAction.html.twig',
+ *            'template' => '@WebAction/RecordAction.html.twig',
  *            'variables' => array(
  *                'record_class' => 'User\\Model\\User',
- *                'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+ *                'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
  *            )
  *        )
  *    );
@@ -38,7 +38,7 @@ class ActionGenerator
      * @param string $templateName
      * @param string $class
      * @param array $actionArgs template arguments
-     * @return ActionKit\GeneratedAction
+     * @return WebAction\GeneratedAction
      */
     public function generate($templateName, $class, array $actionArgs = array())
     {
@@ -55,7 +55,7 @@ class ActionGenerator
      * @param string $class
      * @param string $templateName
      * @param array $actionArgs template arguments
-     * @return ActionKit\GeneratedAction
+     * @return WebAction\GeneratedAction
      */
     public function generateAt($classFilePath, $templateName, $class, array $actionArgs = array())
     {
@@ -72,7 +72,7 @@ class ActionGenerator
      * @param string $class
      * @param string $templateName
      * @param array $actionArgs template arguments
-     * @return ActionKit\GeneratedAction
+     * @return WebAction\GeneratedAction
      */
     public function generateUnderDirectory($directory, $templateName, $class, array $actionArgs = array())
     {

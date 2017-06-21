@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\Exception\UnableToWriteCacheException;
+use WebAction\Exception\UnableToWriteCacheException;
 
 class GeneratedAction
 {

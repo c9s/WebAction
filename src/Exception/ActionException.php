@@ -1,8 +1,8 @@
 <?php
-namespace ActionKit\Exception;
+namespace WebAction\Exception;
 
 use Exception;
-use ActionKit\Action;
+use WebAction\Action;
 
 class ActionException extends Exception
 {

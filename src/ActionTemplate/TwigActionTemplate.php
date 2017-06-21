@@ -1,9 +1,9 @@
 <?php
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\ActionRunner;
-use ActionKit\GeneratedAction;
-use ActionKit\Exception\RequiredConfigKeyException;
+use WebAction\ActionRunner;
+use WebAction\GeneratedAction;
+use WebAction\Exception\RequiredConfigKeyException;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 use ReflectionClass;
@@ -14,13 +14,13 @@ use ReflectionClass;
  *
  *    $actionTemplate = new TwigActionTemplate();
  *
- *    $runner = new ActionKit\ActionRunner;
+ *    $runner = new WebAction\ActionRunner;
  *    $actionTemplate->register($runner, 'TwigActionTemplate', array(
  *        'action_class' => 'User\\Action\\BulkUpdateUser',
- *        'template' => '@ActionKit/RecordAction.html.twig',
+ *        'template' => '@WebAction/RecordAction.html.twig',
  *        'variables' => array(
  *            'record_class' => 'User\\Model\\User',
- *            'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+ *            'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
  *        )
  *    ));
  *
@@ -46,12 +46,12 @@ class TwigActionTemplate implements ActionTemplate
     public function __construct(Twig_Loader_Filesystem $loader = null, Twig_Environment $env = null)
     {
         if (!$loader) {
-            $refClass = new ReflectionClass('ActionKit\\ActionGenerator');
+            $refClass = new ReflectionClass('WebAction\\ActionGenerator');
             $templateDirectory = dirname($refClass->getFilename()) . DIRECTORY_SEPARATOR . 'Templates';
 
-            // add ActionKit built-in template path
+            // add WebAction built-in template path
             $loader = new Twig_Loader_Filesystem([]);
-            $loader->addPath($templateDirectory, 'ActionKit');
+            $loader->addPath($templateDirectory, 'WebAction');
         }
         $this->loader = $loader;
         if (!$env) {
@@ -69,10 +69,10 @@ class TwigActionTemplate implements ActionTemplate
      *          'templateName',
      *          array(
      *              'action_class' => 'User\\Action\\BulkUpdateUser',
-     *              'template' => '@ActionKit/RecordAction.html.twig',
+     *              'template' => '@WebAction/RecordAction.html.twig',
      *              'variables' => array(
      *                  'record_class' => 'User\\Model\\User',
-     *                  'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+     *                  'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
      *              )
      *      ));
      */
@@ -104,10 +104,10 @@ class TwigActionTemplate implements ActionTemplate
      * @synopsis
      *     $generatedAction = $template->generate('User\Action\BulkUpdateUser',  // class name
      *          [
-     *              'template' => '@ActionKit/RecordAction.html.twig',
+     *              'template' => '@WebAction/RecordAction.html.twig',
      *              'variables' => array(
      *                  'record_class' => 'User\\Model\\User',
-     *                  'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+     *                  'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
      *              )
      *          ]);
      */

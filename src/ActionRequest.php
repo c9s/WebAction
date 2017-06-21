@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\Utils;
+use WebAction\Utils;
 use Universal\Http\HttpRequest;
 use Universal\Http\FilesParameter;
 

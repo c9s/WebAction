@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 use RuntimeException;
 

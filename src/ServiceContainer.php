@@ -1,13 +1,13 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 use Pimple\Container;
-use ActionKit\ActionGenerator;
-use ActionKit\Csrf\CsrfTokenProvider;
-use ActionKit\Csrf\CsrfToken;
-use ActionKit\Csrf\CsrfSessionStorage;
-use ActionKit\Csrf\CsrfStorage;
-use ActionKit\Csrf\CsrfTokenRegister;
+use WebAction\ActionGenerator;
+use WebAction\Csrf\CsrfTokenProvider;
+use WebAction\Csrf\CsrfToken;
+use WebAction\Csrf\CsrfSessionStorage;
+use WebAction\Csrf\CsrfStorage;
+use WebAction\Csrf\CsrfTokenRegister;
 use Phifty\MessagePool;
 use Twig_Loader_Filesystem;
 use ReflectionClass;
@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Provided services:
  *
- *    generator:  ActionKit\ActionGenerator
+ *    generator:  WebAction\ActionGenerator
  *    cache_dir string
  *
  * Usage:
@@ -71,12 +71,12 @@ class ServiceContainer extends Container
 
         // The default twig loader
         $this['twig_loader'] = function ($c) {
-            $refClass = new ReflectionClass('ActionKit\\ActionGenerator');
+            $refClass = new ReflectionClass('WebAction\\ActionGenerator');
             $templateDirectory = dirname($refClass->getFilename()) . DIRECTORY_SEPARATOR . 'Templates';
 
-            // add ActionKit built-in template path
+            // add WebAction built-in template path
             $loader = new Twig_Loader_Filesystem([]);
-            $loader->addPath($templateDirectory, 'ActionKit');
+            $loader->addPath($templateDirectory, 'WebAction');
             return $loader;
         };
 

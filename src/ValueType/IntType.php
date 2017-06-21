@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit\ValueType;
+namespace WebAction\ValueType;
 
 /**
  * To support nullable, empty string will be treated as NULL

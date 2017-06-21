@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit\RecordAction;
+namespace WebAction\RecordAction;
 
-use ActionKit\RecordAction\BulkRecordAction;
+use WebAction\RecordAction\BulkRecordAction;
 
 /**
  * @codeCoverageIgnore

@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit\ValueType;
+namespace WebAction\ValueType;
 
 abstract class BaseType
 {
@@ -26,7 +26,7 @@ abstract class BaseType
     {
         $isa = ucfirst($isa);
         if (!isset(self::$typeClasses[$isa])) {
-            $class = "ActionKit\\ValueType\\{$isa}Type";
+            $class = "WebAction\\ValueType\\{$isa}Type";
             return self::$typeClasses[$isa] = new $class;
         }
         return self::$typeClasses[$isa];

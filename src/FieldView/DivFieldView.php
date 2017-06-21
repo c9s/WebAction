@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\FieldView;
+namespace WebAction\FieldView;
 
 use FormKit;
 use FormKit\Element\Div;
@@ -11,7 +11,7 @@ class DivFieldView
 {
 
     /**
-     * @var ActionKit\Param object
+     * @var WebAction\Param object
      */
     public $column;
 

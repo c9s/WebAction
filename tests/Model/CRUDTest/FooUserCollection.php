@@ -1,6 +1,6 @@
 <?php
-namespace ActionKit\Model\CRUDTest;
+namespace WebAction\Model\CRUDTest;
 
-class FooUserCollection  extends \ActionKit\Model\CRUDTest\FooUserCollectionBase {
+class FooUserCollection  extends \WebAction\Model\CRUDTest\FooUserCollectionBase {
 
 }

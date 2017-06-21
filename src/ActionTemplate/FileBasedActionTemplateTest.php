@@ -1,11 +1,11 @@
 <?php
 
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\ActionRunner;
-use ActionKit\ActionGenerator;
-use ActionKit\RecordAction\BaseRecordAction;
-use ActionKit\Testing\ActionTestCase;
+use WebAction\ActionRunner;
+use WebAction\ActionGenerator;
+use WebAction\RecordAction\BaseRecordAction;
+use WebAction\Testing\ActionTestCase;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 
@@ -18,14 +18,14 @@ class TwigActionTemplateTest extends ActionTestCase
             [ ['action_class' => 'FileApp\\Action\FooAction'] ],
             [ [
                 'action_class' => 'FileApp\\Action\FooAction',
-                'template' => '@ActionKit\RecordAction.html.twig',
+                'template' => '@WebAction\RecordAction.html.twig',
             ] ],
         ];
     }
 
     /**
      * @dataProvider failingArgumentProvider
-     * @expectedException ActionKit\Exception\RequiredConfigKeyException
+     * @expectedException WebAction\Exception\RequiredConfigKeyException
      */
     public function testTwigActionTemplateWithException($arguments)
     {
@@ -43,7 +43,7 @@ class TwigActionTemplateTest extends ActionTestCase
     public function testTwigActionTemplateWithTwigEnvironmentAndLoader()
     {
         $loader = new Twig_Loader_Filesystem([]);
-        $loader->addPath('src/Templates', 'ActionKit');
+        $loader->addPath('src/Templates', 'WebAction');
 
         $env = new Twig_Environment($loader, array(
             'cache' => false,
@@ -58,10 +58,10 @@ class TwigActionTemplateTest extends ActionTestCase
         $className = 'User\\Action\\BulkUpdateUser4';
         $actionTemplate->register($runner, 'TwigActionTemplate', array(
             'action_class' => $className,
-            'template' => '@ActionKit/RecordAction.html.twig',
+            'template' => '@WebAction/RecordAction.html.twig',
             'variables' => [
                 'record_class' => \User\Model\User::class,
-                'base_class' => \ActionKit\RecordAction\CreateRecordAction::class,
+                'base_class' => \WebAction\RecordAction\CreateRecordAction::class,
             ]
         ));
         $this->assertCount(1, $runner->getPretreatments());
@@ -79,7 +79,7 @@ class TwigActionTemplateTest extends ActionTestCase
     public function testTwigActionTemplateWithTwigLoader()
     {
         $loader = new Twig_Loader_Filesystem([]);
-        $loader->addPath('src/Templates', 'ActionKit');
+        $loader->addPath('src/Templates', 'WebAction');
 
         $actionTemplate = new TwigActionTemplate($loader);
 
@@ -87,10 +87,10 @@ class TwigActionTemplateTest extends ActionTestCase
         $className = 'User\\Action\\BulkUpdateUser3';
         $actionTemplate->register($runner, 'TwigActionTemplate', array(
             'action_class' => $className,
-            'template' => '@ActionKit/RecordAction.html.twig',
+            'template' => '@WebAction/RecordAction.html.twig',
             'variables' => [
                 'record_class' => \User\Model\User::class,
-                'base_class' => \ActionKit\RecordAction\CreateRecordAction::class,
+                'base_class' => \WebAction\RecordAction\CreateRecordAction::class,
             ]
         ));
         $this->assertCount(1, $runner->getPretreatments());
@@ -107,10 +107,10 @@ class TwigActionTemplateTest extends ActionTestCase
         $className = 'User\\Action\\BulkUpdateUser2';
         $actionTemplate->register($runner, 'TwigActionTemplate', array(
             'action_class' => $className,
-            'template' => '@ActionKit/RecordAction.html.twig',
+            'template' => '@WebAction/RecordAction.html.twig',
             'variables' => array(
                 'record_class' => \User\Model\User::class,
-                'base_class' => \ActionKit\RecordAction\CreateRecordAction::class,
+                'base_class' => \WebAction\RecordAction\CreateRecordAction::class,
             )
         ));
         $this->assertCount(1, $runner->getPretreatments());

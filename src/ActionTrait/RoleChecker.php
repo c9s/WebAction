@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\ActionTrait;
+namespace WebAction\ActionTrait;
 
 use Kendo\Acl\MultiRoleInterface;
 use Exception;

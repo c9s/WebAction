@@ -1,14 +1,14 @@
 <?php
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\Exception\RequiredConfigKeyException;
-use ActionKit\ActionRunner;
+use WebAction\Exception\RequiredConfigKeyException;
+use WebAction\ActionRunner;
 
 /**
  *  Update Ordering Record Action Template Synopsis
  *
  *    $actionTemplate = new UpdateOrderingRecordActionTemplate;
- *    $runner = new ActionKit\ActionRunner;
+ *    $runner = new WebAction\ActionRunner;
  *    $actionTemplate->register($runner, 'UpdateOrderingRecordActionTemplate', array(
  *        'namespace' => 'test2',
  *        'model' => 'Test2Model',   // model's name
@@ -25,9 +25,9 @@ class UpdateOrderingRecordActionTemplate extends RecordActionTemplate
     public function register(ActionRunner $runner, $asTemplate, array $options = array())
     {
         if (isset($options['use'])) {
-            array_unshift($options['use'], '\\ActionKit\\Action', '\\ActionKit\\RecordAction\\BaseRecordAction');
+            array_unshift($options['use'], '\\WebAction\\Action', '\\WebAction\\RecordAction\\BaseRecordAction');
         } else {
-            $options['use'] = ['\\ActionKit\\Action', '\\ActionKit\\RecordAction\\BaseRecordAction'];
+            $options['use'] = ['\\WebAction\\Action', '\\WebAction\\RecordAction\\BaseRecordAction'];
         }
 
 
@@ -50,7 +50,7 @@ class UpdateOrderingRecordActionTemplate extends RecordActionTemplate
 
         $actionClass = $options['namespace'] . '\\Action\\Update' . $options['model'] . 'Ordering';
         $runner->register($actionClass, $asTemplate, [
-            'extends' => "\\ActionKit\\RecordAction\\UpdateOrderingRecordAction",
+            'extends' => "\\WebAction\\RecordAction\\UpdateOrderingRecordAction",
             'properties' => [
                 'recordClass' => $options['namespace'] . "\\Model\\" . $options['model'],
             ]

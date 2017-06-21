@@ -1,5 +1,5 @@
 <?php
-use ActionKit\Action;
+use WebAction\Action;
 
 
 class EmailFieldTestAction extends Action

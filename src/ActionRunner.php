@@ -1,17 +1,17 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 use Exception;
 use IteratorAggregate;
 use ArrayAccess;
-use ActionKit\Utils;
-use ActionKit\ActionRequest;
-use ActionKit\ActionLogger;
-use ActionKit\Exception\InvalidActionNameException;
-use ActionKit\Exception\ActionNotFoundException;
-use ActionKit\Exception\UnableToWriteCacheException;
-use ActionKit\Exception\UnableToCreateActionException;
-use ActionKit\Loggable;
+use WebAction\Utils;
+use WebAction\ActionRequest;
+use WebAction\ActionLogger;
+use WebAction\Exception\InvalidActionNameException;
+use WebAction\Exception\ActionNotFoundException;
+use WebAction\Exception\UnableToWriteCacheException;
+use WebAction\Exception\UnableToCreateActionException;
+use WebAction\Loggable;
 use Closure;
 
 /**
@@ -25,7 +25,7 @@ use Closure;
  *              {App}::Action::Login or
  *              {App}::Action::Signup
  *
- *  $runner = ActionKit\ActionRunner::getInstance();
+ *  $runner = WebAction\ActionRunner::getInstance();
  *  $result = $runner->run();
  *  if ($result) {
  *      if ( $runner->isAjax() ) {
@@ -117,7 +117,7 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
      *
      * @param string  $actionName
      * @param array   $arguments
-     * @return ActionKit\Result result array if there is such an action.
+     * @return WebAction\Result result array if there is such an action.
      * */
     public function run($actionName, array $arguments = array(), ActionRequest $request = null)
     {
@@ -383,7 +383,7 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
     /**
      * Get all results
      *
-     * @return ActionKit\Result[]
+     * @return WebAction\Result[]
      */
     public function getResults()
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace ActionKit\FieldView;
+namespace WebAction\FieldView;
 
-use ActionKit\Param\Param;
-use ActionKit\Action;
+use WebAction\Param\Param;
+use WebAction\Action;
 
 class DivFieldViewTest extends \PHPUnit\Framework\TestCase
 {

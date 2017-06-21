@@ -1,9 +1,9 @@
 <?php
 
-namespace ActionKit\Param;
+namespace WebAction\Param;
 
 use DateTime;
-use ActionKit\Action;
+use WebAction\Action;
 
 class ParamTest extends \PHPUnit\Framework\TestCase
 {

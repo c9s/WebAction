@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\Action;
+use WebAction\Action;
 
 interface ActionLogger
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ActionKit\Csrf;
+namespace WebAction\Csrf;
 
 class CsrfTokenProviderTest extends \PHPUnit\Framework\TestCase 
 {

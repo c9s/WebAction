@@ -1,8 +1,8 @@
 <?php
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\GeneratedAction;
-use ActionKit\Exception\RequiredConfigKeyException;
+use WebAction\GeneratedAction;
+use WebAction\Exception\RequiredConfigKeyException;
 
 /**
  *  Sample Action Template Synopsis
@@ -36,8 +36,8 @@ class SampleActionTemplate extends CodeGenActionTemplate
         $class = $this->createActionClassFile($actionClass, $options);
 
         // General use statement
-        $class->useClass('\\ActionKit\\Action');
-        $class->useClass('\\ActionKit\\RecordAction\\BaseRecordAction');
+        $class->useClass('\\WebAction\\Action');
+        $class->useClass('\\WebAction\\RecordAction\\BaseRecordAction');
 
 
         $class->addMethod('public', 'schema', [], '');

@@ -1,8 +1,8 @@
 <?php
-use ActionKit\ServiceContainer;
+use WebAction\ServiceContainer;
 
-use ActionKit\ActionTemplate\RecordActionTemplate;
-use ActionKit\ActionRunner;
+use WebAction\ActionTemplate\RecordActionTemplate;
+use WebAction\ActionRunner;
 
 use OrderBundle\Model\OrderSchema;
 

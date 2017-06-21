@@ -1,12 +1,12 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\Param\Param;
-use ActionKit\Action;
-use ActionKit\RecordAction\BaseRecordAction;
-use ActionKit\RecordAction\CreateRecordAction;
-use ActionKit\RecordAction\UpdateRecordAction;
-use ActionKit\RecordAction\DeleteRecordAction;
+use WebAction\Param\Param;
+use WebAction\Action;
+use WebAction\RecordAction\BaseRecordAction;
+use WebAction\RecordAction\CreateRecordAction;
+use WebAction\RecordAction\UpdateRecordAction;
+use WebAction\RecordAction\DeleteRecordAction;
 use Maghead\Runtime\Model;
 use Maghead\Runtime\Collection;
 
@@ -230,7 +230,7 @@ class ColumnConvert
 
 
     /**
-     * Translate Maghead RuntimeColumn to ActionKit param object.
+     * Translate Maghead RuntimeColumn to WebAction param object.
      *
      * @param RuntimeColumn $c
      * @param Model $record presents the current values

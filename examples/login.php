@@ -4,9 +4,9 @@
  */
 require '../vendor/autoload.php';
 session_start();
-use ActionKit\Action;
-use ActionKit\ActionRunner;
-use ActionKit\ServiceContainer;
+use WebAction\Action;
+use WebAction\ActionRunner;
+use WebAction\ServiceContainer;
 
 class MyLoginAction extends Action {
 
@@ -30,8 +30,8 @@ class MyLoginAction extends Action {
     }
 }
 
-$container = new ActionKit\ServiceContainer;
-$runner = new ActionKit\ActionRunner($container);
+$container = new WebAction\ServiceContainer;
+$runner = new WebAction\ActionRunner($container);
 
 // you can also run action directly
 // $result = $runner->run('MyLoginAction',array( 'email' => '...', 'password' => '...' ));
@@ -44,5 +44,5 @@ if (isset($_POST['action'])) {
     echo $result->getMessage();
 } else {
     $action = new MyLoginAction;
-    echo $action->asView()->render();  // implies view class ActionKit\View\StackView
+    echo $action->asView()->render();  // implies view class WebAction\View\StackView
 }

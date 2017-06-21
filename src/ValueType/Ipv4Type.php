@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit\ValueType;
+namespace WebAction\ValueType;
 
 class Ipv4Type extends BaseType
 {

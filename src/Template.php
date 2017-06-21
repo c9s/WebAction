@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 use ReflectionObject;
 use Exception;
@@ -53,7 +53,7 @@ class Template
 
 
     /**
-     * $template->render('@ActionKit/index.html', array('the' => 'variables', 'go' => 'here'));
+     * $template->render('@WebAction/index.html', array('the' => 'variables', 'go' => 'here'));
      */
     public function render($templateFile, $arguments = array())
     {

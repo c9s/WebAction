@@ -34,8 +34,8 @@ Version 2.0.0 - Tue Jun 30 14:23:00 2015
 - ActionGenerator:generate2
 - ActionGenerator:generateRecordAction
 - ActionRunner:registerCRUD
-- ActionKit/View
-- ActionKit/CRUD
+- WebAction/View
+- WebAction/CRUD
 
 
 Version 1.4 - Fri Apr 25 20:10:02 2014

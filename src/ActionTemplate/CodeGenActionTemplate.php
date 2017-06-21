@@ -1,9 +1,9 @@
 <?php
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\ActionRunner;
-use ActionKit\GeneratedAction;
-use ActionKit\Exception\RequiredConfigKeyException;
+use WebAction\ActionRunner;
+use WebAction\GeneratedAction;
+use WebAction\Exception\RequiredConfigKeyException;
 use Exception;
 use CodeGen\ClassFile;
 
@@ -11,7 +11,7 @@ use CodeGen\ClassFile;
  *  CodeGen-Based Action Template Synopsis
  *
  *      $actionTemplate = new CodeGenActionTemplate();
- *      $runner = new ActionKit\ActionRunner;
+ *      $runner = new WebAction\ActionRunner;
  *      $actionTemplate->register($runner, 'CodeGenActionTemplate', array(
  *          'namespace' => 'test2',
  *          'model' => 'test2Model',   // model's name
@@ -20,7 +20,7 @@ use CodeGen\ClassFile;
  *
  *      $className = 'test2\Action\UpdatetestModel';
  *      $generatedAction = $actionTemplate->generate($className, [
- *          'extends' => "\\ActionKit\\RecordAction\\CreateRecordAction",
+ *          'extends' => "\\WebAction\\RecordAction\\CreateRecordAction",
  *          'properties' => [
  *              'recordClass' => "test2\\Model\\testModel",
  *          ],
@@ -36,7 +36,7 @@ class CodeGenActionTemplate implements ActionTemplate
      *
      *    $template->register($runner, [
      *       'action_class' => 'FooAction',
-     *       'extends' => "\\ActionKit\\RecordAction\\{$type}RecordAction",
+     *       'extends' => "\\WebAction\\RecordAction\\{$type}RecordAction",
      *       'properties' => [
      *           'recordClass' => $options['namespace'] . "\\Model\\" . $options['model'],
      *       ],
@@ -45,9 +45,9 @@ class CodeGenActionTemplate implements ActionTemplate
     public function register(ActionRunner $runner, $asTemplate, array $options = array())
     {
         if (isset($options['use'])) {
-            array_unshift($options['use'], '\\ActionKit\\Action');
+            array_unshift($options['use'], '\\WebAction\\Action');
         } else {
-            $options['use'] = ['\\ActionKit\\Action'];
+            $options['use'] = ['\\WebAction\\Action'];
         }
         $runner->register($options['action_class'], $asTemplate, $options);
     }

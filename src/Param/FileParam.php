@@ -1,13 +1,13 @@
 <?php
 
-namespace ActionKit\Param;
+namespace WebAction\Param;
 
-use ActionKit\Param\Param;
-use ActionKit\Utils;
+use WebAction\Param\Param;
+use WebAction\Utils;
 use Universal\Http\UploadedFile;
 use Exception;
-use ActionKit\Storage\FileRenameMethods;
-    use ActionKit\Storage\FileRename\Md5Rename;
+use WebAction\Storage\FileRenameMethods;
+    use WebAction\Storage\FileRename\Md5Rename;
 
 
 /**

@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit\RecordAction;
+namespace WebAction\RecordAction;
 
-use ActionKit\Action;
+use WebAction\Action;
 
 /**
  * This action requires 'items' param

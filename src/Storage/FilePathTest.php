@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit\Storage;
+namespace WebAction\Storage;
 
 use PHPUnit\Framework\TestCase;
 

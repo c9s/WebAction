@@ -1,11 +1,11 @@
 <?php
 
-namespace ActionKit\Storage\FileRename;
+namespace WebAction\Storage\FileRename;
 
-use ActionKit\Action;
-use ActionKit\Storage\FileRenameMethods;
+use WebAction\Action;
+use WebAction\Storage\FileRenameMethods;
 use Universal\Http\UploadedFile;
-use ActionKit\Param\Param;
+use WebAction\Param\Param;
 
 class Md5Rename
 {

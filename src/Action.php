@@ -1,16 +1,16 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 use FormKit;
-use ActionKit\Param\Param;
-use ActionKit\Param\ImageParam;
-use ActionKit\Param\FileParam;
-use ActionKit\Result;
-use ActionKit\ActionRequest;
-use ActionKit\MessagePool;
-use ActionKit\Csrf\CsrfTokenProvider;
-use ActionKit\Csrf\CsrfToken;
-use ActionKit\ServiceContainer;
+use WebAction\Param\Param;
+use WebAction\Param\ImageParam;
+use WebAction\Param\FileParam;
+use WebAction\Result;
+use WebAction\ActionRequest;
+use WebAction\MessagePool;
+use WebAction\Csrf\CsrfTokenProvider;
+use WebAction\Csrf\CsrfToken;
+use WebAction\ServiceContainer;
 use Universal\Http\HttpRequest;
 use Universal\Http\FilesParameter;
 use Exception;
@@ -24,7 +24,7 @@ class Action implements IteratorAggregate
 {
     const moniker = 0;
 
-    public static $defaultFieldView = 'ActionKit\FieldView\DivFieldView';
+    public static $defaultFieldView = 'WebAction\FieldView\DivFieldView';
 
     protected $currentUser;
 
@@ -62,12 +62,12 @@ class Action implements IteratorAggregate
     protected $uploadedFiles = array();
 
     /**
-     * @var ActionKit\Result
+     * @var WebAction\Result
      */
     public $result; // action result
 
     /**
-     * @var ActionKit\Param[string Prama name]
+     * @var WebAction\Param[string Prama name]
      */
     public $params = array();
 
@@ -109,7 +109,7 @@ class Action implements IteratorAggregate
 
 
     /**
-     * @var ActionKit\CSRFTokenProvider
+     * @var WebAction\CSRFTokenProvider
      */
     protected $csrf;
 
@@ -121,7 +121,7 @@ class Action implements IteratorAggregate
 
 
     /**
-     * @var ActionKit\MessagePool
+     * @var WebAction\MessagePool
      */
     public $messagePool;
 
@@ -870,11 +870,11 @@ class Action implements IteratorAggregate
      * @param string $field      Field name
      * @param string $paramType  Field Type (will be Param Type)
      *
-     * @return ActionKit\Param
+     * @return WebAction\Param
      *
-     *     $this->param('username'); // use ActionKit\Param
-     *     $this->param('file', 'file' ); // use ActionKit\Param\File
-     *     $this->param('image', 'image' ); // use ActionKit\Param\Image
+     *     $this->param('username'); // use WebAction\Param
+     *     $this->param('file', 'file' ); // use WebAction\Param\File
+     *     $this->param('image', 'image' ); // use WebAction\Param\Image
      *
      */
     public function param($field, $paramType = null)
@@ -895,16 +895,16 @@ class Action implements IteratorAggregate
      * @param string $field      Field name
      * @param string $paramType  Field Type (will be Param Type)
      *
-     * @return ActionKit\Param
+     * @return WebAction\Param
      */
     public function replaceParam($field, $paramType = null)
     {
         if ($paramType) {
             $class = ($paramType[0] !== '+')
-                ? 'ActionKit\\Param\\' . ucfirst($paramType) . 'Param'
+                ? 'WebAction\\Param\\' . ucfirst($paramType) . 'Param'
                 : substr($paramType, 1);
         } else {
-            $class = 'ActionKit\\Param\\Param';
+            $class = 'WebAction\\Param\\Param';
         }
         if (! class_exists($class, true)) { // trigger spl class autoloader to load class file.
             throw new Exception("Action param($field): column class $class not found.");
@@ -1000,7 +1000,7 @@ class Action implements IteratorAggregate
     /**
      * Returns Action result, result is empty before running.
      *
-     * @return ActionKit\Result
+     * @return WebAction\Result
      */
     public function getResult()
     {
@@ -1056,14 +1056,14 @@ class Action implements IteratorAggregate
      * @param string $class      View class
      * @param array  $attributes View options
      *
-     * @return ActionKit\View\BaseView View object
+     * @return WebAction\View\BaseView View object
      */
     public function asView()
     {
         $options = array();
 
         // built-in action view class
-        $class = 'ActionKit\\View\\StackView';
+        $class = 'WebAction\\View\\StackView';
         $args = func_get_args();
 
         // got one argument

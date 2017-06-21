@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\ActionRunner;
+use WebAction\ActionRunner;
 
 interface ActionTemplate
 {

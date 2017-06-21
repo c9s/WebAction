@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\RecordAction;
+namespace WebAction\RecordAction;
 
 abstract class UpdateRecordAction extends BaseRecordAction
 {

@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 interface Loggable
 {

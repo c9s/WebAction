@@ -1,11 +1,11 @@
 <?php
-use ActionKit\ActionRunner;
-use ActionKit\ActionGenerator;
-use ActionKit\RecordAction\BaseRecordAction;
-use ActionKit\ActionTemplate\RecordActionTemplate;
-use ActionKit\ActionTemplate\TwigActionTemplate;
-use ActionKit\ActionTemplate\SampleActionTemplate;
-use ActionKit\GeneratedAction;
+use WebAction\ActionRunner;
+use WebAction\ActionGenerator;
+use WebAction\RecordAction\BaseRecordAction;
+use WebAction\ActionTemplate\RecordActionTemplate;
+use WebAction\ActionTemplate\TwigActionTemplate;
+use WebAction\ActionTemplate\SampleActionTemplate;
+use WebAction\GeneratedAction;
 
 class SampleActionTemplateTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +21,7 @@ class SampleActionTemplateTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider failingArgumentProvider
-     * @expectedException ActionKit\Exception\RequiredConfigKeyException
+     * @expectedException WebAction\Exception\RequiredConfigKeyException
      */
     public function testSampleActionTemplateWithException($arguments)
     {

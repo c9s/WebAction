@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit\Param;
+namespace WebAction\Param;
 
-use ActionKit\Param\Param;
+use WebAction\Param\Param;
 
 /**
  * Preprocess image data fields
@@ -26,10 +26,10 @@ use ActionKit\Param\Param;
 class ImageResizer
 {
     public static $classes = array(
-        'max_width'      => 'ActionKit\\Param\\Image\\MaxWidthResize',
-        'max_height'     => 'ActionKit\\Param\\Image\\MaxHeightResize',
-        'scale'          => 'ActionKit\\Param\\Image\\ScaleResize',
-        'crop_and_scale' => 'ActionKit\\Param\\Image\\CropAndScaleResize',
+        'max_width'      => 'WebAction\\Param\\Image\\MaxWidthResize',
+        'max_height'     => 'WebAction\\Param\\Image\\MaxHeightResize',
+        'scale'          => 'WebAction\\Param\\Image\\ScaleResize',
+        'crop_and_scale' => 'WebAction\\Param\\Image\\CropAndScaleResize',
     );
 
     public static function create($type, Param $param)

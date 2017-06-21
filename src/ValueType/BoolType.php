@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit\ValueType;
+namespace WebAction\ValueType;
 
 /*
  * Returns TRUE for "1", "true", "on" and "yes". Returns FALSE otherwise.

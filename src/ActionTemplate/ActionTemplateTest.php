@@ -1,9 +1,9 @@
 <?php
 
-namespace ActionKit\ActionTemplate;
+namespace WebAction\ActionTemplate;
 
-use ActionKit\Testing\ActionTestCase;
-use ActionKit\ActionRunner;
+use WebAction\Testing\ActionTestCase;
+use WebAction\ActionRunner;
 
 class ActionTemplateTest extends ActionTestCase
 {
@@ -24,7 +24,7 @@ class ActionTemplateTest extends ActionTestCase
 
     /**
      * @dataProvider failingArgumentProvider
-     * @expectedException ActionKit\Exception\RequiredConfigKeyException
+     * @expectedException WebAction\Exception\RequiredConfigKeyException
      */
     public function testRecordActionTemplateFailingArguments($arguments)
     {

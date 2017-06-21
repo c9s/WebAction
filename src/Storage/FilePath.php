@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit\Storage;
+namespace WebAction\Storage;
 
 /**
  * FilePath is a plain old object for presenting the file path for reassembling

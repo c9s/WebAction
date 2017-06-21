@@ -1,11 +1,11 @@
-ActionKit
+WebAction
 =========
 
-[![Coverage Status](https://coveralls.io/repos/corneltek/ActionKit/badge.svg?branch=master)](https://coveralls.io/r/corneltek/ActionKit?branch=master)
-[![Build Status](https://travis-ci.org/corneltek/ActionKit.svg?branch=master)](https://travis-ci.org/corneltek/ActionKit)
+[![Coverage Status](https://coveralls.io/repos/corneltek/WebAction/badge.svg?branch=master)](https://coveralls.io/r/corneltek/WebAction?branch=master)
+[![Build Status](https://travis-ci.org/corneltek/WebAction.svg?branch=master)](https://travis-ci.org/corneltek/WebAction)
 [![Latest Stable Version](https://poser.pugx.org/corneltek/actionkit/v/stable)](https://packagist.org/packages/corneltek/actionkit) [![Total Downloads](https://poser.pugx.org/corneltek/actionkit/downloads)](https://packagist.org/packages/corneltek/actionkit) [![Latest Unstable Version](https://poser.pugx.org/corneltek/actionkit/v/unstable)](https://packagist.org/packages/corneltek/actionkit) [![License](https://poser.pugx.org/corneltek/actionkit/license)](https://packagist.org/packages/corneltek/actionkit)
 
-ActionKit is a library that let you share the business logics across
+WebAction is a library that let you share the business logics across
 controllers, pages, ajax requests.
 
 Sometimes, you need to reuse code across your controllers, pages, ajax
@@ -14,7 +14,7 @@ common code for reuse. This approach might work well for small applications,
 , however, when your application is getting bigger and bigger, it will be very complex to
 share the common code, and hard to maintain.
 
-ActionKit provides a way to wrap your common code up, and make these common
+WebAction provides a way to wrap your common code up, and make these common
 code reuseable in everywhere in the application.
 
 Besides of sharing the logics across your controllers, you may also define the
@@ -27,7 +27,7 @@ options, and render your Action as a web form.
                     => [Render result on the web page]
 
 Hence, you don't need to handle the ajax mechanisums, controller handlers,
-parameter validations, ActionKit\\Action does all the jobs for you
+parameter validations, WebAction\\Action does all the jobs for you
 automatically, so you can focus on the core logics that you only need to
 handle.
 
@@ -36,7 +36,7 @@ which can be triggered from HTTP requests, Ajax requests, or
 from backend, here is the work flow:
 
 
-![ActionKit - PHP](http://i.imgur.com/GtA3Prz.png)
+![WebAction - PHP](http://i.imgur.com/GtA3Prz.png)
 
 
 ## A Basic Action
@@ -44,7 +44,7 @@ from backend, here is the work flow:
 A minimal action skeleton:
 
 ```php
-use ActionKit\Action;
+use WebAction\Action;
 class YourAction extends Action
 {
     public function run() {
@@ -101,7 +101,7 @@ The convention rule is like below:
 
 
 ```php
-class YourAction extends \ActionKit\Action
+class YourAction extends \WebAction\Action
 {
 
     function schema() {
@@ -173,7 +173,7 @@ methods that you will use in `run`:
     Action Result Pool by using the action signature as a
     key. 
 
-    @see ActionKit\Runner
+    @see WebAction\Runner
 
     * In Ajax mode, the action result will be converted into
       JSON format, and the front-end `Action.js` will get the 
@@ -246,7 +246,7 @@ if( $rs->success ) {
 To get an action result from ActionRunner:
     
 ```php
-$runner = ActionKit\Runner::getInstance();
+$runner = WebAction\Runner::getInstance();
 if( $result = $runner->getResult( 'Login::...' ) ) {
     // check the action result
 
@@ -285,7 +285,7 @@ RecordAction Synopsis
 
 ```php
 namespace User\Action\UpdateAction;
-use ActionKit\RecordAction\UpdateRecordAction;
+use WebAction\RecordAction\UpdateRecordAction;
 
 class UpdateAction extends UpdateRecordAction {
 
@@ -351,7 +351,7 @@ CreateNews
 
 ```php
 namespace News\Action;
-use ActionKit\RecordAction\CreateRecordAction;
+use WebAction\RecordAction\CreateRecordAction;
 
 class CreateNews extends CreateRecordAction
 {
@@ -363,7 +363,7 @@ UpdateNews
 
 ```php
 namespace News\Action;
-use ActionKit\RecordAction\UpdateRecordAction;
+use WebAction\RecordAction\UpdateRecordAction;
 
 class UpdateNews extends UpdateRecordAction
 {
@@ -392,21 +392,21 @@ created by hands.
 To generate CreateRecordAction from a model class name
 
 ```php
-$g = new ActionKit\ActionGenerator;
+$g = new WebAction\ActionGenerator;
 $code = $g->generateClassCode( 'App\Model\User' , 'Create' )->code;
 ```
 
 To generate UpdateRecordAction from a model class name
 
 ```php
-$g = new ActionKit\ActionGenerator;
+$g = new WebAction\ActionGenerator;
 $code = $g->generateClassCode( 'App\Model\User' , 'Update' )->code;
 ```
 
 To generate custom action:
 
 ```php
-$g = new ActionKit\ActionGenerator;
+$g = new WebAction\ActionGenerator;
 
 $g->register('template name','...template path...');
 
@@ -421,7 +421,7 @@ $g->generate('SortImage', 'template name', array(
 Or even shorter (???):
 
 ```php
-use ActionKit\RecordAction\BaseRecordAction;
+use WebAction\RecordAction\BaseRecordAction;
 $class = BaseRecordAction::createCRUDClass( 'App\Model\Post' , 'Create' );
 ```
 
@@ -523,14 +523,14 @@ $view->render(array( ... render options ... ));
 
 ### Action rendering throught built-in StackView
 
-By using ActionKit StackView, you don't need to write HTML,
+By using WebAction StackView, you don't need to write HTML,
 the form elements are automatically generated.
 
 Here is a StackView synopsis:
 
 ```php
 $action = new SomeWhatAction;
-$view = new ActionKit\View\StackView($action, array( ... options ... ));
+$view = new WebAction\View\StackView($action, array( ... options ... ));
 $view->render();
 ```
 
@@ -538,27 +538,27 @@ Use case:
 
 ```php
 $action = new User\Action\ChangePassword;
-$view = new ActionKit\View\StackView( $action );
+$view = new WebAction\View\StackView( $action );
 echo $view->render();
 ```
 
 And you can render action view via Action's `asView` method:
 
 ```php
-    echo $action->asView('ActionKit\View\StackView')->render();
-    echo $action->asView()->render();  // implies view class ActionKit\View\StackView
+    echo $action->asView('WebAction\View\StackView')->render();
+    echo $action->asView()->render();  // implies view class WebAction\View\StackView
 ```
 
 So that if you're in Twig template, you can do:
 
 ```twig
-{{ action.asView('ActionKit\\View\\StackView').render()|raw}}
+{{ action.asView('WebAction\\View\\StackView').render()|raw}}
 ```
 
 You can also pass extra options to View class:
 
 ```php
-echo $action->asView('ActionKit\View\StackView', array( ... view options ... ))->render();
+echo $action->asView('WebAction\View\StackView', array( ... view options ... ))->render();
 ```
 
 ## Action Rendering (render by pure HTML elements)
@@ -595,7 +595,7 @@ automatically through the Dynamic Action Generator.
 
     {{ Web.render_result( update.signature ) |raw}}
 
-    {{ update.asView('ActionKit\\View\\StackView',{ 
+    {{ update.asView('WebAction\\View\\StackView',{ 
             'form_id': 'profile' 
         }).render() |raw }}
     </div>

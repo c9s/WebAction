@@ -1,8 +1,8 @@
 <?php
-use ActionKit\Testing\ActionTestCase;
-use ActionKit\ActionTemplate\UpdateOrderingRecordActionTemplate;
-use ActionKit\ActionRunner;
-use ActionKit\GeneratedAction;
+use WebAction\Testing\ActionTestCase;
+use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
+use WebAction\ActionRunner;
+use WebAction\GeneratedAction;
 
 /**
  * @group maghead
@@ -27,7 +27,7 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
 
     /**
      * @dataProvider failingArgumentProvider
-     * @expectedException ActionKit\Exception\RequiredConfigKeyException
+     * @expectedException WebAction\Exception\RequiredConfigKeyException
      */
     public function testUpdateOrderingRecordActionTemplateWithFailingArguments($arguments)
     {

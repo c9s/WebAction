@@ -1,9 +1,9 @@
 <?php
 
-namespace ActionKit\Storage;
+namespace WebAction\Storage;
 
 use Universal\Http\UploadedFile;
-use ActionKit\Action;
+use WebAction\Action;
 use RuntimeException;
 
 class FileRenameMethods

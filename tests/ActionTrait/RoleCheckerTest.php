@@ -1,5 +1,5 @@
 <?php
-use ActionKit\ActionTrait\RoleChecker;
+use WebAction\ActionTrait\RoleChecker;
 use Kendo\Acl\MultiRoleInterface;
 
 class MyUser implements MultiRoleInterface 

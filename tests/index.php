@@ -5,18 +5,18 @@ $config = new Maghead\ConfigLoader;
 $config->load('../.lazy.yml');
 $config->init();
 
-ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductCategory', 'Create');
-ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductCategory', 'Update');
-ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Category', 'Create');
-ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Category', 'Update');
-ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductType', 'Create');
-ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductType', 'Update');
+WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductCategory', 'Create');
+WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductCategory', 'Update');
+WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Category', 'Create');
+WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Category', 'Update');
+WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductType', 'Create');
+WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\ProductType', 'Update');
 
 // handle actions
 if ( isset($_REQUEST['action']) ) {
     try {
-        $container = new ActionKit\ServiceContainer;
-        $runner = new ActionKit\ActionRunner($container);
+        $container = new WebAction\ServiceContainer;
+        $runner = new WebAction\ActionRunner($container);
         $result = $runner->run( $_REQUEST['action'] );
         if ( $result && $runner->isAjax() ) {
             // Deprecated:
@@ -53,6 +53,6 @@ if ( isset($result) ) {
 }
 
 
-$class = ActionKit\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Product', 'Create');
+$class = WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Product', 'Create');
 $create = new $class;
 echo $create->asView()->render();

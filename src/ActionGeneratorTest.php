@@ -1,12 +1,12 @@
 <?php
 
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\RecordAction\BaseRecordAction;
-use ActionKit\ActionTemplate\RecordActionTemplate;
-use ActionKit\ActionTemplate\TwigActionTemplate;
-use ActionKit\ActionTemplate\SampleActionTemplate;
-use ActionKit\ActionTemplate\ActionTemplate;
+use WebAction\RecordAction\BaseRecordAction;
+use WebAction\ActionTemplate\RecordActionTemplate;
+use WebAction\ActionTemplate\TwigActionTemplate;
+use WebAction\ActionTemplate\SampleActionTemplate;
+use WebAction\ActionTemplate\ActionTemplate;
 
 class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +20,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @expectedException ActionKit\Exception\RequiredConfigKeyException
+     * @expectedException WebAction\Exception\RequiredConfigKeyException
      */
     public function testRequiredConfigKeyException()
     {
@@ -31,7 +31,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException ActionKit\Exception\UndefinedTemplateException
+     * @expectedException WebAction\Exception\UndefinedTemplateException
      */
     public function testUndefinedTemplate()
     {
@@ -141,15 +141,15 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
         $generator = new ActionGenerator();
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate());
         $template = $generator->getTemplate('TwigActionTemplate');
-        $this->assertInstanceOf('ActionKit\ActionTemplate\ActionTemplate', $template);
+        $this->assertInstanceOf('WebAction\ActionTemplate\ActionTemplate', $template);
 
         $runner = new ActionRunner([  'generator' => $generator ]);
         $template->register($runner, 'TwigActionTemplate', array(
             'action_class' => 'User\\Action\\BulkUpdateUser',
-            'template' => '@ActionKit/RecordAction.html.twig',
+            'template' => '@WebAction/RecordAction.html.twig',
             'variables' => array(
                 'record_class' => 'User\\Model\\User',
-                'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+                'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
             )
         ));
 
@@ -178,10 +178,10 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
         $generatedAction = $generator->generate('TwigActionTemplate',
             $className,
             array(
-                'template' => '@ActionKit/RecordAction.html.twig',
+                'template' => '@WebAction/RecordAction.html.twig',
                 'variables' => array(
                     'record_class' => 'User\\Model\\User',
-                    'base_class' => 'ActionKit\\RecordAction\\CreateRecordAction'
+                    'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
                 )
             )
         );

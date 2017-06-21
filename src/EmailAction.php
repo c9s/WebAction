@@ -1,8 +1,8 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
 use Phifty\Email;
-use ActionKit\Action;
+use WebAction\Action;
 
 /**
  * @codeCoverageIgnore

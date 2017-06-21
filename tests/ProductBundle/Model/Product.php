@@ -4,7 +4,7 @@ use ProductBundle\Model\ProductCollection;
 use ProductBundle\Model\ProductTypeCollection;
 use ProductBundle\Model\ProductImageCollection;
 use ProductBundle\Model\ResourceCollection;
-use ActionKit\ColumnConvert;
+use WebAction\ColumnConvert;
 
 class Product extends \ProductBundle\Model\ProductBase
 {

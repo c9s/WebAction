@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\Csrf;
+namespace WebAction\Csrf;
 
 interface CsrfStorage
 {

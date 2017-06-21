@@ -1,5 +1,5 @@
 <?php
-namespace ActionKit\Exception;
+namespace WebAction\Exception;
 
 use LogicException;
 

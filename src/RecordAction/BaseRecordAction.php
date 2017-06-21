@@ -1,11 +1,11 @@
 <?php
-namespace ActionKit\RecordAction;
+namespace WebAction\RecordAction;
 
-use ActionKit\Action;
-use ActionKit\ColumnConvert;
-use ActionKit\Exception\ActionException;
-use ActionKit\Exception\RequiredConfigKeyException;
-use ActionKit\ActionTemplate\RecordActionTemplate;
+use WebAction\Action;
+use WebAction\ColumnConvert;
+use WebAction\Exception\ActionException;
+use WebAction\Exception\RequiredConfigKeyException;
+use WebAction\ActionTemplate\RecordActionTemplate;
 use Maghead\Schema\DeclareSchema;
 use Maghead\Schema\Schema;
 use Maghead\Schema\Relationship\Relationship;
@@ -344,7 +344,7 @@ class BaseRecordAction extends Action
         $modelNs = ltrim($modelNs, '\\');
         $actionFullClass = "{$modelNs}\\Action\\{$type}{$modelName}";
         $recordClass  = "{$modelNs}\\Model\\{$modelName}";
-        $baseAction   = "\\ActionKit\\RecordAction\\{$type}RecordAction";
+        $baseAction   = "\\WebAction\\RecordAction\\{$type}RecordAction";
 
         $template = new RecordActionTemplate;
         $generatedAction = $template->generate($actionFullClass, [
@@ -386,7 +386,7 @@ class BaseRecordAction extends Action
      * @param Maghead\Schema\Relationship $relation
      * @param array $args
      * @param array $files
-     * @return ActionKit\Action
+     * @return WebAction\Action
      */
     public function createSubActionWithRelationship(Relationship $relation, array $args, array $files = null)
     {

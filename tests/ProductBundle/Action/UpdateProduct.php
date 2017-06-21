@@ -1,12 +1,12 @@
 <?php
 namespace ProductBundle\Action;
-use ActionKit;
+use WebAction;
 use ProductBundle\Model\ProductImage;
 use ProductBundle\Model\Feature;
 use ProductBundle\Model\Resource;
 use ProductBundle\Model\FeatureRel;
 
-class UpdateProduct extends \ActionKit\RecordAction\UpdateRecordAction
+class UpdateProduct extends \WebAction\RecordAction\UpdateRecordAction
 {
     public $recordClass = 'ProductBundle\\Model\\Product';
 

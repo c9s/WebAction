@@ -1,9 +1,9 @@
 <?php
 
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\Action;
-use ActionKit\MixinAction;
+use WebAction\Action;
+use WebAction\MixinAction;
 
 class FakeMixin extends MixinAction {
 
@@ -147,7 +147,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
     public function testParams()
     {
         $login = new LoginTestAction;
-        $this->assertEquals('ActionKit::LoginTestAction', $login->getName());
+        $this->assertEquals('WebAction::LoginTestAction', $login->getName());
 
         $result = $login->getWidgetsByNames(['username', 'password']);
         $this->assertCount(2, $result);

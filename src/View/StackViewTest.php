@@ -1,8 +1,8 @@
 <?php
 
-namespace ActionKit\View;
+namespace WebAction\View;
 
-use ActionKit\Action;
+use WebAction\Action;
 use DOMDocument;
 use DomXPath;
 

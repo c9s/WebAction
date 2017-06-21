@@ -1,17 +1,17 @@
 <?php
-namespace ActionKit\Param;
+namespace WebAction\Param;
 
-use ActionKit\Param\Param;
+use WebAction\Param\Param;
 use Exception;
 use LogicException;
 use RuntimeException;
 use ImageKit\ImageProcessor;
-use ActionKit\RecordAction\UpdateRecordAction;
-use ActionKit\Utils;
+use WebAction\RecordAction\UpdateRecordAction;
+use WebAction\Utils;
 use Universal\Http\UploadedFile;
 
-use ActionKit\Storage\FileRenameMethods;
-use ActionKit\Storage\FileRename\Md5Rename;
+use WebAction\Storage\FileRenameMethods;
+use WebAction\Storage\FileRename\Md5Rename;
 
 class ImageParam extends Param
 {

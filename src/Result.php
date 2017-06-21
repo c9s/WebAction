@@ -1,7 +1,7 @@
 <?php
-namespace ActionKit;
+namespace WebAction;
 
-use ActionKit\Messages;
+use WebAction\Messages;
 use ArrayAccess;
 use Exception;
 use InvalidArgumentException;
@@ -9,7 +9,7 @@ use InvalidArgumentException;
 /**
  * This class defines the response properties of an action.
  *
- * @package ActionKit
+ * @package WebAction
  */
 class Result implements ArrayAccess
 {
@@ -35,7 +35,7 @@ class Result implements ArrayAccess
     public $args;  // arguments to actions.
 
     /**
-     * @var string ActionKit\Action
+     * @var string WebAction\Action
      */
     public $action;  // action object
 

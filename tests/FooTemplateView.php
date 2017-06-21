@@ -1,6 +1,6 @@
 <?php
 
-class FooTemplateView extends ActionKit\View\TemplateView
+class FooTemplateView extends WebAction\View\TemplateView
 {
     public function render()
     {

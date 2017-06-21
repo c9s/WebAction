@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit;
+namespace WebAction;
 
 class ResultTest extends \PHPUnit\Framework\TestCase
 {

@@ -1,12 +1,12 @@
 <?php
-namespace ActionKit\View;
+namespace WebAction\View;
 
 use ReflectionObject;
 use Exception;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
-use ActionKit\Template;
-use ActionKit\Action;
+use WebAction\Template;
+use WebAction\Action;
 
 abstract class TemplateView
 {

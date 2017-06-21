@@ -1,6 +1,6 @@
 <?php
 
-namespace ActionKit;
+namespace WebAction;
 
 use PHPUnit\Framework\TestCase;
 
