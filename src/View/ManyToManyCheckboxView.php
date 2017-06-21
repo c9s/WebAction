@@ -81,7 +81,7 @@ class ManyToManyCheckboxView
     public function renderList($relationId, $subset, $superset)
     {
         $ul = new Element('ul');
-        $ul->addClass('actionkit-checkbox-view');
+        $ul->addClass('webaction-checkbox-view');
 
         // now we should render the superset, and set the checkbox to be
         // connected from the $this->checked array.

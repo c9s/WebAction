@@ -8,8 +8,8 @@ data_source:
   default: sqlite
   nodes:
     mysql:
-      dsn: "mysql:host=localhost;dbname=actionkit_test"
-      # database: actionkit_test
+      dsn: "mysql:host=localhost;dbname=webaction_test"
+      # database: webaction_test
       # user: root
       # pass:
     sqlite:

@@ -3,7 +3,7 @@ WebAction
 
 [![Coverage Status](https://coveralls.io/repos/corneltek/WebAction/badge.svg?branch=master)](https://coveralls.io/r/corneltek/WebAction?branch=master)
 [![Build Status](https://travis-ci.org/corneltek/WebAction.svg?branch=master)](https://travis-ci.org/corneltek/WebAction)
-[![Latest Stable Version](https://poser.pugx.org/corneltek/actionkit/v/stable)](https://packagist.org/packages/corneltek/actionkit) [![Total Downloads](https://poser.pugx.org/corneltek/actionkit/downloads)](https://packagist.org/packages/corneltek/actionkit) [![Latest Unstable Version](https://poser.pugx.org/corneltek/actionkit/v/unstable)](https://packagist.org/packages/corneltek/actionkit) [![License](https://poser.pugx.org/corneltek/actionkit/license)](https://packagist.org/packages/corneltek/actionkit)
+[![Latest Stable Version](https://poser.pugx.org/corneltek/webaction/v/stable)](https://packagist.org/packages/corneltek/webaction) [![Total Downloads](https://poser.pugx.org/corneltek/webaction/downloads)](https://packagist.org/packages/corneltek/webaction) [![Latest Unstable Version](https://poser.pugx.org/corneltek/webaction/v/unstable)](https://packagist.org/packages/corneltek/webaction) [![License](https://poser.pugx.org/corneltek/webaction/license)](https://packagist.org/packages/corneltek/webaction)
 
 WebAction is a library that let you share the business logics across
 controllers, pages, ajax requests.
