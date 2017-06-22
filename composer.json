@@ -17,6 +17,9 @@
         "pekkis/mime-types": "^1",
         "pimple/pimple": "^3.0"
     },
+    "conflict": {
+        "corneltek/actionkit": "*"
+    },
     "require-dev": {
         "maghead/maghead": "4.0.x-dev",
         "maghead/magsql": "@dev",
