@@ -32,3 +32,4 @@ cache.properties
 .maghead-cli.yml
 .php_cs.cache
 composer.lock
+tests/ProductBundle/Model/*Base.php
