@@ -10,7 +10,7 @@ use Maghead\Runtime\Inflator;
 use Magsql\Bind;
 use Magsql\ArgumentArray;
 use DateTime;
-use Maghead\Runtime\ActionCreatorTrait;
+use WebAction\Maghead\Traits\ActionCreatorTrait;
 
 class ProductTypeBase
     extends Model
