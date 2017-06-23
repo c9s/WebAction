@@ -40,15 +40,16 @@ use Closure;
  *  }
  *
  */
+use ArrayObject;
 
-class ActionRunner implements IteratorAggregate, ArrayAccess
+class ActionRunner extends ArrayObject
 {
     protected $pretreatments = array();
 
     /**
      * @var array Result pool
      */
-    public $results = array();
+    protected $results = [];
 
     public $generator;
 
@@ -72,6 +73,8 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
      */
     public function __construct($options = array())
     {
+        parent::__construct();
+
         if ($options instanceof ServiceContainer) {
 
             // the cache_dir option is optional. if user provides one, we should use it.
@@ -143,9 +146,9 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
             }
         }
         if ($moniker = $action->getMoniker()) {
-            return $this->results[$moniker] = $action->getResult();
+            return $this[$moniker] = $action->getResult();
         }
-        return $this->results[ $actionName ] = $action->getResult();
+        return $this[ $actionName ] = $action->getResult();
     }
 
 
@@ -387,7 +390,7 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
      */
     public function getResults()
     {
-        return $this->results;
+        return $this->getArrayCopy();
     }
 
     /**
@@ -397,8 +400,8 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
      */
     public function getResult($name)
     {
-        return isset($this->results[ $name ]) ?
-                $this->results[ $name ] : null;
+        return isset($this[ $name ]) ?
+                $this[ $name ] : null;
     }
 
     /**
@@ -408,17 +411,17 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
      */
     public function hasResult($name)
     {
-        return isset($this->results[$name]);
+        return isset($this[$name]);
     }
 
     public function setResult($name, $result)
     {
-        $this->results[$name] = $result;
+        $this[$name] = $result;
     }
 
     public function removeResult($name)
     {
-        unset($this->results[$name]);
+        unset($this[$name]);
     }
 
     public static function getInstance()
@@ -428,32 +431,5 @@ class ActionRunner implements IteratorAggregate, ArrayAccess
             return $self;
         }
         return $self = new static;
-    }
-
-    // Implement IteratorAggregate methods
-    public function getIterator()
-    {
-        return new ArrayIterator($this->results);
-    }
-
-    // Implement ArrayAccess
-    public function offsetSet($name, $value)
-    {
-        $this->results[ $name ] = $value;
-    }
-    
-    public function offsetExists($name)
-    {
-        return isset($this->results[ $name ]);
-    }
-    
-    public function offsetGet($name)
-    {
-        return $this->results[ $name ];
-    }
-    
-    public function offsetUnset($name)
-    {
-        unset($this->results[$name]);
     }
 }
