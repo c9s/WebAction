@@ -230,10 +230,6 @@ class Action implements IteratorAggregate
         $this->result->args($this->args);
     }
 
-        // call the parameter init method
-        foreach ($this->params as $param) {
-            $param->postinit($this->args);
-        }
 
 
 
