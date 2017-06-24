@@ -222,7 +222,7 @@ class Action implements IteratorAggregate
 
         // call the parameter init method
         foreach ($this->params as $param) {
-            $param->init($this->args);
+            $param->init();
         }
 
         $this->init();
@@ -253,12 +253,10 @@ class Action implements IteratorAggregate
         // TODO: call param::setup or param::handle ... here
     }
 
-
     public function mixins()
     {
-        return array(
-            /* new MixinClass( $this, [params] ) */
-        );
+        // return [ new MixinClass( $this, [params]) ];
+        return [ ];
     }
 
     /**
@@ -806,26 +804,25 @@ class Action implements IteratorAggregate
      *
      * @return this
      */
-    protected function setArgument($name, $value)
+    public function setArgument($name, $value)
     {
         $this->args[ $name ] = $value;
         return $this;
     }
 
-    protected function setArguments(array $args)
+    public function setArguments(array $args)
     {
         $this->args = $args;
         return $this;
     }
 
-    protected function removeArgument($name)
+    public function removeArgument($name)
     {
         unset($this->args[$name]);
         return $this;
     }
 
-
-    protected function setArg($name, $value)
+    public function setArg($name, $value)
     {
         $this->args[ $name ] = $value ;
         return $this;
@@ -836,7 +833,7 @@ class Action implements IteratorAggregate
      *
      * @param array
      */
-    protected function setArgs(array $args)
+    public function setArgs(array $args)
     {
         $this->args = $args;
         return $this;
@@ -1361,6 +1358,8 @@ class Action implements IteratorAggregate
                 return call_user_func_array(array($mixin,$m), $args);
             }
         }
+
+        throw new BadMethodCallException(get_class($this) . "->$m");
     }
 
     /**

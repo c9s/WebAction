@@ -93,7 +93,7 @@ class Param extends CascadingAttribute
     {
     }
 
-    public function init(array & $args)
+    public function init()
     {
 
     }

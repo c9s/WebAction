@@ -524,6 +524,7 @@ class ProductBundleTest extends ModelTestCase
         $files = [
             'file' => CreateFileArray('404.png', 'image/png', $tmpfile),
         ];
+
         $request = new ActionRequest($args, $files);
 
         $create = new CreateProductFile($args, [ 'request' => $request ]);

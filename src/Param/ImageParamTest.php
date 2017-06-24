@@ -13,7 +13,4 @@ class ImageParamTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($image->autoResize(false));
         $this->assertNotNull($image->autoResize(true));
     }
-
-
 }
-

@@ -250,10 +250,8 @@ class ImageParam extends Param
 
     /**
      * This init method move the uploaded file to the target directory.
-     *
-     * @param array $args request arguments ($_REQUEST)
      */
-    public function init(array & $args)
+    public function init()
     {
         // Is the file upload from HTTP
         $requireUploadMove = false;
@@ -314,6 +312,7 @@ class ImageParam extends Param
             }
 
             $this->action->saveUploadedFile($this->name, 0, $uploadedFile);
+
         } elseif ($this->sourceField) { // If there is no http upload, copy the file from source field
 
             // source field only works for update record action
@@ -340,11 +339,9 @@ class ImageParam extends Param
         // argumentPostFilter is used for processing the value before inserting the data into database.
         if ($this->argumentPostFilter) {
             $a = call_user_func($this->argumentPostFilter, $targetPath);
-            $args[$this->name]                 = $a;
-            $this->action->args[ $this->name ] = $a; // for source field
+            $this->action->setArgument($this->name, $a);
         } else {
-            $args[$this->name]                 = $targetPath;
-            $this->action->args[ $this->name ] = $targetPath; // for source field
+            $this->action->setArgument($this->name, $targetPath);
         }
 
         $this->action->addData($this->name, $targetPath);

@@ -1,5 +1,7 @@
 <?php
+
 namespace ProductBundle\Action;
+
 use WebAction\RecordAction\CreateRecordAction;
 
 class CreateProductFile  extends CreateRecordAction

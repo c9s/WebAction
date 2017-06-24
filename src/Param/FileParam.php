@@ -131,7 +131,7 @@ class FileParam extends Param
 
     }
 
-    public function init(array & $args)
+    public function init()
     {
         /* how do we make sure the file is a real http upload ?
          * if we pass args to model ?
@@ -173,7 +173,7 @@ class FileParam extends Param
         if ($this->renameFile) {
             $newName = call_user_func($this->renameFile, $newName, $uploadedFile->getTmpName(), $uploadedFile, $this->action);
         }
-        $targetPath = $this->putIn . DIRECTORY_SEPARATOR . $newName ;
+        $targetPath = $this->putIn . DIRECTORY_SEPARATOR . $newName;
 
 
         // When sourceField enabled, we should either check saved_path or tmp_name
@@ -187,7 +187,7 @@ class FileParam extends Param
             } else {
                 $uploadedFile->copy($targetPath);
             }
-        } elseif ($this->sourceField) {
+        } else if ($this->sourceField) {
             if ($savedPath = $uploadedFile->getSavedPath()) {
                 copy($savedPath, $targetPath);
             } else {
@@ -197,7 +197,7 @@ class FileParam extends Param
             return;
         }
 
-        $args[$this->name] = $targetPath;
+        $this->action->setArgument($this->name, $targetPath);
         $this->action->addData($this->name, $targetPath);
     }
 }
