@@ -207,7 +207,7 @@ class ProductBundleTest extends ModelTestCase
         $relation = clone $create->getRelation('images');
         unset($relation['foreign_schema']);
         $create->addRelation('images', $relation);
-        $create->invoke();
+        $create->handle();
     }
 
     public function testProductCreateWithCustomProductImageSubAction()
@@ -431,7 +431,7 @@ class ProductBundleTest extends ModelTestCase
 
         $request = new ActionRequest(['title' => 'Test Image'], $files);
         $create = new CreateProductImage(['title' => 'Test Image'], [ 'request' => $request ]);
-        $ret = $create->invoke();
+        $ret = $create->handle();
         $this->assertTrue($ret);
         $this->assertInstanceOf('WebAction\Result', $create->getResult());
     }
@@ -453,7 +453,7 @@ class ProductBundleTest extends ModelTestCase
             'title' => 'Test Image',
             'image_autoresize' => $resizeType,
         ], [ 'files' => $files ]);
-        $ret = $create->invoke();
+        $ret = $create->handle();
         $this->assertTrue($ret);
         $this->assertInstanceOf('WebAction\Result', $create->getResult());
     }
@@ -509,7 +509,7 @@ class ProductBundleTest extends ModelTestCase
             'file' => CreateFileArray('404.png', 'image/png', $tmpfile),
         ];
         $create = new CreateProductFile([ ], [ 'files' => $files ]);
-        $ret = $create->invoke();
+        $ret = $create->handle();
         $this->assertTrue($ret);
         $this->assertInstanceOf('WebAction\Result', $create->getResult());
     }

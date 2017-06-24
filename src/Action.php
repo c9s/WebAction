@@ -11,6 +11,7 @@ use WebAction\MessagePool;
 use WebAction\Csrf\CsrfTokenProvider;
 use WebAction\Csrf\CsrfToken;
 use WebAction\DefaultConfigurations;
+use WebAction\View\StackView;
 use Universal\Http\HttpRequest;
 use Universal\Http\FilesParameter;
 use Exception;
@@ -19,6 +20,7 @@ use BadMethodCallException;
 use ArrayAccess;
 use IteratorAggregate;
 use FormKit\Widget\HiddenInput;
+use FormKit\Widget\SubmitInput;
 
 class Action implements IteratorAggregate
 {
@@ -198,8 +200,6 @@ class Action implements IteratorAggregate
                 $this->request = new ActionRequest($args, []);
             }
         }
-
-
 
         $this->result  = new Result;
         $this->mixins = $this->mixins();
@@ -543,7 +543,7 @@ class Action implements IteratorAggregate
     /**
      * Invoke is a run method wraper
      */
-    final public function invoke()
+    final public function handle()
     {
         if (session_id() && $this->csrf && $this->enableCSRFToken) {
             // read csrf token from __csrf_token field or _csrf_token field
@@ -618,7 +618,7 @@ class Action implements IteratorAggregate
 
     public function __invoke()
     {
-        return $this->invoke();
+        return $this->handle();
     }
 
 
@@ -968,9 +968,8 @@ class Action implements IteratorAggregate
     }
 
     /**
-     * Run method, contains the main logics
-     *
-     **/
+     * Run method, defined by user, contains the main logics of the action.
+     */
     public function run()
     {
         return true;
@@ -1063,7 +1062,7 @@ class Action implements IteratorAggregate
         $options = array();
 
         // built-in action view class
-        $class = 'WebAction\\View\\StackView';
+        $class = StackView::class;
         $args = func_get_args();
 
         // got one argument
@@ -1188,7 +1187,7 @@ class Action implements IteratorAggregate
      */
     public function renderSubmitWidget(array $attrs = array())
     {
-        $submit = new FormKit\Widget\SubmitInput;
+        $submit = new SubmitInput;
 
         return $submit->render($attrs);
     }
@@ -1214,7 +1213,7 @@ class Action implements IteratorAggregate
      */
     public function createSignatureWidget()
     {
-        return new HiddenInput($this->actionFieldName, array( 'value' => $this->getSignature() ));
+        return new HiddenInput($this->actionFieldName, array( 'value' => $this->getSignature()));
     }
 
     /**
@@ -1386,7 +1385,4 @@ class Action implements IteratorAggregate
     {
         return $this->uploadedFiles[$fieldName][$index] = $file;
     }
-
-
-
 }

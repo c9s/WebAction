@@ -267,7 +267,7 @@ class ProductActionTest extends ModelTestCase
         $this->assertEquals('ProductBundle\\Action\\UpdateProduct', $class);
 
         $update = new $class(array('id' => $product->id , 'name' => 'Foo'));
-        $success = $update->invoke();
+        $success = $update->handle();
         $this->assertTrue($success, $update->result);
 
         $record = $update->getRecord();

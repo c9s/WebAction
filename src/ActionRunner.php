@@ -97,7 +97,7 @@ class ActionRunner extends ArrayObject
 
         // register results into hash
         $action = $this->createAction($class, $arguments, $request);
-        $action->invoke();
+        $action->handle();
 
         if ($this->logger && $action instanceof Loggable) {
             $this->logger->log($action);

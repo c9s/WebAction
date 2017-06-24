@@ -544,7 +544,7 @@ class BaseRecordAction extends Action
                     }
 
                     $action = $this->createSubActionWithRelationship($relation, $args, $files);
-                    if ($action->invoke() === false) {
+                    if ($action->handle() === false) {
                         // transfrer the error result to self,
                         // then report error.
                         $this->result = $action->result;

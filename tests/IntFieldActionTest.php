@@ -20,7 +20,7 @@ class IntFieldActionTest extends \PHPUnit\Framework\TestCase
     public function testIntFieldAction()
     {
         $action = new IntFieldTestAction([ 'cnt' => 10 ]);
-        $ret = $action->invoke();
+        $ret = $action->handle();
         $this->assertTrue($ret);
     }
 

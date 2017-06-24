@@ -134,7 +134,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
             'token' => 'blah',
         ]);
 
-        $success = $action->invoke();
+        $success = $action->handle();
         $result = $action->getResult();
         $this->assertTrue($success, $result->message);
 
