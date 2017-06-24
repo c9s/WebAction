@@ -2,7 +2,7 @@
 namespace WebAction\RecordAction;
 
 use WebAction\Action;
-use WebAction\ColumnConvert;
+use WebAction\Maghead\ColumnConvert;
 use WebAction\Exception\ActionException;
 use WebAction\Exception\RequiredConfigKeyException;
 use WebAction\ActionTemplate\RecordActionTemplate;

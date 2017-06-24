@@ -1,6 +1,6 @@
 <?php
 
-namespace WebAction;
+namespace WebAction\Maghead;
 
 use Maghead\Testing\ModelTestCase;
 
@@ -12,7 +12,10 @@ use OrderBundle\Model\OrderItem;
 use Maghead\Schema\RuntimeColumn;
 use Magsql\Raw;
 
+use WebAction\View\StackView;
+use WebAction\Action;
 use WebAction\Param\Param;
+use WebAction\RecordAction\BaseRecordAction;
 use DateTime;
 use Closure;
 
@@ -85,10 +88,10 @@ class ColumnConvertTest extends ModelTestCase
         $action = ColumnConvert::convertSchemaToAction($schema, $order);
         $this->assertNotNull($action);
         $this->assertInstanceOf(Action::class, $action);
-        $this->assertInstanceOf(RecordAction\BaseRecordAction::class, $action);
+        $this->assertInstanceOf(BaseRecordAction::class, $action);
 
-        $view = $action->asView(View\StackView::class);
+        $view = $action->asView(StackView::class);
         $this->assertNotNull($view);
-        $this->assertInstanceOf(View\StackView::class, $view);
+        $this->assertInstanceOf(StackView::class, $view);
     }
 }

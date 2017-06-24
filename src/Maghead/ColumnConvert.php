@@ -1,5 +1,6 @@
 <?php
-namespace WebAction;
+
+namespace WebAction\Maghead;
 
 use WebAction\Param\Param;
 use WebAction\Action;
