@@ -48,6 +48,9 @@ class ActionRunner extends ArrayObject
 
     protected $currentUser;
 
+    /**
+     * The configurations object is used for creating action objects
+     */
     protected $configurations;
 
     protected $loader;
@@ -62,11 +65,12 @@ class ActionRunner extends ArrayObject
      *   'generator': optional, the customized Generator object.
      *
      */
-    public function __construct(ActionLoader $loader, DefaultConfigurations $configuration = null)
+    public function __construct(ActionLoader $loader, DefaultConfigurations $configuration = null, ActionLogger $logger = null)
     {
         parent::__construct();
         $this->loader = $loader;
         $this->configurations = $configuration ?: $configuration = new DefaultConfigurations;
+        $this->logger = $logger;
     }
 
     public function setDebug($debug = true)
@@ -100,15 +104,8 @@ class ActionRunner extends ArrayObject
         $action = $this->createAction($class, $arguments, $request);
         $action->invoke();
 
-        if (isset($this->configurations['action_logger']) && $action instanceof Loggable) {
-            $logger = $this->configurations['action_logger'];
-
-            // how do we call the logger?
-            if ($logger instanceof Closure) {
-                $logger($action);
-            } elseif ($logger instanceof ActionLogger) {
-                $logger->log($action);
-            }
+        if ($this->logger && $action instanceof Loggable) {
+            $this->logger->log($action);
         }
         if ($moniker = $action->getMoniker()) {
             return $this[$moniker] = $action->getResult();
@@ -162,7 +159,7 @@ class ActionRunner extends ArrayObject
         } catch (Exception $e) {
             @header('HTTP/1.1 403 Action API Error');
             if ($request->isAjax()) {
-                if (1 || $this->debug) {
+                if ($this->debug) {
                     // $trace = debug_backtrace();
                     fwrite($stream, json_encode(array(
                         'error'     => 1,
