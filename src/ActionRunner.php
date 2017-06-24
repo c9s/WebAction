@@ -48,7 +48,7 @@ class ActionRunner extends ArrayObject
 
     protected $currentUser;
 
-    protected $serviceContainer;
+    protected $configurations;
 
     protected $loader;
 
@@ -72,7 +72,7 @@ class ActionRunner extends ArrayObject
             $configuration = new DefaultConfigurations;
         }
 
-        $this->serviceContainer = $configuration;
+        $this->configurations = $configuration;
     }
 
     public function setDebug($debug = true)
@@ -106,8 +106,8 @@ class ActionRunner extends ArrayObject
         $action = $this->createAction($class, $arguments, $request);
         $action->invoke();
 
-        if (isset($this->serviceContainer['action_logger']) && $action instanceof Loggable) {
-            $logger = $this->serviceContainer['action_logger'];
+        if (isset($this->configurations['action_logger']) && $action instanceof Loggable) {
+            $logger = $this->configurations['action_logger'];
 
             // how do we call the logger?
             if ($logger instanceof Closure) {
@@ -215,7 +215,7 @@ class ActionRunner extends ArrayObject
         }
         $a = new $class($args, [
             'request'  => $request,
-            'services' => $this->serviceContainer,
+            'services' => $this->configurations,
         ]);
         $a->setCurrentUser($this->currentUser);
         return $a;

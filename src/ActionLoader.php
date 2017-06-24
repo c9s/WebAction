@@ -72,6 +72,8 @@ class ActionLoader
     /**
      * Return the cache path of the class name
      *
+     * The same class name with different treatment should be cached in different places.
+     *
      * @param string $className
      * @return string path
      */
