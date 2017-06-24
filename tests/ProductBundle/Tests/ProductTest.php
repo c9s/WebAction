@@ -133,25 +133,23 @@ class ProductBundleTest extends ModelTestCase
         ]);
 
 
+
+        $args = [ 'name' => 'Foo', 'parent_id' => '' ];
         $runner = new ActionRunner($loader);
-        $action = $runner->createAction(CreateCategory::class, [ 
-            'name' => 'Foo',
-            'parent_id' => '',
-        ]);
+        $action = $runner->createAction(CreateCategory::class, $args);
         $this->assertInstanceOf(CreateCategory::class, $action);
 
         $param = $action->getParam('parent_id');
         $this->assertInstanceOf(Param::class, $param);
         $this->assertEquals('Int', $param->isa);
 
-        $args = $action->getArgs();
         $this->assertSame([
             'name' => 'Foo',
             'parent_id' => NULL,
-        ], $args);
+        ], $action->getArgs());
 
 
-        $ret = $action->run();
+        $ret = $action->handle(new ActionRequest($args));
         $this->assertTrue($ret);
 
         $result = $action->getResult();

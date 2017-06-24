@@ -65,8 +65,9 @@ class ProductActionTest extends ModelTestCase
         $class = BaseRecordAction::createCRUDClass(Product::class, 'Create');
         $this->assertEquals(CreateProduct::class, $class);
 
-        $create = new $class(['name' => 'A']);
-        $ret = $create->run();
+        $args = ['name' => 'A'];
+        $create = new $class($args);
+        $ret = $create->handle(new ActionRequest($args));
         $this->assertTrue($ret,'success action');
     }
 
@@ -74,8 +75,10 @@ class ProductActionTest extends ModelTestCase
     {
         $product = new Product;
         $this->assertNotNull($product, 'object created');
-        $create = $product->asCreateAction([ 'name' => 'TestProduct' ]);
-        $this->assertNotNull( $create->run() , 'action run' );
+
+        $args = [ 'name' => 'TestProduct' ];
+        $create = $product->asCreateAction($args);
+        $this->assertNotFalse($create->handle(new ActionRequest($args)) , 'action handle returns true' );
 
         $product = $create->getRecord();
         $this->assertInstanceOf('ProductBundle\\Model\\Product', $product);
@@ -117,11 +120,12 @@ class ProductActionTest extends ModelTestCase
         $this->assertResultSuccess($ret);
         $this->assertEquals('2017-06-01 12:00:00', $p->updated_at);
 
-        $u = new UpdateProduct([
+        $args = [
             'id' => $p->getKey(),
             'name' => 'C',
             'updated_at' => '2010-01-01 00:00:00' ,
-        ], $p);
+        ];
+        $u = new UpdateProduct($args, $p);
         $ret = $u->run();
         $this->assertTrue($ret, 'Success action');
 
@@ -142,7 +146,8 @@ class ProductActionTest extends ModelTestCase
 
         $product = Product::load($ret->key);
 
-        $update = new $class([ 'id' => $ret->key, 'name' => 'C' ], $product);
+        $args = [ 'id' => $ret->key, 'name' => 'C' ];
+        $update = new $class($args, ['record' => $product]);
         $this->assertInstanceOf(UpdateProduct::class, $update);
 
         $ret = $update->run();
@@ -222,7 +227,9 @@ class ProductActionTest extends ModelTestCase
         $this->assertNotNull($product);
 
         $class = $this->createProductActionClass('Update');
-        $update = new $class(array('name' => 'Bar'), $product);
+
+        $args = ['name' => 'Bar'];
+        $update = new $class($args, $product);
         $this->assertNotNull( $update->run() );
         $record = $update->getRecord();
         $this->assertNotNull($record->id);
@@ -241,7 +248,7 @@ class ProductActionTest extends ModelTestCase
         $class = $this->createProductActionClass('BulkDelete');
 
         $bulkDelete = new $class(array( 'items' => $idList ));
-        $this->assertNotNull( $bulkDelete->run(), 'items deleted' );
+        $this->assertNotNull($bulkDelete->run(), 'items deleted' );
     }
 
     public function testBulkRecordCopy()
@@ -285,8 +292,12 @@ class ProductActionTest extends ModelTestCase
     public function testRecordCreate()
     {
         $class = $this->createProductActionClass('Create');
-        $create = new $class(array('name' => 'Foo'));
-        $this->assertTrue($create->run(), 'create action returns success.' );
+        $args = ['name' => 'Foo'];
+
+        $create = new $class($args);
+
+        $this->assertTrue($create->handle(new ActionRequest($args)), 'create action returns success.' );
+
         $this->assertResultSuccess($create->getRecord()->delete());
     }
 
