@@ -21,6 +21,7 @@ class ActionRequest extends HttpRequest
 
     public function __construct(array $requestParameters = array(), array $files = array())
     {
+        // Universal\Http\HttpRequest already fixes the files array
         parent::__construct($requestParameters, $files);
 
         // Copy the request parameters to arguments, we are going to remove some fields.

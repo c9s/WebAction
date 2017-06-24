@@ -132,8 +132,6 @@ class Action implements IteratorAggregate
     /**
      * Constructing Action objects
      *
-     * When 'request' object is provided, 'files' will be ignored.
-     *
      * @param array $args        The request arguments
      * @param mixed $options     Can be ArrayAccess or array
      */
@@ -187,9 +185,8 @@ class Action implements IteratorAggregate
 
             } else if (isset($_FILES)) {
 
-                // if not, always fix $_FILES
-                $files = FilesParameter::fix_files_array($_FILES);
-                $this->request = new ActionRequest($args, $files);
+                // Universal\Http\HttpRequest already fixes the files array
+                $this->request = new ActionRequest($args, $_FILES);
 
             } else {
 
