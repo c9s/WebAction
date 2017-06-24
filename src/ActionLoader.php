@@ -34,7 +34,7 @@ class ActionLoader
      * @param array $pretreatment the pretreatment config array
      * @return GeneratedAction
      */
-    public function generate($class, array $pretreatment = null)
+    protected function generate($class, array $pretreatment)
     {
         if (!$pretreatment) {
             if (!isset($this->pretreatments[$class])) {
