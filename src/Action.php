@@ -209,22 +209,7 @@ class Action implements IteratorAggregate
             $mixin->schema();
         }
 
-
-        // save the original arguments
-        $this->originalArgs = $args;
-
-        // use the schema definitions to filter arguments
-        $this->args = $this->filterArguments($args);
-        $this->args = $this->inflateArguments($this->args);
-
-
-        // See if we need to render the input names with relationship ID and
-        // index?
-        if ($relationId = $this->arg('__nested')) {
-            $this->setParamNamesWithIndex($relationId);
-        }
-
-        $this->loadParamValues($this->args);
+        $this->setupArguments($args);
 
         // action & parameters initialization
         // ===================================
