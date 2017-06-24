@@ -79,6 +79,8 @@ class Action implements IteratorAggregate
      */
     public $request;
 
+    protected $currentRequest;
+
     /**
      * @var array filter out fields (blacklist)
      */
@@ -543,8 +545,10 @@ class Action implements IteratorAggregate
     /**
      * Invoke is a run method wraper
      */
-    final public function handle()
+    final public function handle(ActionRequest $request = null)
     {
+        $this->currentRequest = $request;
+
         if (session_id() && $this->csrf && $this->enableCSRFToken) {
             // read csrf token from __csrf_token field or _csrf_token field
             $insecureToken = $this->arg($this->csrfTokenFieldName) ?: $this->arg('_csrf_token'); // _csrf_token is for backward compatibility
@@ -618,7 +622,7 @@ class Action implements IteratorAggregate
 
     public function __invoke()
     {
-        return $this->handle();
+        return $this->handle($this->request);
     }
 
 
