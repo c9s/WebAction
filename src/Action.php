@@ -224,10 +224,10 @@ class Action implements IteratorAggregate
         foreach ($this->params as $param) {
             $param->init($this->args);
         }
-        // user-defined init script
-        $this->init();
 
         $this->init();
+
+        $this->result->args($this->args);
     }
 
         // call the parameter init method
