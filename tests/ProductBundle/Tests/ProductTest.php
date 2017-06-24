@@ -491,9 +491,10 @@ class ProductBundleTest extends ModelTestCase
      */
     public function testCreateSubActionWithUndefinedRelation()
     {
+        $args = ['title' => 'Test Image'];
         $files = [ 'image' => [] ];
-        // new ActionRequest(['title' => 'Test Image'], $files);
-        $create = new CreateProductImage([], [ 'files' => $files ]);
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
         $create->createSubAction('foo', [], $files);
     }
 

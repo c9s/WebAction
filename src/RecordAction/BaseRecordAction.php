@@ -361,7 +361,7 @@ class BaseRecordAction extends Action
         return $actionFullClass;
     }
 
-    public function createSubAction($relation, array $args, array $files = null)
+    public function createSubAction($relation, array $args, array $files = [])
     {
         if (!$relation instanceof Relationship) {
             if (is_string($relation)) {
@@ -389,7 +389,7 @@ class BaseRecordAction extends Action
      * @param array $files
      * @return WebAction\Action
      */
-    public function createSubActionWithRelationship(Relationship $relation, array $args, array $files = null)
+    public function createSubActionWithRelationship(Relationship $relation, array $args, array $files = [])
     {
         $subrecord = null;
         if (!isset($relation['foreign_schema'])) {
@@ -409,7 +409,7 @@ class BaseRecordAction extends Action
         $actionOptions = [
             'parent' => $this,
             'record' => $subrecord,
-            'files' => $files,
+            'request' => new ActionRequest($args, $files),
         ];
 
         // for relationships that has defined a custom action class,

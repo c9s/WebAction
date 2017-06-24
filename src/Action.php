@@ -177,25 +177,20 @@ class Action implements IteratorAggregate
         // ActionRequest
         if (isset($options['request'])) {
             $this->request = $options['request'];
-
-            if (isset($options['files'])) {
-                trigger_error('"files" is ignored because you passed action request object');
-            }
         } else {
 
             // Create request object manually
-            if (isset($options['files'])) {
-                $files = FilesParameter::fix_files_array($options['files']);
-                $this->request = new ActionRequest($args, $files);
-            } elseif (isset($this->services['action_request'])) {
+            if (isset($this->services['action_request'])) {
 
                 // fallback to action_request defiend in service
                 $this->request = $this->services['action_request'];
-            } elseif (isset($_FILES)) {
+
+            } else if (isset($_FILES)) {
 
                 // if not, always fix $_FILES
                 $files = FilesParameter::fix_files_array($_FILES);
                 $this->request = new ActionRequest($args, $files);
+
             } else {
 
                 // When rendering Action with view, we probably won't have this request object.
@@ -551,6 +546,8 @@ class Action implements IteratorAggregate
         // TODO: use the args here to run the action
         $args = $request->getArguments();
         $this->currentRequest = $request;
+
+
 
         if (session_id() && $this->csrf && $this->enableCSRFToken) {
             // read csrf token from __csrf_token field or _csrf_token field

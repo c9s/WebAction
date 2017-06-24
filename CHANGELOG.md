@@ -11,6 +11,11 @@ Version 4.0.x - Sat Jun 24 10:48:06 2017
 - Renamed ActionRunner::loadActionClass to ActionLoader::load
 - Renamed ActionRunner::generateActionClass to ActionLoader::generate
 
+- 'files' option is now removed from Action options.
+- 'handle' method now requires ActionRequest object instance.
+- currentRequest property is added to the Action class.
+
+
 Version 3.x - Sun Nov 15 13:07:53 2015
 
 1. CSRFTokenProvider now must be instancialized.
