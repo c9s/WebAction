@@ -1,7 +1,9 @@
 <?php
+
 use WebAction\RecordAction\BaseRecordAction;
 use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
 use WebAction\ActionRunner;
+use WebAction\ActionRequest;
 use WebAction\ActionGenerator;
 use WebAction\ActionLoader;
 use Maghead\Testing\ModelTestCase;
@@ -266,8 +268,11 @@ class ProductActionTest extends ModelTestCase
         $class = $this->createProductActionClass('Update');
         $this->assertEquals('ProductBundle\\Action\\UpdateProduct', $class);
 
-        $update = new $class(array('id' => $product->id , 'name' => 'Foo'));
-        $success = $update->handle();
+
+        $args = array('id' => $product->id , 'name' => 'Foo');
+        $update = new $class($args);
+        $success = $update->handle($args, new ActionRequest($args));
+
         $this->assertTrue($success, $update->result);
 
         $record = $update->getRecord();

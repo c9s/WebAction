@@ -2,6 +2,7 @@
 namespace WebAction\RecordAction;
 
 use WebAction\Action;
+use WebAction\ActionRequest;
 use WebAction\Maghead\ColumnConvert;
 use WebAction\Exception\ActionException;
 use WebAction\Exception\RequiredConfigKeyException;
@@ -544,7 +545,7 @@ class BaseRecordAction extends Action
                     }
 
                     $action = $this->createSubActionWithRelationship($relation, $args, $files);
-                    if ($action->handle() === false) {
+                    if ($action->handle($this->args, new ActionRequest($args, $files)) === false) {
                         // transfrer the error result to self,
                         // then report error.
                         $this->result = $action->result;

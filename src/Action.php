@@ -546,7 +546,7 @@ class Action implements IteratorAggregate
     /**
      * Invoke is a run method wraper
      */
-    final public function handle(ActionRequest $request = null)
+    final public function handle(array $args, ActionRequest $request)
     {
         $this->currentRequest = $request;
 
@@ -623,7 +623,7 @@ class Action implements IteratorAggregate
 
     public function __invoke()
     {
-        return $this->handle($this->request);
+        return $this->handle($this->args, $this->request);
     }
 
 

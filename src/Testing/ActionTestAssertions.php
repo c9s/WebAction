@@ -5,6 +5,7 @@ use WebAction\ActionTemplate\CodeGenActionTemplate;
 use WebAction\ActionTemplate\RecordActionTemplate;
 use WebAction\ActionRunner;
 use WebAction\Action;
+use WebAction\ActionRequest;
 use WebAction\GeneratedAction;
 use WebAction\Testing\ActionTestCase;
 
@@ -17,18 +18,25 @@ trait ActionTestAssertions
         $this->assertTrue(class_exists($className), "$className exists");
     }
 
-    public function assertActionInvokeSuccess(Action $action)
+    public function assertActionInvokeSuccess(Action $action, array $args, ActionRequest $request = null)
     {
-        $ret = $action->handle();
+        $ret = $action->handle($args, $request);
         $result = $action->getResult();
+
+        if ($ret !== true) {
+            print_r($result); 
+        }
+
         $this->assertTrue($ret, $result->message);
+
+
         $this->assertEquals('success', $result->type, $result->message);
         return $result;
     }
 
-    public function assertActionInvokeFail(Action $action)
+    public function assertActionInvokeFail(Action $action, array $args, ActionRequest $request)
     {
-        $ret = $action->handle();
+        $ret = $action->handle($args, $request);
         $result = $action->getResult();
         $this->assertFalse($ret, $result->message);
         $this->assertEquals('error', $result->type, $result->message);

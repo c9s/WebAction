@@ -1,4 +1,5 @@
 <?php
+
 use WebAction\ActionRunner;
 use WebAction\ActionRequest;
 use WebAction\ActionLoader;
@@ -12,6 +13,7 @@ use WebAction\Testing\ActionTestAssertions;
 use WebAction\RecordAction\UpdateRecordAction;
 
 use WebAction\Param\Param;
+use WebAction\Result;
 
 use ProductBundle\Model\Product;
 use ProductBundle\Model\ProductCollection;
@@ -207,7 +209,7 @@ class ProductBundleTest extends ModelTestCase
         $relation = clone $create->getRelation('images');
         unset($relation['foreign_schema']);
         $create->addRelation('images', $relation);
-        $create->handle();
+        $create->handle($args, new ActionRequest($args));
     }
 
     public function testProductCreateWithCustomProductImageSubAction()
@@ -227,15 +229,14 @@ class ProductBundleTest extends ModelTestCase
         ]];
 
         $request = new ActionRequest($args, $files);
-        $create = new CreateProduct($args, [ 'request' => $request]);
-
+        $create = new CreateProduct($args, ['request' => $request ]);
 
         $relation = clone $create->getRelation('images');
         $relation['action'] = 'CustomCreateProductImageAction';
 
         $create->addRelation('images', $relation);
 
-        $result = $this->assertActionInvokeSuccess($create);
+        $result = $this->assertActionInvokeSuccess($create, $args, $request);
 
         $product = $create->getRecord();
         $this->assertNotNull($product);
@@ -243,7 +244,6 @@ class ProductBundleTest extends ModelTestCase
 
         $images = $product->images;
         $this->assertCount(2, $images);
-        foreach($images as $image) { $image->delete(); }
     }
 
     public function testFetchOneToManyRelationCollection()
@@ -256,14 +256,17 @@ class ProductBundleTest extends ModelTestCase
                 'b' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
             ]),
         ];
-        $args = ['name' => 'Test Product', 'images' => [ 
+        $args = [
+            'name' => 'Test Product',
+            'images' => [ 
             // files are in another array
-            'a' => [ ],
-            'b' => [ ],
-        ]];
+                'a' => [ ],
+                'b' => [ ],
+            ]
+        ];
         $request = new ActionRequest($args, $files);
         $create = new CreateProduct($args, [ 'request' => $request ]);
-        $result = $this->assertActionInvokeSuccess($create);
+        $result = $this->assertActionInvokeSuccess($create, $args, $request);
 
         $product = $create->getRecord();
         $this->assertNotNull($product);
@@ -329,7 +332,7 @@ class ProductBundleTest extends ModelTestCase
         ]];
         $request = new ActionRequest($args, $files);
         $create = new CreateProduct($args, [ 'request' => $request ]);
-        $result = $this->assertActionInvokeSuccess($create);
+        $result = $this->assertActionInvokeSuccess($create, $args, $request);
 
         $product = $create->getRecord();
         $this->assertNotNull($product);
@@ -378,7 +381,7 @@ class ProductBundleTest extends ModelTestCase
         $relation = clone $createProduct->getRelation('images');
         $relation['create_action'] = 'ProductBundle\Action\CreateProductImage';
         $createProduct->addRelation('images',$relation);
-        $this->assertActionInvokeSuccess($createProduct);
+        $this->assertActionInvokeSuccess($createProduct, $args, $request);
     }
 
     public function testCreateSubActionWithRelationshipAndReloadExistingSubRecord()
@@ -390,8 +393,10 @@ class ProductBundleTest extends ModelTestCase
         ];
 
         // new ActionRequest(['title' => 'Test Image'], $files);
-        $createImage = new CreateProductImage(['title' => 'Test Image'], [ 'files' => $files ]);
-        $this->assertActionInvokeSuccess($createImage);
+        $args = ['title' => 'Test Image'];
+        $request = new ActionRequest($args, $files);
+        $createImage = new CreateProductImage($args, ['request' => $request ]);
+        $this->assertActionInvokeSuccess($createImage, $args, $request);
         $image = $createImage->getRecord();
         $this->assertNotNull($image);
         $this->assertNotNull($image->id);
@@ -406,13 +411,16 @@ class ProductBundleTest extends ModelTestCase
 
         $updateImage = $updateProduct->createSubActionWithRelationship($relation, [ 'id' => $image->id ], $files);
         $this->assertInstanceOf(UpdateRecordAction::class, $updateImage);
-        $this->assertActionInvokeSuccess($updateImage);
+        $this->assertActionInvokeSuccess($updateImage, $args, $request);
 
         $relation = clone $updateProduct->getRelation('images');
-        $relation['update_action'] = 'ProductBundle\Action\UpdateProductImage';
-        $updateImage = $updateProduct->createSubActionWithRelationship($relation, [ 'id' => $image->id ], $files);
+        $relation['update_action'] = \ProductBundle\Action\UpdateProductImage::class;
+
+
+        $args = [ 'id' => $image->id ];
+        $updateImage = $updateProduct->createSubActionWithRelationship($relation, $args, $files);
         $this->assertInstanceOf(UpdateRecordAction::class, $updateImage);
-        $this->assertActionInvokeSuccess($updateImage);
+        $this->assertActionInvokeSuccess($updateImage, $args, new ActionRequest($args, $files));
     }
 
 
@@ -429,11 +437,12 @@ class ProductBundleTest extends ModelTestCase
             'image' => CreateFileArray('404.png', 'image/png', $tmpfile),
         ];
 
-        $request = new ActionRequest(['title' => 'Test Image'], $files);
-        $create = new CreateProductImage(['title' => 'Test Image'], [ 'request' => $request ]);
-        $ret = $create->handle();
+        $args = ['title' => 'Test Image'];
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
+        $ret = $create->handle($args, $request);
         $this->assertTrue($ret);
-        $this->assertInstanceOf('WebAction\Result', $create->getResult());
+        $this->assertInstanceOf(Result::class, $create->getResult());
     }
 
     /**
@@ -449,13 +458,16 @@ class ProductBundleTest extends ModelTestCase
         ];
 
         // new ActionRequest(['title' => 'Test Image'], $files);
-        $create = new CreateProductImage([
+        $args = [
             'title' => 'Test Image',
             'image_autoresize' => $resizeType,
-        ], [ 'files' => $files ]);
-        $ret = $create->handle();
+        ];
+
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
+        $ret = $create->handle($args, $request);
         $this->assertTrue($ret);
-        $this->assertInstanceOf('WebAction\Result', $create->getResult());
+        $this->assertInstanceOf(Result::class, $create->getResult());
     }
 
     public function testCreateProductImageWithFilesArray()
@@ -466,9 +478,10 @@ class ProductBundleTest extends ModelTestCase
             'image' => CreateFileArray('404.png', 'image/png', $tmpfile),
         ];
 
-        // new ActionRequest(['title' => 'Test Image'], $files);
-        $create = new CreateProductImage(['title' => 'Test Image'], [ 'files' => $files ]);
-        $this->assertActionInvokeSuccess($create);
+        $args = ['title' => 'Test Image'];
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
+        $this->assertActionInvokeSuccess($create, $args, $request);
     }
 
 
@@ -486,18 +499,20 @@ class ProductBundleTest extends ModelTestCase
 
     public function testCreateProductImageWithRequiredField()
     {
+        $args = [];
         $files = [ 'image' => [] ];
-        // new ActionRequest(['title' => 'Test Image'], $files);
-        $create = new CreateProductImage([], [ 'files' => $files ]);
-        $this->assertActionInvokeFail($create);
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
+        $this->assertActionInvokeFail($create, $args, $request);
     }
 
     public function testCreateProductImageWithRequiredField2()
     {
         $files = [];
-        // new ActionRequest(['title' => 'Test Image'], $files);
-        $create = new CreateProductImage([], [ 'files' => $files ]);
-        $this->assertActionInvokeFail($create);
+        $args = ['title' => 'Test Image'];
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
+        $this->assertActionInvokeFail($create, $args, $request);
     }
 
 
@@ -505,13 +520,17 @@ class ProductBundleTest extends ModelTestCase
     {
         $tmpfile = tempnam('/tmp', 'test_image_');
         copy('tests/data/404.png', $tmpfile);
+
+        $args = [];
         $files = [
             'file' => CreateFileArray('404.png', 'image/png', $tmpfile),
         ];
-        $create = new CreateProductFile([ ], [ 'files' => $files ]);
-        $ret = $create->handle();
+        $request = new ActionRequest($args, $files);
+
+        $create = new CreateProductFile($args, [ 'request' => $request ]);
+        $ret = $create->handle($args, $request);
         $this->assertTrue($ret);
-        $this->assertInstanceOf('WebAction\Result', $create->getResult());
+        $this->assertInstanceOf(Result::class, $create->getResult());
     }
 
 

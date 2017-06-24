@@ -1,5 +1,7 @@
 <?php
+
 use WebAction\Action;
+use WebAction\ActionRequest;
 
 
 class IntFieldTestAction extends Action
@@ -19,8 +21,9 @@ class IntFieldActionTest extends \PHPUnit\Framework\TestCase
 
     public function testIntFieldAction()
     {
-        $action = new IntFieldTestAction([ 'cnt' => 10 ]);
-        $ret = $action->handle();
+        $args = ['cnt' => 10];
+        $action = new IntFieldTestAction($args);
+        $ret = $action->handle($args, new ActionRequest($args));
         $this->assertTrue($ret);
     }
 
