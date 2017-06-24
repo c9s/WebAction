@@ -355,7 +355,7 @@ class ImageParam extends Param
         }
     }
 
-    public function handle(array $args, ActionRequest $request = null)
+    public function handle(ActionRequest $request)
     {
 
     }

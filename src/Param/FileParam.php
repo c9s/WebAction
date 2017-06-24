@@ -126,7 +126,7 @@ class FileParam extends Param
         return $this;
     }
 
-    public function handle(array $args, ActionRequest $request = null)
+    public function handle(ActionRequest $request)
     {
 
     }
