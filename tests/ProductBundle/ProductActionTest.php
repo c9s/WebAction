@@ -3,6 +3,7 @@ use WebAction\RecordAction\BaseRecordAction;
 use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
 use WebAction\ActionRunner;
 use WebAction\ActionGenerator;
+use WebAction\ActionLoader;
 use Maghead\Testing\ModelTestCase;
 
 use ProductBundle\Action\CreateProduct;
@@ -180,17 +181,19 @@ class ProductActionTest extends ModelTestCase
         $products = new ProductCollection;
         $this->assertCount(20, $products);
 
-        $runner = new ActionRunner;
+        $loader = new ActionLoader(new ActionGenerator);
+
+        $runner = new ActionRunner($loader);
 
         $actionTemplate = new UpdateOrderingRecordActionTemplate;
-        $actionTemplate->register($runner, 'UpdateOrderingRecordActionTemplate', [
+        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', [
             'namespace' => 'ProductBundle',
             'model'     => 'Product'   // model's name
         ]);
 
         $className = UpdateProductOrdering::class;
 
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertNotNull($generatedAction);

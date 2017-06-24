@@ -1,7 +1,9 @@
 <?php
+
 namespace WebAction\ActionTemplate;
 
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
 use WebAction\GeneratedAction;
 use WebAction\Exception\RequiredConfigKeyException;
 use Twig_Loader_Filesystem;
@@ -14,8 +16,8 @@ use ReflectionClass;
  *
  *    $actionTemplate = new TwigActionTemplate();
  *
- *    $runner = new WebAction\ActionRunner;
- *    $actionTemplate->register($runner, 'TwigActionTemplate', array(
+ *    $loader = new WebAction\ActionLoader;
+ *    $actionTemplate->register($loader, 'TwigActionTemplate', array(
  *        'action_class' => 'User\\Action\\BulkUpdateUser',
  *        'template' => '@WebAction/RecordAction.html.twig',
  *        'variables' => array(
@@ -27,7 +29,7 @@ use ReflectionClass;
  *    $className = 'User\Action\BulkUpdateUser';
  *
  *    $generatedAction = $actionTemplate->generate($className,
- *        $runner->pretreatments[$className]['actionArgs']);
+ *        $loader->pretreatments[$className]['actionArgs']);
  *
  *    $generatedAction->requireAt($cacheCodePath);
  *
@@ -65,7 +67,7 @@ class TwigActionTemplate implements ActionTemplate
     /**
      *  @synopsis
      *
-     *      $template->register($runner,
+     *      $template->register($loader,
      *          'templateName',
      *          array(
      *              'action_class' => 'User\\Action\\BulkUpdateUser',
@@ -76,7 +78,7 @@ class TwigActionTemplate implements ActionTemplate
      *              )
      *      ));
      */
-    public function register(ActionRunner $runner, $asTemplate, array $options = array())
+    public function register(ActionLoader $loader, $asTemplate, array $options = array())
     {
         // $targetActionClass, $template, $variables
         if (!isset($options['action_class'])) {
@@ -94,7 +96,7 @@ class TwigActionTemplate implements ActionTemplate
         }
         $variables = $options['variables'];
 
-        $runner->register($class, $asTemplate, [
+        $loader->register($class, $asTemplate, [
             'template' => $template,
             'variables' => $variables
         ]);

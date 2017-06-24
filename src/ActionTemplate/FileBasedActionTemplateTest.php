@@ -3,6 +3,7 @@
 namespace WebAction\ActionTemplate;
 
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
 use WebAction\ActionGenerator;
 use WebAction\RecordAction\BaseRecordAction;
 use WebAction\Testing\ActionTestCase;
@@ -33,8 +34,8 @@ class TwigActionTemplateTest extends ActionTestCase
         $generator = new ActionGenerator();
         $generator->registerTemplate('TwigActionTemplate', $actionTemplate);
 
-        $runner = new ActionRunner;
-        $actionTemplate->register($runner, 'TwigActionTemplate', $arguments);
+        $loader = new ActionLoader($generator);
+        $actionTemplate->register($loader, 'TwigActionTemplate', $arguments);
 
         $generator->generate('TwigActionTemplate', 'FileApp\Action\FooAction', $arguments);
     }
@@ -54,9 +55,11 @@ class TwigActionTemplateTest extends ActionTestCase
         $this->assertNotNull($actionTemplate->getTwigEnvironment());
         $this->assertNotNull($actionTemplate->getTwigLoader());
 
-        $runner = new ActionRunner;
+        $generator = new ActionGenerator();
+
+        $loader = new ActionLoader($generator);
         $className = 'User\\Action\\BulkUpdateUser4';
-        $actionTemplate->register($runner, 'TwigActionTemplate', array(
+        $actionTemplate->register($loader, 'TwigActionTemplate', array(
             'action_class' => $className,
             'template' => '@WebAction/RecordAction.html.twig',
             'variables' => [
@@ -64,8 +67,8 @@ class TwigActionTemplateTest extends ActionTestCase
                 'base_class' => \WebAction\RecordAction\CreateRecordAction::class,
             ]
         ));
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
 
@@ -83,9 +86,11 @@ class TwigActionTemplateTest extends ActionTestCase
 
         $actionTemplate = new TwigActionTemplate($loader);
 
-        $runner = new ActionRunner;
+        $generator = new ActionGenerator();
+
+        $loader = new ActionLoader($generator);
         $className = 'User\\Action\\BulkUpdateUser3';
-        $actionTemplate->register($runner, 'TwigActionTemplate', array(
+        $actionTemplate->register($loader, 'TwigActionTemplate', array(
             'action_class' => $className,
             'template' => '@WebAction/RecordAction.html.twig',
             'variables' => [
@@ -93,8 +98,8 @@ class TwigActionTemplateTest extends ActionTestCase
                 'base_class' => \WebAction\RecordAction\CreateRecordAction::class,
             ]
         ));
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertRequireGeneratedAction($className, $generatedAction);
@@ -103,9 +108,11 @@ class TwigActionTemplateTest extends ActionTestCase
     public function testTwigActionTemplate()
     {
         $actionTemplate = new TwigActionTemplate();
-        $runner = new ActionRunner;
+
+        $generator = new ActionGenerator();
+        $loader = new ActionLoader($generator);
         $className = 'User\\Action\\BulkUpdateUser2';
-        $actionTemplate->register($runner, 'TwigActionTemplate', array(
+        $actionTemplate->register($loader, 'TwigActionTemplate', array(
             'action_class' => $className,
             'template' => '@WebAction/RecordAction.html.twig',
             'variables' => array(
@@ -113,8 +120,8 @@ class TwigActionTemplateTest extends ActionTestCase
                 'base_class' => \WebAction\RecordAction\CreateRecordAction::class,
             )
         ));
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertNotNull($generatedAction);

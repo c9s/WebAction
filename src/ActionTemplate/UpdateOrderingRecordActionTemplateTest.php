@@ -1,7 +1,10 @@
 <?php
+
 use WebAction\Testing\ActionTestCase;
 use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
+use WebAction\ActionGenerator;
 use WebAction\GeneratedAction;
 
 /**
@@ -35,8 +38,8 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
         $className = 'OrderingTest\Action\UpdateFooOrdering';
 
         $actionTemplate = new UpdateOrderingRecordActionTemplate;
-        $runner = new ActionRunner;
-        $actionTemplate->register($runner, 'UpdateOrderingRecordActionTemplate', $arguments);
+        $loader = new ActionLoader(new ActionGenerator);
+        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', $arguments);
     }
 
 
@@ -45,13 +48,14 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
         $recordClass = 'OrderingTest\Model\Foo';
         $className = 'OrderingTest\Action\UpdateFooOrdering';
 
+        $loader = new ActionLoader(new ActionGenerator);
+
         $actionTemplate = new UpdateOrderingRecordActionTemplate;
-        $runner = new ActionRunner;
-        $actionTemplate->register($runner, 'UpdateOrderingRecordActionTemplate', array(
+        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', array(
             'record_class' => $recordClass,
         ));
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
         $generatedAction = $actionTemplate->generate($className, $pretreatment);
         $this->assertRequireGeneratedAction($className, $generatedAction);
     }
@@ -60,16 +64,16 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
     public function testUpdateOrderingRecordActionTemplate()
     {
         $actionTemplate = new UpdateOrderingRecordActionTemplate;
-        $runner = new ActionRunner;
-        $actionTemplate->register($runner, 'UpdateOrderingRecordActionTemplate', array(
+        $loader = new ActionLoader(new ActionGenerator);
+        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', array(
             'namespace' => 'OrderingTest',
             'model' => 'Test2Model'   // model's name
         ));
 
         $className = 'OrderingTest\Action\UpdateTest2ModelOrdering';
 
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment);
         $this->assertRequireGeneratedAction($className, $generatedAction);

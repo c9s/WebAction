@@ -4,6 +4,8 @@ namespace WebAction\ActionTemplate;
 
 use WebAction\Testing\ActionTestCase;
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
+use WebAction\ActionGenerator;
 
 class ActionTemplateTest extends ActionTestCase
 {
@@ -28,16 +30,18 @@ class ActionTemplateTest extends ActionTestCase
      */
     public function testRecordActionTemplateFailingArguments($arguments)
     {
+        $loader = new ActionLoader(new ActionGenerator);
+
         $actionTemplate = new RecordActionTemplate();
-        $runner = new ActionRunner;
-        $actionTemplate->register($runner, 'RecordActionTemplate', $arguments);
+        $actionTemplate->register($loader, 'RecordActionTemplate', $arguments);
     }
 
     public function testRecordActionTemplate()
     {
+        $loader = new ActionLoader(new ActionGenerator);
+
         $actionTemplate = new RecordActionTemplate();
-        $runner = new ActionRunner;
-        $actionTemplate->register($runner, 'RecordActionTemplate', array(
+        $actionTemplate->register($loader, 'RecordActionTemplate', array(
             'namespace' => 'test2',
             'model' => 'test2Model',   // model's name
             'types' => array(
@@ -49,8 +53,8 @@ class ActionTemplateTest extends ActionTestCase
         ));
 
         $className = 'test2\Action\Updatetest2Model';
-        $this->assertCount(4, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(4, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment);
         $this->assertRequireGeneratedAction($className, $generatedAction);

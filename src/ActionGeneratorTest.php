@@ -26,8 +26,11 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         $generator = new ActionGenerator();
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate());
-        $runner = new ActionRunner([  'generator' => $generator ]);
-        $runner->registerAction('RecordActionTemplate', array());
+
+        $loader = new ActionLoader($generator);
+        $loader->registerAction('RecordActionTemplate', array());
+
+        $runner = new ActionRunner($loader);
     }
 
     /**
@@ -51,7 +54,10 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         $generator = new ActionGenerator();
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate());
-        $runner = new ActionRunner([  'generator' => $generator ]);
+
+        $loader = new ActionLoader($generator);
+        $runner = new ActionRunner($loader);
+
         $actionArgs = array(
             'namespace' => 'test',
             'model' => 'testModel',
@@ -62,7 +68,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 [ 'prefix' => 'BulkDelete']
             )
         );
-        $runner->registerAction('RecordActionTemplate', $actionArgs);
+        $loader->registerAction('RecordActionTemplate', $actionArgs);
 
         $className = 'test\Action\UpdatetestModel';
 
@@ -79,7 +85,9 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         $generator = new ActionGenerator();
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate());
-        $runner = new ActionRunner([ 'generator' => $generator ]);
+
+        $loader = new ActionLoader($generator);
+
         $actionArgs = array(
             'namespace' => 'test',
             'model' => 'testModel',
@@ -90,7 +98,9 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 [ 'prefix' => 'BulkDelete']
             )
         );
-        $runner->registerAction('RecordActionTemplate', $actionArgs);
+        $loader->registerAction('RecordActionTemplate', $actionArgs);
+
+        $runner = new ActionRunner($loader);
         $className = 'test\Action\UpdatetestModel';
         $filePath = tempnam('/tmp', md5($className));
         $generatedAction = $generator->generateAt($filePath, 'RecordActionTemplate', $className, $actionArgs);
@@ -103,7 +113,9 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         $generator = new ActionGenerator();
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate());
-        $runner = new ActionRunner([  'generator' => $generator ]);
+
+        $loader = new ActionLoader($generator);
+
         $actionArgs = array(
             'namespace' => 'test',
             'model' => 'testModel',
@@ -114,18 +126,20 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 [ 'prefix' => 'BulkDelete']
             )
         );
-        $runner->registerAction('RecordActionTemplate', $actionArgs);
+        $loader->registerAction('RecordActionTemplate', $actionArgs);
+
+        $runner = new ActionRunner($loader);
 
         /*
         $template = $generator->getTemplate('RecordActionTemplate');
         $template->register($runner, 'RecordActionTemplate', $actionArgs);
          */
 
-        $this->assertCount(4, $runner->getPretreatments());
+        $this->assertCount(4, $loader->getPretreatments());
 
         $className = 'test\Action\UpdatetestModel';
 
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $generator->generate('RecordActionTemplate',
             $className,
@@ -143,8 +157,9 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
         $template = $generator->getTemplate('TwigActionTemplate');
         $this->assertInstanceOf('WebAction\ActionTemplate\ActionTemplate', $template);
 
-        $runner = new ActionRunner([  'generator' => $generator ]);
-        $template->register($runner, 'TwigActionTemplate', array(
+        $loader = new ActionLoader($generator);
+
+        $template->register($loader, 'TwigActionTemplate', array(
             'action_class' => 'User\\Action\\BulkUpdateUser',
             'template' => '@WebAction/RecordAction.html.twig',
             'variables' => array(
@@ -152,12 +167,13 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
             )
         ));
+        $runner = new ActionRunner($loader);
 
 
         $className = 'User\Action\BulkUpdateUser';
 
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $generator->generate('TwigActionTemplate',
             $className,

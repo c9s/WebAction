@@ -1,7 +1,7 @@
 <?php
 namespace WebAction\ActionTemplate;
 
-use WebAction\ActionRunner;
+use WebAction\ActionLoader;
 use WebAction\ActionTemplate\CodeGenActionTemplate;
 use WebAction\GeneratedAction;
 use WebAction\Exception\RequiredConfigKeyException;
@@ -12,7 +12,7 @@ class RecordActionTemplate extends CodeGenActionTemplate
     /**
      * @synopsis
      *
-     *    $template->register($runner, array(
+     *    $template->register($loader, array(
      *        'namespace' => 'test',
      *        'model' => 'testModel',   // model's name
      *        'allowed_roles' => array('admin', 'manager'),
@@ -23,7 +23,7 @@ class RecordActionTemplate extends CodeGenActionTemplate
      *        ]
      *    ));
      */
-    public function register(ActionRunner $runner, $asTemplate, array $options = array())
+    public function register(ActionLoader $loader, $asTemplate, array $options = array())
     {
         if (isset($options['use'])) {
             array_unshift($options['use'], '\\WebAction\\Action', '\\WebAction\\RecordAction\\BaseRecordAction');
@@ -62,7 +62,7 @@ class RecordActionTemplate extends CodeGenActionTemplate
                 'use' => $options['use']
             ];
 
-            $runner->register($actionClass, $asTemplate, $configs);
+            $loader->register($actionClass, $asTemplate, $configs);
         }
     }
 }

@@ -1,5 +1,10 @@
 <?php
+
+namespace WebAction\ActionTemplate;
+
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
+
 use WebAction\ActionGenerator;
 use WebAction\RecordAction\BaseRecordAction;
 use WebAction\ActionTemplate\RecordActionTemplate;
@@ -34,9 +39,9 @@ class SampleActionTemplateTest extends \PHPUnit\Framework\TestCase
     {
         $generator = new ActionGenerator();
         $generator->registerTemplate('SampleActionTemplate', new SampleActionTemplate());
-        $runner = new ActionRunner([ 'generator' => $generator ]);
-        // $runner->registerAction('SampleActionTemplate', array('action_class' => 'SampleAction'));
-        $action = $runner->getGenerator()->generate('SampleActionTemplate', 'SampleAction', [ 
+
+        $loader = new ActionLoader($generator);
+        $action = $loader->getGenerator()->generate('SampleActionTemplate', 'SampleAction', [ 
             'namespace' => 'FooBar',
             'action_name' => 'CreateSample'
         ]);

@@ -3,6 +3,7 @@ use WebAction\ServiceContainer;
 
 use WebAction\ActionTemplate\RecordActionTemplate;
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
 
 use OrderBundle\Model\OrderSchema;
 
@@ -42,9 +43,10 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
         $container = new ServiceContainer;
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
-        $runner = new ActionRunner($container);
-        $runner->registerAutoloader();
-        $runner->registerAction('RecordActionTemplate', array(
+
+        $loader = new ActionLoader($generator);
+        $loader->autoload();
+        $loader->registerAction('RecordActionTemplate', array(
             'namespace' => 'OrderBundle',
             'model' => 'Order',
             'types' => array(
@@ -54,7 +56,8 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
             )
         ));
 
-        if($setUser) {
+        $runner = new ActionRunner($loader, $container);
+        if ($setUser) {
             $runner->setCurrentUser($roles);
         }
         $result = $runner->run('OrderBundle::Action::CreateOrder',[
@@ -81,9 +84,10 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
         $container = new ServiceContainer;
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
-        $runner = new ActionRunner($container);
-        $runner->registerAutoloader();
-        $runner->registerAction('RecordActionTemplate', array(
+
+        $loader = new ActionLoader($generator);
+        $loader->autoload();
+        $loader->registerAction('RecordActionTemplate', array(
             'namespace' => 'OrderBundle',
             'model' => 'Order',
             'types' => array(
@@ -92,6 +96,8 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
                 ['prefix' => 'Delete']
             )
         ));
+
+        $runner = new ActionRunner($loader);
 
         $user = new TestUser;
         $user->roles = $roles;

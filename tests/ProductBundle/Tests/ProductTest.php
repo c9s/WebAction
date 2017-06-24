@@ -1,6 +1,8 @@
 <?php
 use WebAction\ActionRunner;
 use WebAction\ActionRequest;
+use WebAction\ActionLoader;
+use WebAction\ActionGenerator;
 use WebAction\Testing\ActionTestCase;
 use WebAction\ServiceContainer;
 use WebAction\ActionTemplate\TwigActionTemplate;
@@ -116,9 +118,9 @@ class ProductBundleTest extends ModelTestCase
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 
-        $runner = new ActionRunner($container);
-        $runner->registerAutoloader();
-        $runner->registerAction('RecordActionTemplate', [
+        $loader = new ActionLoader($generator);
+        $loader->autoload();
+        $loader->registerAction('RecordActionTemplate', [
             'namespace'    => 'ProductBundle',
             'model'        => 'Category',
             'types' => [
@@ -128,6 +130,8 @@ class ProductBundleTest extends ModelTestCase
             ]
         ]);
 
+
+        $runner = new ActionRunner($loader);
         $action = $runner->createAction(CreateCategory::class, [ 
             'name' => 'Foo',
             'parent_id' => '',
@@ -165,12 +169,13 @@ class ProductBundleTest extends ModelTestCase
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate());
         $generator->registerTemplate('UpdateOrderingRecordActionTemplate', new UpdateOrderingRecordActionTemplate());
 
-        $runner = new ActionRunner($container);
-
-        $runner->registerAction('UpdateOrderingRecordActionTemplate', array(
+        $loader = new ActionLoader($generator);
+        $loader->registerAction('UpdateOrderingRecordActionTemplate', array(
             'namespace' => 'ProductBundle',
             'record_class'     => $recordClass,   // model's name
         ));
+
+        $runner = new ActionRunner($loader);
         $action = $runner->createAction($actionClass);
         $this->assertNotNull($action);
     }

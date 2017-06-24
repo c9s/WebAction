@@ -33,7 +33,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testMonikerAction()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
         $runner->run('WebAction::CreateUserWithMoniker', []);
         $result = $runner->getResult('create-user');
         $this->assertNotNull($result);
@@ -46,9 +46,9 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
         $generator = $container['generator'];
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate);
-        $runner = new ActionRunner($container);
-        $runner->registerAutoloader();
-        $runner->registerAction('TwigActionTemplate', [
+
+        $loader = new ActionLoader($generator);
+        $loader->registerAction('TwigActionTemplate', [
             'template' => '@WebAction/RecordAction.html.twig',
             'action_class' => 'User\\Action\\BulkCreateUser',
             'variables' => [
@@ -57,6 +57,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
             ]
         ]);
 
+        $runner = new ActionRunner($loader);
         $result = $runner->run('User::Action::BulkCreateUser', [
             'email' => 'foo@foo'
         ]);
@@ -68,9 +69,11 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $container = new ServiceContainer;
         $generator = $container['generator'];
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate($container['twig_loader']));
-        $runner = new ActionRunner($container);
-        $runner->registerAutoloader();
-        $runner->registerAction('TwigActionTemplate', array(
+
+
+        $loader = new ActionLoader($generator);
+        $loader->autoload();
+        $loader->registerAction('TwigActionTemplate', array(
             'template' => '@WebAction/RecordAction.html.twig',
             'action_class' => 'User\\Action\\BulkCreateUser',
             'variables' => array(
@@ -78,6 +81,9 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
                 'base_class' => 'WebAction\\RecordAction\\CreateRecordAction'
             )
         ));
+
+
+        $runner = new ActionRunner($loader);
 
         $result = $runner->run('User::Action::BulkCreateUser',array(
             'email' => 'foo@foo'
@@ -91,9 +97,8 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 
-        $runner = new ActionRunner($container);
-        $runner->registerAutoloader();
-        $runner->registerAction('RecordActionTemplate', array(
+        $loader = new ActionLoader($generator);
+        $loader->registerAction('RecordActionTemplate', array(
             'namespace' => 'User',
             'model' => 'User',
             'types' => [
@@ -102,6 +107,9 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
                 [ 'prefix' => 'Delete'],
             ]
         ));
+        $loader->autoload();
+
+        $runner = new ActionRunner($loader);
 
         $result = $runner->run('User::Action::CreateUser',[ 
             'email' => 'foo@foo'
@@ -130,7 +138,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testHandleWith()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
 
         $stream = fopen('php://memory', 'rw');
         $result = $runner->handleWith($stream, array(
@@ -148,7 +156,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testRunnerArrayAccess()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
 
         $runner['User::Action::CreateUser'] = new \WebAction\Result;
 
@@ -165,7 +173,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testHandleWithInvalidActionNameException()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array(
             'action' => "_invalid"
         ));
@@ -177,7 +185,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testHandleWithInvalidActionNameExceptionWithEmptyActionName()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array());  
         
     }
@@ -188,7 +196,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testHandleWithActionNotFoundException()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array(
             'action' => "User::Action::NotFoundAction",
         )); 
@@ -200,7 +208,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testRunnerWithInvalidActionNameException()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
         $result = $runner->run('!afers');
     }
 
@@ -210,7 +218,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     public function testRunnerWithActionNotFoundException()
     {
         $container = new ServiceContainer;
-        $runner = new ActionRunner($container);
+        $runner = new ActionRunner($container['loader']);
         $result = $runner->run('Product::Action::Product');
     }
 

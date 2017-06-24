@@ -44,22 +44,13 @@ use ArrayObject;
 
 class ActionRunner extends ArrayObject
 {
-    protected $pretreatments = array();
-
-    /**
-     * @var array Result pool
-     */
-    protected $results = [];
-
-    public $generator;
-
-    public $cacheDir;
-
     protected $debug;
 
     protected $currentUser;
 
     protected $serviceContainer;
+
+    protected $loader;
 
     /**
      * @param array $options
@@ -71,36 +62,17 @@ class ActionRunner extends ArrayObject
      *   'generator': optional, the customized Generator object.
      *
      */
-    public function __construct($options = array())
+    public function __construct(ActionLoader $loader, ServiceContainer $configuration = null)
     {
         parent::__construct();
 
-        if ($options instanceof ServiceContainer) {
+        $this->loader = $loader;
 
-            // the cache_dir option is optional. if user provides one, we should use it.
-            $this->cacheDir = $options['cache_dir'];
-            $this->generator = $options['generator'];
-            $this->serviceContainer = $options;
-        } else {
-            $this->serviceContainer = new ServiceContainer;
-
-            // Default initializor
-            if (isset($options['cache_dir'])) {
-                $this->cacheDir = $options['cache_dir'];
-            } else {
-                $this->cacheDir = $this->serviceContainer['cache_dir'];
-            }
-
-            if (isset($options['generator'])) {
-                $this->generator = $options['generator'];
-            } else {
-                $this->generator = $this->serviceContainer['generator'];
-            }
+        if (!$configuration) {
+            $configuration = new ServiceContainer;
         }
 
-        if ($this->cacheDir && ! file_exists($this->cacheDir)) {
-            mkdir($this->cacheDir, 0755, true);
-        }
+        $this->serviceContainer = $configuration;
     }
 
     public function setDebug($debug = true)
@@ -108,10 +80,9 @@ class ActionRunner extends ArrayObject
         $this->debug = $debug;
     }
 
-
-    public function getGenerator()
+    public function getLoader()
     {
-        return $this->generator;
+        return $this->loader;
     }
 
     /**
@@ -124,14 +95,14 @@ class ActionRunner extends ArrayObject
      * */
     public function run($actionName, array $arguments = array(), ActionRequest $request = null)
     {
-        if (! Utils::validateActionName($actionName)) {
+        if (!Utils::validateActionName($actionName)) {
             throw new InvalidActionNameException("Invalid action name: $actionName.");
         }
 
-        /* translate :: into php namespace */
+        // translate :: into php namespace
         $class = Utils::toActionClass($actionName);
 
-        /* register results into hash */
+        // register results into hash
         $action = $this->createAction($class, $arguments, $request);
         $action->invoke();
 
@@ -219,134 +190,6 @@ class ActionRunner extends ArrayObject
         }
     }
 
-    /**
-     * Generate an action class with pretreatment config.
-     *
-     * This method could be used when you want to customize more about the
-     * generated action class rather than the default pretreatment.
-     *
-     * Note the pretreatment argument can be ignored if you want to use the
-     * default pretreatment config.
-     *
-     * @param string $class action class name
-     * @param array $pretreatment the pretreatment config array
-     * @return GeneratedAction
-     */
-    public function generateActionClass($class, array $pretreatment = null)
-    {
-        if (!$pretreatment) {
-            if (!isset($this->pretreatments[$class])) {
-                return false;
-            }
-            $pretreatment = $this->pretreatments[$class];
-        }
-        return $this->generator->generate($pretreatment['template'], $class, $pretreatment['arguments']);
-    }
-
-    /**
-     * loadActionClass trigger the action class generation if the class doesn't
-     * exist and loads the action class.
-     *
-     * @param string $class action class
-     */
-    public function loadActionClass($class)
-    {
-        if (!isset($this->pretreatments[$class])) {
-            return false;
-        }
-
-        $pretreatment = $this->pretreatments[$class];
-        if ($this->loadClassCache($class, $pretreatment['arguments'])) {
-            return true;
-        }
-
-        $generatedAction = $this->generateActionClass($class, $pretreatment);
-        $cacheFile = $this->getClassCacheFile($class, $pretreatment['arguments']);
-        $generatedAction->requireAt($cacheFile);
-        return true;
-    }
-
-    /**
-     * Return the cache path of the class name
-     *
-     * @param string $className
-     * @return string path
-     */
-    protected function getClassCacheFile($className, array $params = array())
-    {
-        $chk = !empty($params) ? md5(serialize($params)) : '';
-        return $this->cacheDir . DIRECTORY_SEPARATOR . str_replace('\\', '_', $className) . $chk . '.php';
-    }
-
-    /**
-     * Load the class cache file
-     *
-     * @param string $className the action class
-     */
-    protected function loadClassCache($className, array $params = array())
-    {
-        $file = $this->getClassCacheFile($className, $params);
-        if (file_exists($file)) {
-            require $file;
-            return true;
-        }
-        return false;
-    }
-
-    public function registerAutoloader()
-    {
-        // use throw and not to prepend
-        spl_autoload_register(array($this,'loadActionClass'), true, false);
-    }
-
-    public function __destruct()
-    {
-        spl_autoload_unregister(array($this,'loadActionClass'));
-    }
-
-
-    /**
-     * registerAction register actions by passing action config to ActionTemplate.
-     *
-     * @param string $actionTemplateName
-     * @param array $templateArguments
-     */
-    public function registerAction($actionTemplateName, array $templateArguments)
-    {
-        $template = $this->generator->getTemplate($actionTemplateName);
-        $template->register($this, $actionTemplateName, $templateArguments);
-    }
-
-
-    /**
-     * register method registers the action class with specified action template name and its arguments
-     *
-     */
-    public function register($targetActionClass, $actionTemplateName, array $templateArguments = array())
-    {
-        $this->pretreatments[$targetActionClass] = array(
-            'template' => $actionTemplateName,
-            'arguments' => $templateArguments,
-        );
-    }
-
-    public function countOfPretreatments()
-    {
-        return count($this->pretreatments);
-    }
-
-    public function getPretreatments()
-    {
-        return $this->pretreatments;
-    }
-
-    public function getActionPretreatment($actionClass)
-    {
-        if (isset($this->pretreatments[$actionClass])) {
-            return $this->pretreatments[$actionClass];
-        }
-    }
-
     public function isInvalidActionName($actionName)
     {
         return preg_match('/[^A-Za-z0-9:]/i', $actionName);
@@ -363,7 +206,7 @@ class ActionRunner extends ArrayObject
         if (!class_exists($class, true)) {
 
             // load the generated action
-            $this->loadActionClass($class);
+            $this->loader->loadActionClass($class);
 
             // Check the action class existence
             if (! class_exists($class, true)) {

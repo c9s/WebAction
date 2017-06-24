@@ -1,7 +1,7 @@
 <?php
 namespace WebAction\ActionTemplate;
 
-use WebAction\ActionRunner;
+use WebAction\ActionLoader;
 use WebAction\GeneratedAction;
 use WebAction\Exception\RequiredConfigKeyException;
 use Exception;
@@ -42,14 +42,15 @@ class CodeGenActionTemplate implements ActionTemplate
      *       ],
      *    ]);
      */
-    public function register(ActionRunner $runner, $asTemplate, array $options = array())
+    public function register(ActionLoader $loader, $asTemplate, array $options = array())
     {
         if (isset($options['use'])) {
             array_unshift($options['use'], '\\WebAction\\Action');
         } else {
             $options['use'] = ['\\WebAction\\Action'];
         }
-        $runner->register($options['action_class'], $asTemplate, $options);
+
+        $loader->register($options['action_class'], $asTemplate, $options);
     }
 
     public function createActionClassFile($actionClass, array $options = array())

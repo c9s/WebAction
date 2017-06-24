@@ -3,6 +3,8 @@
 namespace WebAction\ActionTemplate;
 
 use WebAction\ActionRunner;
+use WebAction\ActionLoader;
+use WebAction\ActionGenerator;
 use WebAction\GeneratedAction;
 use WebAction\Testing\ActionTestCase;
 
@@ -15,10 +17,9 @@ class CodeGenActionTemplateTest extends ActionTestCase
      */
     public function testCodeGenTemplateActionSuccessfulGenerationWithExtra($className)
     {
+        $loader = new ActionLoader(new ActionGenerator);
         $actionTemplate = new CodeGenActionTemplate();
-        $runner = new ActionRunner;
-
-        $actionTemplate->register($runner, 'CodeGenActionTemplate', array(
+        $actionTemplate->register($loader, 'CodeGenActionTemplate', array(
             'action_class' => $className,
             'use' => ['TestApp\Database'],
             'extends' => 'Action',
@@ -26,8 +27,8 @@ class CodeGenActionTemplateTest extends ActionTestCase
                 'foo' => 123
             ],
         ));
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertRequireGeneratedAction($className, $generatedAction);
@@ -39,15 +40,15 @@ class CodeGenActionTemplateTest extends ActionTestCase
      */
     public function testCodeGenTemplateActionSuccessfulGeneration($className)
     {
-        $actionTemplate = new CodeGenActionTemplate();
-        $runner = new ActionRunner;
+        $loader = new ActionLoader(new ActionGenerator);
 
-        $actionTemplate->register($runner, 'CodeGenActionTemplate', array(
+        $actionTemplate = new CodeGenActionTemplate();
+        $actionTemplate->register($loader, 'CodeGenActionTemplate', array(
             'action_class' => $className,
             'extends' => 'Action',
         ));
-        $this->assertCount(1, $runner->getPretreatments());
-        $this->assertNotNull($pretreatment = $runner->getActionPretreatment($className));
+        $this->assertCount(1, $loader->getPretreatments());
+        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertRequireGeneratedAction($className, $generatedAction);
