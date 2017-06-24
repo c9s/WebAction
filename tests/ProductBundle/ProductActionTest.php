@@ -229,7 +229,7 @@ class ProductActionTest extends ModelTestCase
         $class = $this->createProductActionClass('Update');
 
         $args = ['name' => 'Bar'];
-        $update = new $class($args, $product);
+        $update = new $class($args, ['record' => $product ]);
         $this->assertNotNull( $update->run() );
         $record = $update->getRecord();
         $this->assertNotNull($record->id);
