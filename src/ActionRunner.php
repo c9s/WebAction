@@ -78,11 +78,6 @@ class ActionRunner extends ArrayObject
         $this->debug = $debug;
     }
 
-    public function getLoader()
-    {
-        return $this->loader;
-    }
-
     /**
      * Check if action request, then dispatch the action class.
      *
