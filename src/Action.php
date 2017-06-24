@@ -229,15 +229,13 @@ class Action implements IteratorAggregate
         $this->args = $this->inflateArguments($this->args);
 
 
-
-
         // See if we need to render the input names with relationship ID and
         // index?
         if ($relationId = $this->arg('__nested')) {
             $this->setParamNamesWithIndex($relationId);
         }
 
-        $this->loadParamValues();
+        $this->loadParamValues($this->args);
 
         // action & parameters initialization
         // ===================================
@@ -284,19 +282,10 @@ class Action implements IteratorAggregate
     /**
      * Load values into the parameter columns.
      */
-    protected function loadParamValues()
+    protected function loadParamValues(array $args)
     {
         // load param values from $arguments
-        $this->loadParamValuesFromArguments();
-    }
-
-
-    /**
-     * Load argument value into param object.
-     */
-    protected function loadParamValuesFromArguments()
-    {
-        $overlap = array_intersect_key($this->args, $this->params);
+        $overlap = array_intersect_key($args, $this->params);
         foreach ($overlap as $name => $val) {
             $this->getParam($name)->value($val);
         }

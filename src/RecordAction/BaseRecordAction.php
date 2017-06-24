@@ -113,7 +113,7 @@ class BaseRecordAction extends Action
      *
      * @override
      */
-    protected function loadParamValues()
+    protected function loadParamValues(array $args)
     {
         if (!$this->record) {
             return;
@@ -134,7 +134,7 @@ class BaseRecordAction extends Action
                 }
             }
         }
-        parent::loadParamValues();
+        parent::loadParamValues($args);
     }
 
 
