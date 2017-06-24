@@ -3,6 +3,8 @@ namespace WebAction;
 
 use Pimple\Container;
 use WebAction\ActionGenerator;
+use WebAction\ActionLoader;
+use WebAction\ActionRunner;
 use WebAction\Csrf\CsrfTokenProvider;
 use WebAction\Csrf\CsrfToken;
 use WebAction\Csrf\CsrfSessionStorage;
@@ -71,7 +73,7 @@ class DefaultConfigurations extends Container
 
         // The default twig loader
         $this['twig_loader'] = function ($c) {
-            $refClass = new ReflectionClass('WebAction\\ActionGenerator');
+            $refClass = new ReflectionClass(ActionGenerator::class);
             $templateDirectory = dirname($refClass->getFilename()) . DIRECTORY_SEPARATOR . 'Templates';
 
             // add WebAction built-in template path
@@ -80,12 +82,18 @@ class DefaultConfigurations extends Container
             return $loader;
         };
 
+
         $this['generator'] = function ($c) {
             return new ActionGenerator;
         };
 
         $this['loader'] = function($c) {
             return new ActionLoader($c['generator'], $c['cache_dir']);
+        };
+
+
+        $this['runner'] = function($c) {
+            return new ActionRunner($c['loader'], $c);
         };
     }
 }
