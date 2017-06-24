@@ -2,6 +2,7 @@
 
 namespace WebAction\Param;
 
+use WebAction\ActionRequest;
 use WebAction\Param\Param;
 use WebAction\Utils;
 use Universal\Http\UploadedFile;
@@ -123,6 +124,11 @@ class FileParam extends Param
         }
 
         return $this;
+    }
+
+    public function handle(array $args, ActionRequest $request = null)
+    {
+
     }
 
     public function init(array & $args)

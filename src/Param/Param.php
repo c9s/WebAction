@@ -2,6 +2,8 @@
 namespace WebAction\Param;
 
 use CascadingAttribute;
+
+use WebAction\ActionRequest;
 use WebAction\MessagePool;
 use WebAction\Action;
 use WebAction\ValueType\BaseType;
@@ -87,12 +89,19 @@ class Param extends CascadingAttribute
      */
     protected function build() { }
 
-    public function preinit(array & $args) { }
+    public function preinit(array & $args)
+    {
+    }
 
-    public function init(array & $args) { }
+    public function init(array & $args)
+    {
 
+    }
 
+    public function handle(array $args, ActionRequest $request = null)
+    {
 
+    }
 
     public function isa($isa)
     {

@@ -1,6 +1,7 @@
 <?php
 namespace WebAction\Param;
 
+use WebAction\ActionRequest;
 use WebAction\Param\Param;
 use Exception;
 use LogicException;
@@ -352,6 +353,11 @@ class ImageParam extends Param
         if ($uploadedFile->getExtension() != 'gif') {
             $this->autoResizeFile($targetPath);
         }
+    }
+
+    public function handle(array $args, ActionRequest $request = null)
+    {
+
     }
 
     public function autoResizeFile($targetPath)
