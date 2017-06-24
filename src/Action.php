@@ -171,28 +171,25 @@ class Action implements IteratorAggregate
             $this->parent = $options['parent'];
         }
 
-        // backward compatible request object
-        // ActionRequest
+        // Conditions for setting up request object
         if (isset($options['request'])) {
+
             $this->request = $options['request'];
+
+        } else if (isset($this->services['action_request'])) {
+
+            // fallback to action_request defiend in service
+            $this->request = $this->services['action_request'];
+
+        } else if (isset($_FILES)) {
+
+            // Universal\Http\HttpRequest already fixes the files array
+            $this->request = new ActionRequest($args, $_FILES);
+
         } else {
 
-            // Create request object manually
-            if (isset($this->services['action_request'])) {
-
-                // fallback to action_request defiend in service
-                $this->request = $this->services['action_request'];
-
-            } else if (isset($_FILES)) {
-
-                // Universal\Http\HttpRequest already fixes the files array
-                $this->request = new ActionRequest($args, $_FILES);
-
-            } else {
-
-                // When rendering Action with view, we probably won't have this request object.
-                $this->request = new ActionRequest($args, []);
-            }
+            // When rendering Action with view, we probably won't have this request object.
+            $this->request = new ActionRequest($args, []);
         }
 
         $this->result  = new Result;
