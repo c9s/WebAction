@@ -224,12 +224,24 @@ class Action implements IteratorAggregate
         foreach ($this->params as $param) {
             $param->init();
         }
-
         $this->init();
 
-        $this->result->args($this->args);
+
+        // TODO: move to handle() method or some where else.
+        $this->runParams();
     }
 
+    /**
+     * runParams executes the run logics defined in Param classes.
+     *
+     * ImageParam or FileParam move the uploaded files to their desired places
+     */
+    protected function runParams()
+    {
+        foreach ($this->params as $param) {
+            $param->run();
+        }
+    }
 
     protected function setupArguments(array $args)
     {
@@ -250,7 +262,9 @@ class Action implements IteratorAggregate
         }
 
         $this->loadParamValues($this->args);
+
         // TODO: call param::setup or param::handle ... here
+        $this->result->args($this->args);
     }
 
     public function mixins()

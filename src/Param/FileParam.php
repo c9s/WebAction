@@ -142,6 +142,14 @@ class FileParam extends Param
             throw new Exception("putIn attribute is not defined.");
         }
 
+        // TODO: Move this to a proper place
+        if ($this->putIn && ! file_exists($this->putIn)) {
+            mkdir($this->putIn, 0755, true);
+        }
+    }
+
+    public function run()
+    {
         $file = null;
         $upload = false;
 
@@ -153,7 +161,7 @@ class FileParam extends Param
         if ($fileArg = $this->action->request->file($this->name)) {
             $upload = true;
             $file = $fileArg;
-        } elseif ($this->sourceField) {
+        } else if ($this->sourceField) {
             if ($fileArg = $this->action->request->file($this->sourceField)) {
                 $file = $fileArg;
             }
@@ -162,10 +170,6 @@ class FileParam extends Param
             return false;
         }
 
-        // TODO: Move this to a proper place
-        if ($this->putIn && ! file_exists($this->putIn)) {
-            mkdir($this->putIn, 0755, true);
-        }
 
         $uploadedFile = UploadedFile::createFromArray($file);
 

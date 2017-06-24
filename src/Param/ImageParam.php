@@ -248,10 +248,11 @@ class ImageParam extends Param
         return null;
     }
 
+
     /**
-     * This init method move the uploaded file to the target directory.
+     * This run method move the uploaded file to the target directory.
      */
-    public function init()
+    public function run()
     {
         // Is the file upload from HTTP
         $requireUploadMove = false;
@@ -313,7 +314,7 @@ class ImageParam extends Param
 
             $this->action->saveUploadedFile($this->name, 0, $uploadedFile);
 
-        } elseif ($this->sourceField) { // If there is no http upload, copy the file from source field
+        } else if ($this->sourceField) { // If there is no http upload, copy the file from source field
 
             // source field only works for update record action
             // skip updating from source field if it's a update action

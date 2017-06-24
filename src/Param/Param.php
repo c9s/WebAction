@@ -93,7 +93,13 @@ class Param extends CascadingAttribute
     {
     }
 
+
     public function init()
+    {
+
+    }
+
+    public function run()
     {
 
     }
