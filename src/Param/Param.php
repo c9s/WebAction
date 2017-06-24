@@ -98,7 +98,7 @@ class Param extends CascadingAttribute
 
     }
 
-    public function handle(array $args, ActionRequest $request = null)
+    public function handle(ActionRequest $request)
     {
 
     }
