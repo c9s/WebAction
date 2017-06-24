@@ -55,7 +55,7 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
             'record_class' => $recordClass,
         ));
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
         $generatedAction = $actionTemplate->generate($className, $pretreatment);
         $this->assertRequireGeneratedAction($className, $generatedAction);
     }
@@ -73,7 +73,7 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
         $className = 'OrderingTest\Action\UpdateTest2ModelOrdering';
 
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment);
         $this->assertRequireGeneratedAction($className, $generatedAction);

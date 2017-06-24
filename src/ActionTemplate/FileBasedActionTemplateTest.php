@@ -68,7 +68,7 @@ class TwigActionTemplateTest extends ActionTestCase
             ]
         ));
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
 
@@ -99,7 +99,7 @@ class TwigActionTemplateTest extends ActionTestCase
             ]
         ));
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertRequireGeneratedAction($className, $generatedAction);
@@ -121,7 +121,7 @@ class TwigActionTemplateTest extends ActionTestCase
             )
         ));
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertNotNull($generatedAction);

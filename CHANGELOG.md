@@ -1,7 +1,17 @@
 CHANGELOGS
 ===================
 
-Version x - Sun Nov 15 13:07:53 2015
+Version 4.0.x - Sat Jun 24 10:48:06 2017
+
+- Extracted pretreatment from ActionRunner to ActionLoader
+- ActionRunner now only accept ActionLoader as its constructor argument.
+- Renamed ServiceContainer to DefaultConfigurations.
+- Renamed ActionRunner::getActionPretreatment to ActionLoader::getPretreatment
+- Renamed ActionRunner::registerAction to ActionLoader::registerTemplateAction
+- Renamed ActionRunner::loadActionClass to ActionLoader::load
+- Renamed ActionRunner::generateActionClass to ActionLoader::generate
+
+Version 3.x - Sun Nov 15 13:07:53 2015
 
 1. CSRFTokenProvider now must be instancialized.
 2. CSRF token verification is now enabled only when csrf token provider is given.

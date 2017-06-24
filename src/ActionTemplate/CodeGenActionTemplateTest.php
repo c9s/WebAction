@@ -28,7 +28,7 @@ class CodeGenActionTemplateTest extends ActionTestCase
             ],
         ));
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertRequireGeneratedAction($className, $generatedAction);
@@ -48,7 +48,7 @@ class CodeGenActionTemplateTest extends ActionTestCase
             'extends' => 'Action',
         ));
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertRequireGeneratedAction($className, $generatedAction);

@@ -120,7 +120,7 @@ class ProductBundleTest extends ModelTestCase
 
         $loader = new ActionLoader($generator);
         $loader->autoload();
-        $loader->registerAction('RecordActionTemplate', [
+        $loader->registerTemplateAction('RecordActionTemplate', [
             'namespace'    => 'ProductBundle',
             'model'        => 'Category',
             'types' => [
@@ -170,7 +170,7 @@ class ProductBundleTest extends ModelTestCase
         $generator->registerTemplate('UpdateOrderingRecordActionTemplate', new UpdateOrderingRecordActionTemplate());
 
         $loader = new ActionLoader($generator);
-        $loader->registerAction('UpdateOrderingRecordActionTemplate', array(
+        $loader->registerTemplateAction('UpdateOrderingRecordActionTemplate', array(
             'namespace' => 'ProductBundle',
             'record_class'     => $recordClass,   // model's name
         ));

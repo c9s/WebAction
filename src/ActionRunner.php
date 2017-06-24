@@ -206,7 +206,7 @@ class ActionRunner extends ArrayObject
         if (!class_exists($class, true)) {
 
             // load the generated action
-            $this->loader->loadActionClass($class);
+            $this->loader->load($class);
 
             // Check the action class existence
             if (! class_exists($class, true)) {

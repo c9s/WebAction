@@ -46,7 +46,7 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
 
         $loader = new ActionLoader($generator);
         $loader->autoload();
-        $loader->registerAction('RecordActionTemplate', array(
+        $loader->registerTemplateAction('RecordActionTemplate', array(
             'namespace' => 'OrderBundle',
             'model' => 'Order',
             'types' => array(
@@ -87,7 +87,7 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
 
         $loader = new ActionLoader($generator);
         $loader->autoload();
-        $loader->registerAction('RecordActionTemplate', array(
+        $loader->registerTemplateAction('RecordActionTemplate', array(
             'namespace' => 'OrderBundle',
             'model' => 'Order',
             'types' => array(

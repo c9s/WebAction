@@ -193,7 +193,7 @@ class ProductActionTest extends ModelTestCase
 
         $className = UpdateProductOrdering::class;
 
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment['arguments']);
         $this->assertNotNull($generatedAction);

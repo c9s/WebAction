@@ -34,7 +34,7 @@ class ActionLoader
      * @param array $pretreatment the pretreatment config array
      * @return GeneratedAction
      */
-    public function generateActionClass($class, array $pretreatment = null)
+    public function generate($class, array $pretreatment = null)
     {
         if (!$pretreatment) {
             if (!isset($this->pretreatments[$class])) {
@@ -47,12 +47,12 @@ class ActionLoader
 
 
     /**
-     * loadActionClass trigger the action class generation if the class doesn't
+     * load trigger the action class generation if the class doesn't
      * exist and loads the action class.
      *
      * @param string $class action class
      */
-    public function loadActionClass($class)
+    public function load($class)
     {
         if (!isset($this->pretreatments[$class])) {
             return false;
@@ -63,7 +63,7 @@ class ActionLoader
             return true;
         }
 
-        $generatedAction = $this->generateActionClass($class, $pretreatment);
+        $generatedAction = $this->generate($class, $pretreatment);
         $cacheFile = $this->getClassCacheFile($class, $pretreatment['arguments']);
         $generatedAction->requireAt($cacheFile);
         return true;
@@ -98,12 +98,12 @@ class ActionLoader
 
 
     /**
-     * registerAction register actions by passing action config to ActionTemplate.
+     * registerTemplateAction register actions by passing action config to ActionTemplate.
      *
      * @param string $actionTemplateName
      * @param array $templateArguments
      */
-    public function registerAction($actionTemplateName, array $templateArguments)
+    public function registerTemplateAction($actionTemplateName, array $templateArguments)
     {
         $template = $this->generator->getTemplate($actionTemplateName);
         $template->register($this, $actionTemplateName, $templateArguments);
@@ -136,7 +136,7 @@ class ActionLoader
         return $this->generator;
     }
 
-    public function getActionPretreatment($actionClass)
+    public function getPretreatment($actionClass)
     {
         if (isset($this->pretreatments[$actionClass])) {
             return $this->pretreatments[$actionClass];
@@ -150,11 +150,11 @@ class ActionLoader
     public function autoload()
     {
         // use throw and not to prepend
-        spl_autoload_register(array($this,'loadActionClass'), true, false);
+        spl_autoload_register(array($this,'load'), true, false);
     }
 
     public function __destruct()
     {
-        spl_autoload_unregister(array($this,'loadActionClass'));
+        spl_autoload_unregister(array($this,'load'));
     }
 }

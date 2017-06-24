@@ -54,7 +54,7 @@ class ActionTemplateTest extends ActionTestCase
 
         $className = 'test2\Action\Updatetest2Model';
         $this->assertCount(4, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $actionTemplate->generate($className, $pretreatment);
         $this->assertRequireGeneratedAction($className, $generatedAction);

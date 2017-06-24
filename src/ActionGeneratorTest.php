@@ -28,7 +28,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate());
 
         $loader = new ActionLoader($generator);
-        $loader->registerAction('RecordActionTemplate', array());
+        $loader->registerTemplateAction('RecordActionTemplate', array());
 
         $runner = new ActionRunner($loader);
     }
@@ -68,7 +68,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 [ 'prefix' => 'BulkDelete']
             )
         );
-        $loader->registerAction('RecordActionTemplate', $actionArgs);
+        $loader->registerTemplateAction('RecordActionTemplate', $actionArgs);
 
         $className = 'test\Action\UpdatetestModel';
 
@@ -98,7 +98,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 [ 'prefix' => 'BulkDelete']
             )
         );
-        $loader->registerAction('RecordActionTemplate', $actionArgs);
+        $loader->registerTemplateAction('RecordActionTemplate', $actionArgs);
 
         $runner = new ActionRunner($loader);
         $className = 'test\Action\UpdatetestModel';
@@ -126,7 +126,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
                 [ 'prefix' => 'BulkDelete']
             )
         );
-        $loader->registerAction('RecordActionTemplate', $actionArgs);
+        $loader->registerTemplateAction('RecordActionTemplate', $actionArgs);
 
         $runner = new ActionRunner($loader);
 
@@ -139,7 +139,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
 
         $className = 'test\Action\UpdatetestModel';
 
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $generator->generate('RecordActionTemplate',
             $className,
@@ -173,7 +173,7 @@ class ActionGeneratorTest extends \PHPUnit\Framework\TestCase
         $className = 'User\Action\BulkUpdateUser';
 
         $this->assertCount(1, $loader->getPretreatments());
-        $this->assertNotNull($pretreatment = $loader->getActionPretreatment($className));
+        $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
         $generatedAction = $generator->generate('TwigActionTemplate',
             $className,

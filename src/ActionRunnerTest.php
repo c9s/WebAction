@@ -48,7 +48,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate);
 
         $loader = new ActionLoader($generator);
-        $loader->registerAction('TwigActionTemplate', [
+        $loader->registerTemplateAction('TwigActionTemplate', [
             'template' => '@WebAction/RecordAction.html.twig',
             'action_class' => 'User\\Action\\BulkCreateUser',
             'variables' => [
@@ -73,7 +73,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
         $loader = new ActionLoader($generator);
         $loader->autoload();
-        $loader->registerAction('TwigActionTemplate', array(
+        $loader->registerTemplateAction('TwigActionTemplate', array(
             'template' => '@WebAction/RecordAction.html.twig',
             'action_class' => 'User\\Action\\BulkCreateUser',
             'variables' => array(
@@ -98,7 +98,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 
         $loader = new ActionLoader($generator);
-        $loader->registerAction('RecordActionTemplate', array(
+        $loader->registerTemplateAction('RecordActionTemplate', array(
             'namespace' => 'User',
             'model' => 'User',
             'types' => [
