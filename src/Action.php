@@ -342,6 +342,7 @@ class Action implements IteratorAggregate
                 unset($args[$name]);
             }
         }
+
         if ($this->takeFields) {
             // take these fields only
             return array_intersect_key($args, array_fill_keys($this->takeFields, 1));
