@@ -220,7 +220,6 @@ class Action implements IteratorAggregate
             $param->preinit($this->args);
         }
 
-
         // call the parameter init method
         foreach ($this->params as $param) {
             $param->init($this->args);
@@ -228,6 +227,8 @@ class Action implements IteratorAggregate
         // user-defined init script
         $this->init();
 
+        $this->init();
+    }
 
         // call the parameter init method
         foreach ($this->params as $param) {
@@ -799,7 +800,7 @@ class Action implements IteratorAggregate
      */
     protected function setArgument($name, $value)
     {
-        $this->args[ $name ] = $value ;
+        $this->args[ $name ] = $value;
         return $this;
     }
 
