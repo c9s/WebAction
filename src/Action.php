@@ -231,15 +231,26 @@ class Action implements IteratorAggregate
     }
 
 
+    protected function setupArguments(array $args)
+    {
+        // save the original arguments
+        $this->originalArgs = $args;
 
+        // use the schema definitions to filter arguments
+        $this->args = $this->filterArguments($args);
+        $this->args = $this->inflateArguments($this->args);
 
-        $this->postinit();
-        foreach ($this->mixins as $mixin) {
-            $mixin->postinit();
+        // See if we need to render the input names with relationship ID and
+        // index?
+        //
+        // FIXME: the filterArguments method will filter this parameter out
+        // when takeFields is defined.
+        if ($relationId = $this->arg('__nested')) {
+            $this->setParamNamesWithIndex($relationId);
         }
 
-        // save request arguments
-        $this->result->args($this->args);
+        $this->loadParamValues($this->args);
+        // TODO: call param::setup or param::handle ... here
     }
 
 
