@@ -77,6 +77,9 @@ class FilePath {
 
     public function __toString()
     {
+        if ($this->dirname === ".") {
+            return "{$this->filename}.{$this->extension}";
+        }
         return "{$this->dirname}/{$this->filename}.{$this->extension}";
     }
 }

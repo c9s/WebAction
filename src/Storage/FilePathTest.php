@@ -26,6 +26,15 @@ class FilePathTest extends TestCase
         $this->assertEquals($p, $path->__toString());
     }
 
+
+    public function testWithoutPath()
+    {
+        $p = new FilePath('abcde.jpg');
+        $p2 = $p->renameAs('xxx');
+        $this->assertEquals('xxx.jpg', $p2->__toString());
+    }
+
+
     public function testFilenameRename()
     {
         $p = new FilePath('upload/test_中文.jpg');
