@@ -6,7 +6,7 @@ require '../vendor/autoload.php';
 session_start();
 use WebAction\Action;
 use WebAction\ActionRunner;
-use WebAction\ServiceContainer;
+use WebAction\DefaultConfigurations;
 
 class MyLoginAction extends Action {
 
@@ -30,7 +30,7 @@ class MyLoginAction extends Action {
     }
 }
 
-$container = new WebAction\ServiceContainer;
+$container = new WebAction\DefaultConfigurations;
 $runner = new WebAction\ActionRunner($container);
 
 // you can also run action directly

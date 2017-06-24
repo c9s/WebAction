@@ -10,7 +10,7 @@ use WebAction\ActionRequest;
 use WebAction\MessagePool;
 use WebAction\Csrf\CsrfTokenProvider;
 use WebAction\Csrf\CsrfToken;
-use WebAction\ServiceContainer;
+use WebAction\DefaultConfigurations;
 use Universal\Http\HttpRequest;
 use Universal\Http\FilesParameter;
 use Exception;
@@ -142,7 +142,7 @@ class Action implements IteratorAggregate
         if (isset($options['services'])) {
             $this->services = $options['services'];
         } else {
-            $this->services = new ServiceContainer;
+            $this->services = new DefaultConfigurations;
         }
 
         if (isset($options['current_user'])) {

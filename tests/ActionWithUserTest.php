@@ -1,5 +1,5 @@
 <?php
-use WebAction\ServiceContainer;
+use WebAction\DefaultConfigurations;
 
 use WebAction\ActionTemplate\RecordActionTemplate;
 use WebAction\ActionRunner;
@@ -40,7 +40,7 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
      */
     public function testRunnerWithSimpleUser($roles, $resultType, $setUser)
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 
@@ -81,7 +81,7 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
      */
     public function testRunnerWithMultiRoleInterface($roles, $resultType)
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 

@@ -62,14 +62,14 @@ class ActionRunner extends ArrayObject
      *   'generator': optional, the customized Generator object.
      *
      */
-    public function __construct(ActionLoader $loader, ServiceContainer $configuration = null)
+    public function __construct(ActionLoader $loader, DefaultConfigurations $configuration = null)
     {
         parent::__construct();
 
         $this->loader = $loader;
 
         if (!$configuration) {
-            $configuration = new ServiceContainer;
+            $configuration = new DefaultConfigurations;
         }
 
         $this->serviceContainer = $configuration;

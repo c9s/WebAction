@@ -20,11 +20,11 @@ use ReflectionClass;
  *
  * Usage:
  *
- *    $container = new ServiceContainer;
+ *    $container = new DefaultConfigurations;
  *    $generator = $container['generator'];
  *
  */
-class ServiceContainer extends Container
+class DefaultConfigurations extends Container
 {
     public function __construct()
     {

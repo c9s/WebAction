@@ -32,7 +32,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
     public function testMonikerAction()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $runner->run('WebAction::CreateUserWithMoniker', []);
         $result = $runner->getResult('create-user');
@@ -42,7 +42,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
     public function testRegisterAction()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
 
         $generator = $container['generator'];
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate);
@@ -66,7 +66,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
     public function testRegisterActionWithTwig()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate($container['twig_loader']));
 
@@ -93,7 +93,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
     public function testRunAndJsonOutput()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 
@@ -137,7 +137,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
     public function testHandleWith()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
 
         $stream = fopen('php://memory', 'rw');
@@ -155,7 +155,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
     public function testRunnerArrayAccess()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
 
         $runner['User::Action::CreateUser'] = new \WebAction\Result;
@@ -172,7 +172,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     */
     public function testHandleWithInvalidActionNameException()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array(
             'action' => "_invalid"
@@ -184,7 +184,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     */
     public function testHandleWithInvalidActionNameExceptionWithEmptyActionName()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array());  
         
@@ -195,7 +195,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     */
     public function testHandleWithActionNotFoundException()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array(
             'action' => "User::Action::NotFoundAction",
@@ -207,7 +207,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     */
     public function testRunnerWithInvalidActionNameException()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->run('!afers');
     }
@@ -217,7 +217,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     */
     public function testRunnerWithActionNotFoundException()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->run('Product::Action::Product');
     }

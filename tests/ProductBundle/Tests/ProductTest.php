@@ -4,7 +4,7 @@ use WebAction\ActionRequest;
 use WebAction\ActionLoader;
 use WebAction\ActionGenerator;
 use WebAction\Testing\ActionTestCase;
-use WebAction\ServiceContainer;
+use WebAction\DefaultConfigurations;
 use WebAction\ActionTemplate\TwigActionTemplate;
 use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
 use WebAction\ActionTemplate\RecordActionTemplate;
@@ -114,7 +114,7 @@ class ProductBundleTest extends ModelTestCase
 
     public function testCreateCategoryEmptyParentIdShouldBeNull()
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('RecordActionTemplate', new RecordActionTemplate);
 
@@ -164,7 +164,7 @@ class ProductBundleTest extends ModelTestCase
      */
     public function testProductUpdateOrderingActions($actionClass, $recordClass) 
     {
-        $container = new ServiceContainer;
+        $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate());
         $generator->registerTemplate('UpdateOrderingRecordActionTemplate', new UpdateOrderingRecordActionTemplate());

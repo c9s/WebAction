@@ -15,7 +15,7 @@ WebAction\RecordAction\BaseRecordAction::createCRUDClass('Product\\Model\\Produc
 // handle actions
 if ( isset($_REQUEST['action']) ) {
     try {
-        $container = new WebAction\ServiceContainer;
+        $container = new WebAction\DefaultConfigurations;
         $runner = new WebAction\ActionRunner($container);
         $result = $runner->run( $_REQUEST['action'] );
         if ( $result && $runner->isAjax() ) {

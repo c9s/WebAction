@@ -2,7 +2,7 @@
 use WebAction\ActionRunner;
 use WebAction\ActionRequest;
 use WebAction\Testing\ActionTestCase;
-use WebAction\ServiceContainer;
+use WebAction\DefaultConfigurations;
 use WebAction\ActionTemplate\TwigActionTemplate;
 use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
 use WebAction\Testing\ActionTestAssertions;
