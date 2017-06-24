@@ -65,14 +65,8 @@ class ActionRunner extends ArrayObject
     public function __construct(ActionLoader $loader, DefaultConfigurations $configuration = null)
     {
         parent::__construct();
-
         $this->loader = $loader;
-
-        if (!$configuration) {
-            $configuration = new DefaultConfigurations;
-        }
-
-        $this->configurations = $configuration;
+        $this->configurations = $configuration ?: $configuration = new DefaultConfigurations;
     }
 
     public function setDebug($debug = true)
