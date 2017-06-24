@@ -88,6 +88,11 @@ class ActionRunner extends ArrayObject
      * */
     public function run($actionName, array $arguments = array(), ActionRequest $request = null)
     {
+        if (!$request) {
+            $request = new ActionRequest($arguments);
+        }
+
+
         if (!Utils::validateActionName($actionName)) {
             throw new InvalidActionNameException("Invalid action name: $actionName.");
         }
