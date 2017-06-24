@@ -542,6 +542,18 @@ class Action implements IteratorAggregate
         $this->enableCSRFToken = false;
     }
 
+
+    /**
+     * Return the current request object.
+     *
+     * @return ActionRequest
+     */
+    final public function getCurrentRequest()
+    {
+        return $this->currentRequest;
+    }
+
+
     /**
      * Invoke is a run method wraper
      */
