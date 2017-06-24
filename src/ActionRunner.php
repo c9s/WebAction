@@ -190,11 +190,6 @@ class ActionRunner extends ArrayObject
         }
     }
 
-    public function isInvalidActionName($actionName)
-    {
-        return preg_match('/[^A-Za-z0-9:]/i', $actionName);
-    }
-
     /**
      * Create action object from REQUEST
      *
