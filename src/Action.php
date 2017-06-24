@@ -546,8 +546,10 @@ class Action implements IteratorAggregate
     /**
      * Invoke is a run method wraper
      */
-    final public function handle(array $args, ActionRequest $request)
+    final public function handle(ActionRequest $request)
     {
+        // TODO: use the args here to run the action
+        $args = $request->getArguments();
         $this->currentRequest = $request;
 
         if (session_id() && $this->csrf && $this->enableCSRFToken) {
@@ -623,7 +625,7 @@ class Action implements IteratorAggregate
 
     public function __invoke()
     {
-        return $this->handle($this->args, $this->request);
+        return $this->handle($this->request);
     }
 
 

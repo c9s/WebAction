@@ -86,12 +86,9 @@ class ActionRunner extends ArrayObject
      * @param array   $arguments
      * @return WebAction\Result result array if there is such an action.
      * */
-    public function run($actionName, array $arguments = array(), ActionRequest $request = null)
+    public function run($actionName, ActionRequest $request)
     {
-        if (!$request) {
-            $request = new ActionRequest($arguments);
-        }
-
+        $arguments = $request->getArguments();
 
         if (!Utils::validateActionName($actionName)) {
             throw new InvalidActionNameException("Invalid action name: $actionName.");
@@ -102,7 +99,7 @@ class ActionRunner extends ArrayObject
 
         // register results into hash
         $action = $this->createAction($class, $arguments, $request);
-        $action->handle($arguments, $request);
+        $action->handle($request);
 
         if ($this->logger && $action instanceof Loggable) {
             $this->logger->log($action);
@@ -122,7 +119,7 @@ class ActionRunner extends ArrayObject
         if (! Utils::validateActionName($request->getActionName())) {
             throw new InvalidActionNameException("Invalid action name: " . $request->getActionName() . ".");
         }
-        return $this->run($request->getActionName(), $request->getArguments(), $request);
+        return $this->run($request->getActionName(), $request);
     }
 
 

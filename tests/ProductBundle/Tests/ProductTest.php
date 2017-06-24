@@ -209,7 +209,7 @@ class ProductBundleTest extends ModelTestCase
         $relation = clone $create->getRelation('images');
         unset($relation['foreign_schema']);
         $create->addRelation('images', $relation);
-        $create->handle($args, new ActionRequest($args));
+        $create->handle(new ActionRequest($args));
     }
 
     public function testProductCreateWithCustomProductImageSubAction()
@@ -236,7 +236,7 @@ class ProductBundleTest extends ModelTestCase
 
         $create->addRelation('images', $relation);
 
-        $result = $this->assertActionInvokeSuccess($create, $args, $request);
+        $result = $this->assertActionInvokeSuccess($create, $request);
 
         $product = $create->getRecord();
         $this->assertNotNull($product);
@@ -266,7 +266,7 @@ class ProductBundleTest extends ModelTestCase
         ];
         $request = new ActionRequest($args, $files);
         $create = new CreateProduct($args, [ 'request' => $request ]);
-        $result = $this->assertActionInvokeSuccess($create, $args, $request);
+        $result = $this->assertActionInvokeSuccess($create, $request);
 
         $product = $create->getRecord();
         $this->assertNotNull($product);
@@ -332,7 +332,7 @@ class ProductBundleTest extends ModelTestCase
         ]];
         $request = new ActionRequest($args, $files);
         $create = new CreateProduct($args, [ 'request' => $request ]);
-        $result = $this->assertActionInvokeSuccess($create, $args, $request);
+        $result = $this->assertActionInvokeSuccess($create, $request);
 
         $product = $create->getRecord();
         $this->assertNotNull($product);
@@ -381,7 +381,7 @@ class ProductBundleTest extends ModelTestCase
         $relation = clone $createProduct->getRelation('images');
         $relation['create_action'] = 'ProductBundle\Action\CreateProductImage';
         $createProduct->addRelation('images',$relation);
-        $this->assertActionInvokeSuccess($createProduct, $args, $request);
+        $this->assertActionInvokeSuccess($createProduct, $request);
     }
 
     public function testCreateSubActionWithRelationshipAndReloadExistingSubRecord()
@@ -396,7 +396,7 @@ class ProductBundleTest extends ModelTestCase
         $args = ['title' => 'Test Image'];
         $request = new ActionRequest($args, $files);
         $createImage = new CreateProductImage($args, ['request' => $request ]);
-        $this->assertActionInvokeSuccess($createImage, $args, $request);
+        $this->assertActionInvokeSuccess($createImage, $request);
         $image = $createImage->getRecord();
         $this->assertNotNull($image);
         $this->assertNotNull($image->id);
@@ -411,7 +411,7 @@ class ProductBundleTest extends ModelTestCase
 
         $updateImage = $updateProduct->createSubActionWithRelationship($relation, [ 'id' => $image->id ], $files);
         $this->assertInstanceOf(UpdateRecordAction::class, $updateImage);
-        $this->assertActionInvokeSuccess($updateImage, $args, $request);
+        $this->assertActionInvokeSuccess($updateImage, $request);
 
         $relation = clone $updateProduct->getRelation('images');
         $relation['update_action'] = \ProductBundle\Action\UpdateProductImage::class;
@@ -420,7 +420,7 @@ class ProductBundleTest extends ModelTestCase
         $args = [ 'id' => $image->id ];
         $updateImage = $updateProduct->createSubActionWithRelationship($relation, $args, $files);
         $this->assertInstanceOf(UpdateRecordAction::class, $updateImage);
-        $this->assertActionInvokeSuccess($updateImage, $args, new ActionRequest($args, $files));
+        $this->assertActionInvokeSuccess($updateImage, new ActionRequest($args, $files));
     }
 
 
@@ -440,7 +440,7 @@ class ProductBundleTest extends ModelTestCase
         $args = ['title' => 'Test Image'];
         $request = new ActionRequest($args, $files);
         $create = new CreateProductImage($args, [ 'request' => $request ]);
-        $ret = $create->handle($args, $request);
+        $ret = $create->handle($request);
         $this->assertTrue($ret);
         $this->assertInstanceOf(Result::class, $create->getResult());
     }
@@ -465,7 +465,7 @@ class ProductBundleTest extends ModelTestCase
 
         $request = new ActionRequest($args, $files);
         $create = new CreateProductImage($args, [ 'request' => $request ]);
-        $ret = $create->handle($args, $request);
+        $ret = $create->handle($request);
         $this->assertTrue($ret);
         $this->assertInstanceOf(Result::class, $create->getResult());
     }
@@ -481,7 +481,7 @@ class ProductBundleTest extends ModelTestCase
         $args = ['title' => 'Test Image'];
         $request = new ActionRequest($args, $files);
         $create = new CreateProductImage($args, [ 'request' => $request ]);
-        $this->assertActionInvokeSuccess($create, $args, $request);
+        $this->assertActionInvokeSuccess($create, $request);
     }
 
 
@@ -503,7 +503,7 @@ class ProductBundleTest extends ModelTestCase
         $files = [ 'image' => [] ];
         $request = new ActionRequest($args, $files);
         $create = new CreateProductImage($args, [ 'request' => $request ]);
-        $this->assertActionInvokeFail($create, $args, $request);
+        $this->assertActionInvokeFail($create, $request);
     }
 
     public function testCreateProductImageWithRequiredField2()
@@ -512,7 +512,7 @@ class ProductBundleTest extends ModelTestCase
         $args = ['title' => 'Test Image'];
         $request = new ActionRequest($args, $files);
         $create = new CreateProductImage($args, [ 'request' => $request ]);
-        $this->assertActionInvokeFail($create, $args, $request);
+        $this->assertActionInvokeFail($create, $request);
     }
 
 
@@ -528,7 +528,7 @@ class ProductBundleTest extends ModelTestCase
         $request = new ActionRequest($args, $files);
 
         $create = new CreateProductFile($args, [ 'request' => $request ]);
-        $ret = $create->handle($args, $request);
+        $ret = $create->handle($request);
         $this->assertTrue($ret);
         $this->assertInstanceOf(Result::class, $create->getResult());
     }

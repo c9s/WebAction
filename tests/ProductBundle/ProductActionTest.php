@@ -271,7 +271,7 @@ class ProductActionTest extends ModelTestCase
 
         $args = array('id' => $product->id , 'name' => 'Foo');
         $update = new $class($args);
-        $success = $update->handle($args, new ActionRequest($args));
+        $success = $update->handle(new ActionRequest($args));
 
         $this->assertTrue($success, $update->result);
 

@@ -34,7 +34,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     {
         $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
-        $runner->run('WebAction::CreateUserWithMoniker', []);
+        $runner->run('WebAction::CreateUserWithMoniker', new ActionRequest([]));
         $result = $runner->getResult('create-user');
         $this->assertNotNull($result);
         $this->assertEquals("foo", $result->data('name'));
@@ -58,9 +58,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         ]);
 
         $runner = new ActionRunner($loader);
-        $result = $runner->run('User::Action::BulkCreateUser', [
-            'email' => 'foo@foo'
-        ]);
+        $result = $runner->run('User::Action::BulkCreateUser', new ActionRequest([ 'email' => 'foo@foo' ]));
         $this->assertNotNull($result);
     }
 
@@ -84,10 +82,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
 
         $runner = new ActionRunner($loader);
-
-        $result = $runner->run('User::Action::BulkCreateUser',array(
-            'email' => 'foo@foo'
-        ));
+        $result = $runner->run('User::Action::BulkCreateUser', new ActionRequest(['email' => 'foo@foo']));
         $this->assertNotNull($result);
     }
 
@@ -111,9 +106,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
         $runner = new ActionRunner($loader);
 
-        $result = $runner->run('User::Action::CreateUser',[ 
-            'email' => 'foo@foo'
-        ]);
+        $result = $runner->run('User::Action::CreateUser', new ActionRequest([ 'email' => 'foo@foo' ]));
         $this->assertInstanceOf('WebAction\\Result', $result);
 
         $json = $result->__toString();
@@ -141,11 +134,11 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $runner = new ActionRunner($container['loader']);
 
         $stream = fopen('php://memory', 'rw');
-        $result = $runner->handleWith($stream, array(
+        $result = $runner->handleWith($stream, [
             'action' => 'User::Action::CreateUser',
             '__ajax_request' => 1,
             'email' => 'foo@foo'
-        ));
+        ]);
         $this->assertEquals(true, $result);
         fseek($stream, 0);
         $output = stream_get_contents($stream);
@@ -209,7 +202,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     {
         $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
-        $result = $runner->run('!afers');
+        $result = $runner->run('!afers', new ActionRequest([]));
     }
 
     /**
@@ -219,7 +212,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
     {
         $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
-        $result = $runner->run('Product::Action::Product');
+        $result = $runner->run('Product::Action::Product', new ActionRequest([]));
     }
 
 }

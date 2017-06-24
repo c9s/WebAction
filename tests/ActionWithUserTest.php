@@ -3,6 +3,7 @@ use WebAction\DefaultConfigurations;
 
 use WebAction\ActionTemplate\RecordActionTemplate;
 use WebAction\ActionRunner;
+use WebAction\ActionRequest;
 use WebAction\ActionLoader;
 
 use OrderBundle\Model\OrderSchema;
@@ -60,10 +61,10 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
         if ($setUser) {
             $runner->setCurrentUser($roles);
         }
-        $result = $runner->run('OrderBundle::Action::CreateOrder',[
+        $result = $runner->run('OrderBundle::Action::CreateOrder', new ActionRequest([
             'quantity' => '1',
             'amount' => 100,
-        ]);
+        ]));
         $this->assertNotNull($result);
         $this->assertEquals($resultType, $result->type);
     }
@@ -102,10 +103,10 @@ class ActionWithUserTest extends \Maghead\Testing\ModelTestCase
         $user = new TestUser;
         $user->roles = $roles;
         $runner->setCurrentUser($user);
-        $result = $runner->run('OrderBundle::Action::CreateOrder',[
+        $result = $runner->run('OrderBundle::Action::CreateOrder', new ActionRequest([
             'quantity' => '1',
             'amount' => 100,
-        ]);
+        ]));
         $this->assertNotNull($result);
         $this->assertEquals($resultType, $result->type);
     }

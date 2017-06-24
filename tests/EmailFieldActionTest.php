@@ -18,15 +18,17 @@ class EmailFieldActionTest extends \PHPUnit\Framework\TestCase
 {
     public function testInvalidEmailFieldAction()
     {
-        $action = new EmailFieldTestAction([ 'email' => 'yoanlin93' ]);
-        $ret = $action->handle([], new ActionRequest());
+        $args = [ 'email' => 'yoanlin93' ];
+        $action = new EmailFieldTestAction($args);
+        $ret = $action->handle(new ActionRequest($args));
         $this->assertFalse($ret);
     }
 
     public function testEmailFieldAction()
     {
-        $action = new EmailFieldTestAction([ 'email' => 'yoanlin93@gmail.com' ]);
-        $ret = $action->handle([], new ActionRequest());
+        $args = [ 'email' => 'yoanlin93@gmail.com' ];
+        $action = new EmailFieldTestAction($args);
+        $ret = $action->handle(new ActionRequest($args));
         $this->assertTrue($ret);
     }
 
