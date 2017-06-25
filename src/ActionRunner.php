@@ -201,7 +201,6 @@ class ActionRunner extends ArrayObject
         $args = $request->args();
 
         $a = new $class($args, [
-            'request'  => $request,
             'services' => $this->configurations,
         ]);
         $a->setCurrentUser($this->currentUser);
