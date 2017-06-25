@@ -38,8 +38,9 @@ class ProductSchema extends DeclareSchema
 
         // always enable this
         $this->column('category_id')
-            ->refer('ProductBundle\\Model\\CategorySchema')
             ->integer()
+            ->unsigned()
+            ->refer(CategorySchema::class)
             ->label(_('產品類別'));
 
         /* is a cover product ? show this product in some specific pages? */

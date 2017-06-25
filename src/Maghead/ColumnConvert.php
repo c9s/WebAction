@@ -193,7 +193,7 @@ class ColumnConvert
                         $options[ $label ] = $item->dataKeyValue();
                     }
                     $p->validValues = $options;
-                } elseif (is_subclass_of($referClass, Model::class, true)) {
+                } else if (is_subclass_of($referClass, Model::class, true)) {
                     // it's a `belongs-to`-like relationship
                     $class = $referClass . 'Collection';
                     $collection = new $class;
@@ -205,22 +205,26 @@ class ColumnConvert
                         $options[ $label ] = $item->dataKeyValue();
                     }
                     $p->validValues = $options;
-                } elseif (is_subclass_of($referClass, DeclareSchema::class, true)) {
-                    $schema = new $referClass;
+                } else if (is_subclass_of($referClass, DeclareSchema::class, true)
+                    || is_a($referClass, DeclareSchema::class, true))
+                {
+                    $schema     = new $referClass;
                     $collection = $schema->newCollection();
 
-                    $options = array();
+                    $options = [];
                     foreach ($collection as $item) {
                         $label = method_exists($item, 'dataLabel')
                                 ? $item->dataLabel()
                                 : $item->getKey();
                         $options[ $label ] = $item->dataKeyValue();
                     }
+
                     $p->validValues = $options;
+
                 } else {
                     throw new Exception('Unsupported refer type');
                 }
-            } elseif ($relation = $record->getSchema()->getRelation($p->refer)) {
+            } else if ($relation = $record->getSchema()->getRelation($p->refer)) {
                 // so it's a relationship reference
                 // TODO: implement this
                 throw new Exception('Unsupported refer type');

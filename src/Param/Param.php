@@ -13,7 +13,7 @@ use Exception;
 use LogicException;
 use Maghead\Runtime\Model;
 use Magsql\Raw;
-
+use Closure;
 
 use FormKit\Element\Div;
 use FormKit\Widget\Label;
@@ -241,8 +241,15 @@ class Param extends CascadingAttribute
     public function getValidValues()
     {
         if (is_callable($this->validValues)) {
+            if ($this->validValues instanceof Closure) {
+                $this->validValues->bindTo($this);
+                return $this->validValues->__invoke();
+            }
             return call_user_func($this->validValues);
         }
+
+
+
         return $this->validValues;
     }
 
@@ -258,6 +265,10 @@ class Param extends CascadingAttribute
     public function getOptionValues()
     {
         if (is_callable($this->optionValues)) {
+            if ($this->optionValues instanceof Closure) {
+                $this->optionValues->bindTo($this);
+                return $this->optionValues->__invoke();
+            }
             return call_user_func($this->optionValues);
         }
         return $this->optionValues;

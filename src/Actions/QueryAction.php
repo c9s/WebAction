@@ -1,6 +1,6 @@
 <?php
 
-namespace WebAction\Action;
+namespace WebAction\Actions;
 
 use WebAction\Action;
 use WebAction\Utils;
@@ -47,7 +47,10 @@ class QueryAction extends Action
 
         switch ($attr) {
         case "validValues":
-            return $this->success("Field found", [ "validValues" => $param->getValidValues() ]);
+            return $this->success("validValues", [ "validValues" => $param->getValidValues() ]);
+            break;
+        case "optionValues":
+            return $this->success("optionValues", [ "optionValues" => $param->getOptionValues() ]);
             break;
         }
 

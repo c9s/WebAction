@@ -9,6 +9,12 @@ use OrderBundle\Model\OrderItemSchema;
 use OrderBundle\Model\Order;
 use OrderBundle\Model\OrderItem;
 
+use ProductBundle\Model\ProductSchema;
+use ProductBundle\Model\Product;
+use ProductBundle\Model\Category;
+use ProductBundle\Model\CategorySchema;
+use ProductBundle\Action\CreateProduct;
+
 use Maghead\Schema\RuntimeColumn;
 use Magsql\Raw;
 
@@ -28,7 +34,7 @@ class ColumnConvertTest extends ModelTestCase
 {
     public function models()
     {
-        return [new OrderSchema, new OrderItemSchema];
+        return [new OrderSchema, new OrderItemSchema, new ProductSchema, new CategorySchema];
     }
 
     public function testColumnNotNullWithDefaultShouldNotBeRequiredField()
@@ -72,12 +78,37 @@ class ColumnConvertTest extends ModelTestCase
         $this->assertInstanceOf(Raw::class, $column->default);
         $this->assertEquals('CURRENT_TIMESTAMP', $column->default->__toString());
 
-
         $param = ColumnConvert::toParam($column, new CreateOrder);
         $this->assertInstanceOf(Param::class, $param);
         $this->assertEquals('DateTime', $param->isa);
         $this->assertNull($param->getDefaultValue()); 
     }
+
+    public function testConvertReferIntoValidValues()
+    {
+        $ret = Category::create([ 'name' => 'A' ]);
+        $this->assertResultSuccess($ret);
+
+        $ret = Category::create([ 'name' => 'B' ]);
+        $this->assertResultSuccess($ret);
+
+
+        $schema = Product::getSchema();
+        $column = $schema->getColumn('category_id');
+
+        $this->assertNotNull($column->refer, 'has refer');
+
+        $param = ColumnConvert::toParam($column, new CreateProduct);
+        $this->assertInstanceOf(Param::class, $param);
+
+        $this->assertNotEmpty($validValues = $param->getValidValues());
+        $this->assertEquals([
+            'A' => 1,
+            'B' => 2,
+        ], $validValues);
+    }
+
+
 
     public function testColumnConvert()
     {

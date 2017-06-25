@@ -1,18 +1,20 @@
 <?php
+
 namespace ProductBundle\Action;
+
+use WebAction\Action;
+use WebAction\RecordAction\BaseRecordAction;
 
 class ProductBaseMixin
 {
-    public $plugin;
-
     /**
      * The object to mixin
      */
-    public $object;
+    public $action;
 
-    public function __construct($object)
+    public function __construct(BaseRecordAction $action)
     {
-        $this->object = $object;
+        $this->action = $action;
     }
 
     public function preinit()
@@ -21,12 +23,12 @@ class ProductBaseMixin
          * TODO:  Note that the self_key is pointing the related class currently.
          *        We want to make self_key to point the action record itself.
          */
-        $this->object->nested = true;
-        $this->object->relationships['product_categories']['renderable'] = false;
+        $this->action->nested = true;
+        $this->action->relationships['product_categories']['renderable'] = false;
     }
 
     public function schema()
     {
-        $this->object->useRecordSchema();
+        $this->action->useRecordSchema();
     }
 }
