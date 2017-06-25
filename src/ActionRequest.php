@@ -18,8 +18,7 @@ class ActionRequest extends HttpRequest
      */
     protected $uploadedFiles = array();
 
-
-    public function __construct(array $requestParameters = array(), array $files = array())
+    public function __construct(array $requestParameters = [], array $files = [])
     {
         // Universal\Http\HttpRequest already fixes the files array
         parent::__construct($requestParameters, $files);

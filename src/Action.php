@@ -134,7 +134,7 @@ class Action implements IteratorAggregate
      * @param array $args        The request arguments
      * @param mixed $options     Can be ArrayAccess or array
      */
-    public function __construct(array $args = [], $options = array())
+    public function __construct(array $args = null, $options = array())
     {
         // try to get service container or create a new one.
         // we use service container to get:
@@ -170,27 +170,6 @@ class Action implements IteratorAggregate
             $this->parent = $options['parent'];
         }
 
-        // Conditions for setting up request object
-        if (isset($options['request'])) {
-
-            $this->request = $options['request'];
-
-        } else if (isset($this->services['action_request'])) {
-
-            // fallback to action_request defiend in service
-            $this->request = $this->services['action_request'];
-
-        } else if (isset($_FILES)) {
-
-            // Universal\Http\HttpRequest already fixes the files array
-            $this->request = new ActionRequest($args, $_FILES);
-
-        } else {
-
-            // When rendering Action with view, we probably won't have this request object.
-            $this->request = new ActionRequest($args, []);
-        }
-
         $this->result  = new Result;
         $this->mixins = $this->mixins();
 
@@ -224,10 +203,9 @@ class Action implements IteratorAggregate
         }
         $this->init();
 
-        $this->setupArguments($args);
-
-        // TODO: move to handle() method or some where else.
-        $this->runParams();
+        if ($args) {
+            $this->setupArguments($args);
+        }
     }
 
     /**
@@ -542,15 +520,23 @@ class Action implements IteratorAggregate
      */
     final public function handle(ActionRequest $request = null)
     {
+
         // TODO: two case:
         // 1. preset arguments, run with request
         // 1. no preset arguments, run with request
-        if (!$this->args) {
+        if (!$this->args && $request) {
             $args = $request->getArguments();
             $this->setupArguments($args);
         }
 
-        $this->currentRequest = $request;
+        // If the request instance is not given, 
+        // create one with the pre-defined args
+        if (!$request) {
+            $request = new ActionRequest($this->args);
+        }
+
+        $this->request = $request;
+        $this->runParams();
 
 
         if (session_id() && $this->csrf && $this->enableCSRFToken) {
@@ -624,9 +610,9 @@ class Action implements IteratorAggregate
         return true;
     }
 
-    public function __invoke()
+    public function __invoke(ActionRequest $request = null)
     {
-        return $this->handle($this->request);
+        return $this->handle($request);
     }
 
 

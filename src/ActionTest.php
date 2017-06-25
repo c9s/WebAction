@@ -88,7 +88,7 @@ class ActionTest extends \PHPUnit\Framework\TestCase
             'username' => 'admin',
             'password' => 's3cr3t',
         ], $container);
-        $this->assertTrue($action->run());
+        $this->assertTrue($action->handle());
     }
 
     public function testRender()

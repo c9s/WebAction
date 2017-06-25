@@ -81,11 +81,11 @@ class ProductActionTest extends ModelTestCase
         $this->assertNotFalse($create->handle(new ActionRequest($args)) , 'action handle returns true' );
 
         $product = $create->getRecord();
-        $this->assertInstanceOf('ProductBundle\\Model\\Product', $product);
+        $this->assertInstanceOf(Product::class, $product);
         $this->assertNotNull($id = $product->id, 'product created');
 
         $delete = $product->asDeleteAction();
-        $this->assertNotNull($delete->run());
+        $this->assertNotNull($delete->handle());
 
         $product = Product::findByPrimaryKey($product->id);
         $this->assertFalse($product, 'product should be deleted.');
@@ -98,7 +98,7 @@ class ProductActionTest extends ModelTestCase
         $this->assertEquals('2017-06-11 14:00:00', $p->updated_at);
 
         $a = $p->asUpdateAction([ 'updated_at' => '2000-02-02 02:02:02' ]);
-        $ret = $a->run();
+        $ret = $a->handle();
         $this->assertTrue($ret, 'Success action');
 
         $ret = $p->reload();
@@ -126,7 +126,7 @@ class ProductActionTest extends ModelTestCase
             'updated_at' => '2010-01-01 00:00:00' ,
         ];
         $u = new UpdateProduct($args, $p);
-        $ret = $u->run();
+        $ret = $u->handle();
         $this->assertTrue($ret, 'Success action');
 
         $p2 = Product::findByPrimaryKey($p->getKey());
@@ -150,7 +150,7 @@ class ProductActionTest extends ModelTestCase
         $update = new $class($args, ['record' => $product]);
         $this->assertInstanceOf(UpdateProduct::class, $update);
 
-        $ret = $update->run();
+        $ret = $update->handle();
         $this->assertTrue($ret,'success action');
 
         // Verify the update.
@@ -210,7 +210,7 @@ class ProductActionTest extends ModelTestCase
         $updateOrdering = new $className([ 'list' => json_encode($idList) ]);
         $this->assertEquals($updateOrdering->getName(), 'UpdateProductOrdering');
 
-        $ret = $updateOrdering->run();
+        $ret = $updateOrdering->handle();
         $result = $updateOrdering->getResult();
         $this->assertTrue($ret);
 
@@ -218,7 +218,7 @@ class ProductActionTest extends ModelTestCase
         $this->assertEquals($record->ordering, 21 - 9);
 
         $updateOrdering->mode = 99;
-        $this->assertEquals(false, $updateOrdering->run());
+        $this->assertEquals(false, $updateOrdering->handle());
     }
 
     public function testRecordUpdateWithExistingRecordObject()
@@ -230,7 +230,7 @@ class ProductActionTest extends ModelTestCase
 
         $args = ['name' => 'Bar'];
         $update = new $class($args, ['record' => $product ]);
-        $this->assertNotNull( $update->run() );
+        $this->assertNotNull($update->handle());
         $record = $update->getRecord();
         $this->assertNotNull($record->id);
         $this->assertEquals('Bar', $record->name);
@@ -248,7 +248,7 @@ class ProductActionTest extends ModelTestCase
         $class = $this->createProductActionClass('BulkDelete');
 
         $bulkDelete = new $class(array( 'items' => $idList ));
-        $this->assertNotNull($bulkDelete->run(), 'items deleted' );
+        $this->assertNotNull($bulkDelete->handle(), 'items deleted' );
     }
 
     public function testBulkRecordCopy()
@@ -262,8 +262,8 @@ class ProductActionTest extends ModelTestCase
 
         $class = $this->createProductActionClass('BulkCopy');
 
-        $bulkCopy = new $class(array( 'items' => $idList ));
-        $this->assertNotNull( $bulkCopy->run(), 'items copy' );
+        $bulkCopy = new $class(['items' => $idList ]);
+        $this->assertNotNull($bulkCopy->handle(), 'items copy');
     }
 
     public function testRecordUpdate()
