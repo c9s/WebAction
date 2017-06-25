@@ -6,7 +6,7 @@ use WebAction\Action;
 use WebAction\Utils;
 use WebAction\Exception\InvalidActionNameException;
 
-class QueryAction extends Action
+class MetaQueryAction extends Action
 {
     public function schema()
     {

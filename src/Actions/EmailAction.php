@@ -1,5 +1,6 @@
 <?php
-namespace WebAction;
+
+namespace WebAction\Actions;
 
 use Phifty\Email;
 use WebAction\Action;

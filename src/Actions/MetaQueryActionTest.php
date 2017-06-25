@@ -11,7 +11,7 @@ use ProductBundle\Model\ProductSchema;
 use ProductBundle\Model\CategorySchema;
 use ProductBundle\Model\Category;
 
-class QueryActionTest extends ModelTestCase
+class MetaQueryActionTest extends ModelTestCase
 {
 
     public function models()
@@ -21,7 +21,7 @@ class QueryActionTest extends ModelTestCase
 
     public function testQueryValidValuesOfSellableFieldShouldReturnTheListOfValues()
     {
-        $a = new QueryAction([
+        $a = new MetaQueryAction([
             'action' => 'ProductBundle::Action::CreateProduct',
             'field' => 'sellable',
             'attribute' => 'validValues',
@@ -47,7 +47,7 @@ class QueryActionTest extends ModelTestCase
         $ret = Category::create([ 'name' => 'B' ]);
         $this->assertResultSuccess($ret);
 
-        $a = new QueryAction([
+        $a = new MetaQueryAction([
             'action'    => 'ProductBundle::Action::CreateProduct',
             'field'     => 'category_id',
             'attribute' => 'validValues',
