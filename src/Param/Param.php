@@ -334,7 +334,6 @@ class Param extends CascadingAttribute
      * Widget/UI Related Methods
      ******************************************************************************/
 
-
     /**
      * Render current parameter column to HTML
      *

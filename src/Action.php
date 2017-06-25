@@ -496,7 +496,7 @@ class Action implements IteratorAggregate
 
 
     /**
-     * Invoke is a run method wraper
+     * handle is a run method wraper
      */
     final public function handle(ActionRequest $request = null)
     {
@@ -521,6 +521,7 @@ class Action implements IteratorAggregate
 
             $args = $request->getArguments();
             $this->setupArguments($args);
+
         }
 
         // If the request instance is not given, 

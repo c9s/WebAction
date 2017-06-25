@@ -88,8 +88,6 @@ class ActionRunner extends ArrayObject
      * */
     public function run($actionName, ActionRequest $request)
     {
-        $arguments = $request->getArguments();
-
         if (!Utils::validateActionName($actionName)) {
             throw new InvalidActionNameException("Invalid action name: $actionName.");
         }
@@ -98,7 +96,7 @@ class ActionRunner extends ArrayObject
         $class = Utils::toActionClass($actionName);
 
         // register results into hash
-        $action = $this->createAction($class, $arguments, $request);
+        $action = $this->createAction($class, $request);
         $action->handle($request);
 
         if ($this->logger && $action instanceof Loggable) {
@@ -111,7 +109,10 @@ class ActionRunner extends ArrayObject
     }
 
 
-    public function runWithRequest(ActionRequest $request)
+    /**
+     * handle ActionRequest
+     */
+    public function handle(ActionRequest $request)
     {
         if (!$request->getActionName()) {
             throw new InvalidActionNameException("");
@@ -136,7 +137,7 @@ class ActionRunner extends ArrayObject
     {
         try {
             $request = new ActionRequest($arguments, $files);
-            $result = $this->runWithRequest($request);
+            $result = $this->handle($request);
             if ($result && $request->isAjax()) {
                 if ($result->responseCode) {
                     http_response_code($result->responseCode);
@@ -183,7 +184,7 @@ class ActionRunner extends ArrayObject
      *
      * @param string $class
      */
-    public function createAction($class, array $args = array(), ActionRequest $request = null)
+    public function createAction($class, ActionRequest $request)
     {
         // Try to load the user-defined action
         if (!class_exists($class, true)) {
@@ -196,6 +197,9 @@ class ActionRunner extends ArrayObject
                 throw new ActionNotFoundException("Action class not found: $class, you might need to setup action autoloader");
             }
         }
+
+        $args = $request->args();
+
         $a = new $class($args, [
             'request'  => $request,
             'services' => $this->configurations,
