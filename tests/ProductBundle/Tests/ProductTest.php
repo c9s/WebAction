@@ -136,7 +136,7 @@ class ProductBundleTest extends ModelTestCase
 
         $args = [ 'name' => 'Foo', 'parent_id' => '' ];
         $runner = new ActionRunner($loader);
-        $action = $runner->createAction(CreateCategory::class, new ActionRequest($args));
+        $action = $runner->createAction(CreateCategory::class, $args);
         $this->assertInstanceOf(CreateCategory::class, $action);
 
         $param = $action->getParam('parent_id');
@@ -176,7 +176,7 @@ class ProductBundleTest extends ModelTestCase
         ));
 
         $runner = new ActionRunner($loader);
-        $action = $runner->createAction($actionClass, new ActionRequest([]));
+        $action = $runner->createAction($actionClass);
         $this->assertNotNull($action);
     }
 

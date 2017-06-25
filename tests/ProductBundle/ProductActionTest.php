@@ -311,14 +311,32 @@ class ProductActionTest extends ModelTestCase
         $this->assertEquals(false, $create->hasRelation('product_categories'));
     }
 
+    public function testLoadRecordFromArgumentPrimaryKeyForUpdateAction()
+    {
+        $product = $this->createProduct("Book 1");
+        $update = new UpdateProduct([
+            'id' => $product->getKey(),
+        ]);
+        $this->assertTrue($update->getRecord()->hasKey());
+        $this->assertEquals($product->getKey(), $update->getRecord()->getKey());
+    }
+
+    public function testLoadRecordFromOptionsForUpdateAction()
+    {
+        $product = $this->createProduct("Book 1");
+        $update = new UpdateProduct(null, [ "record" => $product ]);
+        $this->assertTrue($update->getRecord()->hasKey());
+    }
+
+
+
     /**
      * @expectedException \WebAction\Exception\ActionException
      */
     public function testRecordActionWithActionException()
     {
-        $class = $this->createProductActionClass('Update');
-        $update = new $class;
+        $updateClass = $this->createProductActionClass('Update');
+        $update = new $updateClass;
+        $update->handle();
     }
 }
-
-

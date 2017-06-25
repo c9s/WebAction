@@ -64,7 +64,7 @@ class BaseRecordAction extends Action
      * @param array                $args
      * @param Maghead\Runtime\Model $record
      */
-    public function __construct(array $args = array(), $options = array())
+    public function __construct(array $args = null, $options = array())
     {
         $record = null;
 
@@ -95,16 +95,6 @@ class BaseRecordAction extends Action
         $this->setRecord($record);
         $this->addRecordRelations($this->schema);
 
-        // CreateRecordAction doesn't require primary key to be existed.
-        if (! $record->hasKey() && ! $this instanceof CreateRecordAction && $this->enableLoadRecord) {
-            // for create action, we don't need to create record
-            $record = $this->loadRecordFromArguments($args);
-            if (!$record) {
-                throw new ActionException(get_class($this). " Record action can not load record from {$this->recordClass}", $this);
-            }
-            $this->setRecord($record);
-        }
-
         // initialize schema , init base action stuff
         parent::__construct($args, $options);
     }
@@ -116,9 +106,15 @@ class BaseRecordAction extends Action
      */
     protected function loadParamValues(array $args)
     {
-        if (!$this->record) {
-            return;
+        // this->record might be loaded from the options not through the arguments.
+        if ($this->enableLoadRecord && ! $this->record->hasKey() && !$this instanceof CreateRecordAction) {
+            $record = $this->loadRecordFromArguments($args);
+            if (!$record) {
+                throw new ActionException(get_class($this). " Record action can not load record from {$this->recordClass}", $this);
+            }
+            $this->setRecord($record);
         }
+
 
         // load record values into param objects
         if ($columns = $this->record->getColumns(true)) {

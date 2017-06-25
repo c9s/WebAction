@@ -96,7 +96,7 @@ class ActionRunner extends ArrayObject
         $class = Utils::toActionClass($actionName);
 
         // register results into hash
-        $action = $this->createAction($class, $request);
+        $action = $this->createAction($class);
         $action->handle($request);
 
         if ($this->logger && $action instanceof Loggable) {
@@ -183,8 +183,9 @@ class ActionRunner extends ArrayObject
      * Create action object from REQUEST
      *
      * @param string $class
+     * @param array $args predefined $args
      */
-    public function createAction($class, ActionRequest $request)
+    public function createAction($class, array $args = null)
     {
         // Try to load the user-defined action
         if (!class_exists($class, true)) {
@@ -198,10 +199,8 @@ class ActionRunner extends ArrayObject
             }
         }
 
-        $args = $request->args();
-
         $a = new $class($args, [
-            'services' => $this->configurations,
+            'services' => $this->configurations
         ]);
         $a->setCurrentUser($this->currentUser);
         return $a;
