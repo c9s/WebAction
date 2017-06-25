@@ -467,7 +467,7 @@ class Action implements IteratorAggregate
      *
      * @return bool pass flag, returns FALSE on error.
      */
-    public function runValidate(ActionRequest $request)
+    public function validate(ActionRequest $request)
     {
         /* it's different behavior when running validation for create,update,delete,
          *
@@ -577,7 +577,7 @@ class Action implements IteratorAggregate
             return false;
         }
 
-        if ($this->enableValidation && false === $this->runValidate($request)) {  // if found error, return true;
+        if ($this->enableValidation && false === $this->validate($request)) {  // if found error, return true;
             return false;
         }
 

@@ -29,7 +29,7 @@ abstract class CreateRecordAction extends BaseRecordAction
     }
 
     /**
-     * runValidate inherited from parent class.
+     * validate inherited from parent class.
      * */
     public function run()
     {

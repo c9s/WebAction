@@ -48,7 +48,7 @@ abstract class DeleteRecordAction extends BaseRecordAction
     /**
      * @inherit
      */
-    public function runValidate(ActionRequest $request)
+    public function validate(ActionRequest $request)
     {
         if (isset($this->args['id'])) {
             return true;

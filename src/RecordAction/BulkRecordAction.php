@@ -20,7 +20,7 @@ class BulkRecordAction extends Action
         $this->param('items');
     }
 
-    public function runValidate(ActionRequest $request)
+    public function validate(ActionRequest $request)
     {
         if (isset($this->args['items'])) {
             return true;  // no error

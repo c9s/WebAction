@@ -71,10 +71,7 @@ abstract class UpdateRecordAction extends BaseRecordAction
         return $ret;
     }
 
-    /**
-     * TODO: seperate this to CRUD actions
-     */
-    public function runValidate(ActionRequest $request)
+    public function validate(ActionRequest $request)
     {
         // validate from args
         $error = false;
