@@ -410,29 +410,10 @@ class Action implements IteratorAggregate
     /**
      * Run parameter validator to validate argument.
      *
-     * @param string $name is a parameter name
+     * @param string $name is the parameter name. the parameter needs to be defined.
      */
-    protected function validateParam($name, ActionRequest $request)
+    protected function validateParam($name, Param $param, ActionRequest $request)
     {
-        // skip __ajax_request field
-        if ($name === '__ajax_request') {
-            return true;
-        }
-
-        if (! isset($this->params[ $name ])) {
-            return true;
-
-            // just skip it.
-            $this->result->addValidation($name, array(
-                'valid' => false,
-                'message' => "Contains invalid arguments: $name",
-                'field' => $name,
-            ));
-            return true;
-        }
-
-        $param = $this->params[ $name ];
-
         /*
          * $ret contains:
          *
@@ -474,7 +455,7 @@ class Action implements IteratorAggregate
          * for generic action, just traverse all params. */
         $foundError = false;
         foreach ($this->params as $name => $param) {
-            if (false === $this->validateParam($name, $request)) {
+            if (false === $this->validateParam($name, $param, $request)) {
                 $foundError = true;
             }
         }

@@ -78,12 +78,8 @@ abstract class UpdateRecordAction extends BaseRecordAction
     {
         // validate from args
         $error = false;
-        foreach ($this->args as $key => $value) {
-            /* skip action column */
-            if ($key === 'action' || $key === '__ajax_request') {
-                continue;
-            }
-            if (false === $this->validateparam($key, $request)) {
+        foreach ($this->params as $name => $param) {
+            if (false === $this->validateParam($name, $param, $request)) {
                 $error = true;
             }
         }
