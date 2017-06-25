@@ -412,7 +412,7 @@ class Action implements IteratorAggregate
      *
      * @param string $name is a parameter name
      */
-    protected function validateParam($name)
+    protected function validateParam($name, ActionRequest $request)
     {
         // skip __ajax_request field
         if ($name === '__ajax_request') {
@@ -442,7 +442,7 @@ class Action implements IteratorAggregate
          *
          *    [ boolean pass ]
          */
-        $ret = (array) $param->validate($this->arg($name));
+        $ret = (array) $param->validate($this->arg($name), $request);
         if (is_array($ret)) {
             if ($ret[0]) { // success
                 # $this->result->addValidation( $name, array( "valid" => $ret[1] ));
@@ -474,7 +474,7 @@ class Action implements IteratorAggregate
          * for generic action, just traverse all params. */
         $foundError = false;
         foreach ($this->params as $name => $param) {
-            if (false === $this->validateParam($name)) {
+            if (false === $this->validateParam($name, $request)) {
                 $foundError = true;
             }
         }

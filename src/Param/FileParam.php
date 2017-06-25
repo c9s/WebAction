@@ -77,15 +77,15 @@ class FileParam extends Param
         return $this;
     }
 
-    public function validate($value)
+    public function validate($value, ActionRequest $request)
     {
-        $ret = (array) parent::validate($value);
+        $ret = (array) parent::validate($value, $request);
         if ($ret[0] == false) {
             return $ret;
         }
 
         // Consider required and optional situations.
-        if ($fileArg = $this->action->request->file($this->name)) {
+        if ($fileArg = $request->file($this->name)) {
             $file = UploadedFile::createFromArray($fileArg);
 
             // If valid extensions are specified, pass to uploaded file to check the extension

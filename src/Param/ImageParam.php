@@ -145,20 +145,20 @@ class ImageParam extends Param
         return $this;
     }
 
-    public function validate($value)
+    public function validate($value, ActionRequest $request)
     {
-        $ret = (array) parent::validate($value);
+        $ret = (array) parent::validate($value, $request);
         if (false === $ret[0]) {
             return $ret;
         }
 
         $requireUploadMove = false;
-        $uploadedFile = $this->_findUploadedFile($this->name, $requireUploadMove);
+        $uploadedFile = $this->_findUploadedFile($request, $this->name, $requireUploadMove);
         if ($uploadedFile && $uploadedFile->hasError()) {
             return [false, $uploadedFile->getUserErrorMessage()];
         }
 
-        $file = $this->action->request->file($this->name);
+        $file = $request->file($this->name);
         if (!empty($file) && $file['name'] && $file['type']) {
             $uploadedFile = UploadedFile::createFromArray($file);
             if ($this->validExtensions) {
@@ -224,10 +224,10 @@ class ImageParam extends Param
      *      1. Moved uploadedFile access methods from ActionRequest to Action itself.
      *
      */
-    protected function _findUploadedFile($name, & $requireUploadMove)
+    protected function _findUploadedFile(ActionRequest $request, $name, & $requireUploadMove)
     {
         // See if there is any UploadedFile object created in this action.
-        $uploadedFile = $this->action->request->uploadedFile($name, 0);
+        $uploadedFile = $request->uploadedFile($name, 0);
         if ($uploadedFile) {
             return $uploadedFile;
         }
@@ -239,7 +239,7 @@ class ImageParam extends Param
         }
 
         // create an uploaded file object from here
-        $fileArray = $this->action->request->file($this->name);
+        $fileArray = $request->file($this->name);
         // if there is an upload file in $_FILES
         if ($fileArray && $fileArray['error'] == 0) {
             $requireUploadMove = true;
@@ -256,11 +256,11 @@ class ImageParam extends Param
     {
         // Is the file upload from HTTP
         $requireUploadMove = false;
-        $uploadedFile = $this->_findUploadedFile($this->name, $requireUploadMove);
+        $uploadedFile = $this->_findUploadedFile($request, $this->name, $requireUploadMove);
         if (!$uploadedFile) {
             // Try to load uploadedFile from sourceField
             if ($this->sourceField) {
-                $uploadedFile = $this->_findUploadedFile($this->sourceField, $requireUploadMove);
+                $uploadedFile = $this->_findUploadedFile($request, $this->sourceField, $requireUploadMove);
             }
         }
 

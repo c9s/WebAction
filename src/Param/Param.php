@@ -222,7 +222,7 @@ class Param extends CascadingAttribute
      *
      * @return array|true Returns error with message or true
      */
-    public function validate($value)
+    public function validate($value, ActionRequest $request)
     {
         /* if it's file type , should read from $_FILES , not from the args of action */
         // TODO: note, we should do this validation in File Param or Image Param

@@ -71,6 +71,9 @@ abstract class UpdateRecordAction extends BaseRecordAction
         return $ret;
     }
 
+    /**
+     * @override Action::validate
+     */
     public function validate(ActionRequest $request)
     {
         // validate from args
@@ -80,7 +83,7 @@ abstract class UpdateRecordAction extends BaseRecordAction
             if ($key === 'action' || $key === '__ajax_request') {
                 continue;
             }
-            if (false === $this->validateparam($key)) {
+            if (false === $this->validateparam($key, $request)) {
                 $error = true;
             }
         }
