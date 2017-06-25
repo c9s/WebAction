@@ -252,7 +252,7 @@ class ImageParam extends Param
     /**
      * This run method move the uploaded file to the target directory.
      */
-    public function run()
+    public function handle(ActionRequest $request)
     {
         // Is the file upload from HTTP
         $requireUploadMove = false;
@@ -351,11 +351,6 @@ class ImageParam extends Param
         if ($uploadedFile->getExtension() != 'gif') {
             $this->autoResizeFile($targetPath);
         }
-    }
-
-    public function handle(ActionRequest $request)
-    {
-
     }
 
     public function autoResizeFile($targetPath)

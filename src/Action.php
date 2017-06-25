@@ -213,10 +213,10 @@ class Action implements IteratorAggregate
      *
      * ImageParam or FileParam move the uploaded files to their desired places
      */
-    protected function runParams()
+    protected function runParams(ActionRequest $request)
     {
         foreach ($this->params as $param) {
-            $param->run();
+            $param->handle($request);
         }
     }
 
@@ -536,8 +536,7 @@ class Action implements IteratorAggregate
         }
 
         $this->request = $request;
-        $this->runParams();
-
+        $this->runParams($request);
 
         if (session_id() && $this->csrf && $this->enableCSRFToken) {
             // read csrf token from __csrf_token field or _csrf_token field

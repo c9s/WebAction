@@ -126,11 +126,6 @@ class FileParam extends Param
         return $this;
     }
 
-    public function handle(ActionRequest $request)
-    {
-
-    }
-
     public function init()
     {
         /* how do we make sure the file is a real http upload ?
@@ -153,7 +148,7 @@ class FileParam extends Param
      *
      * This should not be executed directly.
      */
-    public function run()
+    public function handle(ActionRequest $request)
     {
         $file = null;
         $upload = false;
