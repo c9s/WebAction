@@ -211,69 +211,6 @@ class Param extends CascadingAttribute
     }
 
 
-    /**
-     * We dont save any value here,
-     * The value's should be passed from outside.
-     *
-     * Supported validations:
-     *   * required
-     *
-     * @param mixed $value
-     *
-     * @return array|true Returns error with message or true
-     */
-    public function validate($value, ActionRequest $request)
-    {
-        /* if it's file type , should read from $_FILES , not from the args of action */
-        // TODO: note, we should do this validation in File Param or Image Param
-        if ($this->required) {
-            if ($this instanceof FileParam) {
-                if (! $request->file($this->name) && ! $request->param($this->name)) {
-                    return $this->error(
-                        $this->action->messagePool->translate('file.required', $this->getLabel())
-                    );
-                }
-            } else {
-                // We use '==' here because form values might be "" zero length string.
-                if ($request->existsParam($this->name) && $request->param($this->name) == null && ! $this->default) {
-                    return $this->error(
-                        $this->action->messagePool->translate('param.required', $this->getLabel())
-                    );
-                }
-            }
-        }
-
-        // isa should only work for non-null values.
-        // empty string parameter is equal to null
-        if ($this->isa && $request->existsParam($this->name)) {
-
-            if ($value !== '' && $value !== null) {
-                $type = BaseType::create($this->isa);
-                if (false === $type->test($value)) {
-                    return [false, "Invalid type value on {$this->isa}"];
-                }
-            }
-        }
-
-        if ($this->validator) {
-            if ($this->validator instanceof Closure) {
-                $this->validator->bindTo($this);
-                return $this->validator($value, $request);
-            }
-            return call_user_func($this->validator, $value, $request);
-        }
-        return true;
-    }
-
-    protected function error($message)
-    {
-        return [false, $message];
-    }
-
-    protected function ok($message)
-    {
-        return [true, $message];
-    }
 
 
 
@@ -324,6 +261,73 @@ class Param extends CascadingAttribute
         return $this->optionValues;
     }
 
+
+    /**
+     * We dont save any value here,
+     * The value's should be passed from outside.
+     *
+     * Supported validations:
+     *   * required
+     *
+     * @param mixed $value
+     *
+     * @return array|true Returns error with message or true
+     */
+    public function validate(ActionRequest $request)
+    {
+        $value = $request->arg($this->name);
+
+        /* if it's file type , should read from $_FILES , not from the args of action */
+        // TODO: note, we should do this validation in File Param or Image Param
+        if ($this->required) {
+            if ($this instanceof FileParam) {
+                if (! $request->file($this->name) && ! $request->param($this->name)) {
+                    return $this->error(
+                        $this->action->messagePool->translate('file.required', $this->getLabel())
+                    );
+                }
+            } else {
+                // We use '==' here because form values might be "" zero length string.
+                if ($request->existsParam($this->name) && $request->param($this->name) == null && ! $this->default) {
+                    return $this->error(
+                        $this->action->messagePool->translate('param.required', $this->getLabel())
+                    );
+                }
+            }
+        }
+
+        // isa should only work for non-null values.
+        // empty string parameter is equal to null
+        if ($this->isa && $request->existsParam($this->name)) {
+
+            if ($value !== '' && $value !== null) {
+                $type = BaseType::create($this->isa);
+                if (false === $type->test($value)) {
+                    return [false, "Invalid type value on {$this->isa}"];
+                }
+            }
+        }
+
+        if ($this->validator) {
+            if ($this->validator instanceof Closure) {
+                $this->validator->bindTo($this);
+                return $this->validator($value, $request);
+            }
+            return call_user_func($this->validator, $value, $request);
+        }
+
+        return true;
+    }
+
+    protected function error($message)
+    {
+        return [false, $message];
+    }
+
+    protected function ok($message)
+    {
+        return [true, $message];
+    }
 
 
     /*******************************************************************************
@@ -447,4 +451,5 @@ class Param extends CascadingAttribute
         // create new widget object.
         return new $class($this->name, $newAttributes);
     }
+
 }

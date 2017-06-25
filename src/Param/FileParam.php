@@ -77,9 +77,10 @@ class FileParam extends Param
         return $this;
     }
 
-    public function validate($value, ActionRequest $request)
+    public function validate(ActionRequest $request)
     {
-        $ret = (array) parent::validate($value, $request);
+        $value = $request->arg($this->name);
+        $ret = (array) parent::validate($request);
         if ($ret[0] == false) {
             return $ret;
         }

@@ -145,9 +145,11 @@ class ImageParam extends Param
         return $this;
     }
 
-    public function validate($value, ActionRequest $request)
+    public function validate(ActionRequest $request)
     {
-        $ret = (array) parent::validate($value, $request);
+        $value = $request->arg($this->name);
+        $ret = (array) parent::validate($request);
+
         if (false === $ret[0]) {
             return $ret;
         }
@@ -155,7 +157,9 @@ class ImageParam extends Param
         $requireUploadMove = false;
         $uploadedFile = $this->_findUploadedFile($request, $this->name, $requireUploadMove);
         if ($uploadedFile && $uploadedFile->hasError()) {
-            return [false, $uploadedFile->getUserErrorMessage()];
+            return $this->error(
+                $uploadedFile->getUserErrorMessage()
+            );
         }
 
         $file = $request->file($this->name);
@@ -163,18 +167,23 @@ class ImageParam extends Param
             $uploadedFile = UploadedFile::createFromArray($file);
             if ($this->validExtensions) {
                 if (! $uploadedFile->validateExtension($this->validExtensions)) {
-                    return [false, _('Invalid file extension: ') . $uploadedFile->getExtension()];
+                    return $this->error(
+                        _('Invalid file extension: ') . $uploadedFile->getExtension()
+                    );
                 }
             }
             if ($this->sizeLimit) {
                 if (! $uploadedFile->validateSize($this->sizeLimit)) {
-                    return [false, _("The uploaded file exceeds the size limitation. ") . futil_prettysize($this->sizeLimit * 1024)];
+                    return $this->error(
+                        _("The uploaded file exceeds the size limitation. ") . futil_prettysize($this->sizeLimit * 1024)
+                    );
                 }
             }
-        } else {
-            if ($this->required) {
-                return [false, "Field {$this->name} is required."];
-            }
+
+        } else if ($this->required) {
+
+            return $this->error("Field {$this->name} is required.");
+
         }
         return true;
     }

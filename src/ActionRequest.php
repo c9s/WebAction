@@ -24,7 +24,7 @@ class ActionRequest extends HttpRequest
         parent::__construct($requestParameters, $files);
 
         // Copy the request parameters to arguments, we are going to remove some fields.
-        $this->arguments = array_merge($this->parameters, array());
+        $this->arguments = $this->parameters;
 
         if (isset($this->arguments['__ajax_request'])) {
             unset($this->arguments['__ajax_request']);
@@ -49,7 +49,10 @@ class ActionRequest extends HttpRequest
         return null;
     }
 
-
+    public function args()
+    {
+        return $this->arguments;
+    }
 
 
     /**

@@ -240,7 +240,6 @@ class Action implements IteratorAggregate
 
         $this->loadParamValues($this->args);
 
-        // TODO: call param::setup or param::handle ... here
         $this->result->args($this->args);
     }
 
@@ -423,7 +422,7 @@ class Action implements IteratorAggregate
          *
          *    [ boolean pass ]
          */
-        $ret = (array) $param->validate($this->arg($name), $request);
+        $ret = (array) $param->validate($request);
         if (is_array($ret)) {
             if ($ret[0]) { // success
                 # $this->result->addValidation( $name, array( "valid" => $ret[1] ));
@@ -501,21 +500,31 @@ class Action implements IteratorAggregate
      */
     final public function handle(ActionRequest $request = null)
     {
-
-        // TODO: two case:
         // 1. preset arguments, run with request
-        // 1. no preset arguments, run with request
-        if (!$this->args && $request) {
+        // 1. no predefined arguments, run with request
+        if ($this->args) {
+
+            if ($request) {
+                // Update action request with the original parameters, 
+                // this reconstructs the arguments array defined in ActionRequest.
+                $request = new ActionRequest(array_merge($this->args, $request->parameters), $request->files);
+            } else {
+                // widen the args to parameters
+                $request = new ActionRequest($this->args);
+            }
+
+        } else {
+
+            if (!$request) {
+                $request = new ActionRequest([]);
+            }
+
             $args = $request->getArguments();
             $this->setupArguments($args);
         }
 
         // If the request instance is not given, 
         // create one with the pre-defined args
-        if (!$request) {
-            $request = new ActionRequest($this->args);
-        }
-
         $this->request = $request;
         $this->runParams($request);
 
