@@ -29,12 +29,14 @@ class QueryActionTest extends ModelTestCase
         $this->assertTrue($ret);
 
         $result = $a->getResult();
+        $data = $result->data;
+
+        $this->assertArrayHasKey('validValues', $data);
+
         $this->assertEquals([
-            'validValues' => [
-                '可販售' => 1,
-                '無法販售' => 0,
-            ]
-        ], $result->data);
+            '可販售' => 1,
+            '無法販售' => 0,
+        ], $result->data['validValues']);
     }
 }
 
