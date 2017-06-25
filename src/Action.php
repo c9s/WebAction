@@ -497,6 +497,11 @@ class Action implements IteratorAggregate
 
     /**
      * handle is a run method wraper
+     *
+     * When pre-defined arguments are already set up from the Action's constructor,
+     * then the pre-defined arguments will override the arguments which are
+     * defined in the ActionRequest object if the ActionRequest is also pass in the
+     * handle method call.
      */
     final public function handle(ActionRequest $request = null)
     {
