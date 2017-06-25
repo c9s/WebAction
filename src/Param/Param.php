@@ -89,7 +89,7 @@ class Param extends CascadingAttribute
      */
     protected function build() { }
 
-    public function preinit(array & $args)
+    public function preinit()
     {
     }
 

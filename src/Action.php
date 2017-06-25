@@ -51,8 +51,7 @@ class Action implements IteratorAggregate
      *
      * TODO: should be protected
      */
-    public $args = array();   // post,get args for action
-
+    public $args = null;  // post,get args for action
 
     protected $originalArgs = [];
 
@@ -135,7 +134,7 @@ class Action implements IteratorAggregate
      * @param array $args        The request arguments
      * @param mixed $options     Can be ArrayAccess or array
      */
-    public function __construct(array $args = array(), $options = array())
+    public function __construct(array $args = [], $options = array())
     {
         // try to get service container or create a new one.
         // we use service container to get:
@@ -209,7 +208,6 @@ class Action implements IteratorAggregate
             $mixin->schema();
         }
 
-        $this->setupArguments($args);
 
         // action & parameters initialization
         // ===================================
@@ -217,7 +215,7 @@ class Action implements IteratorAggregate
         // call the parameter preinit method to initialize
         // foreach is always faster than array_map
         foreach ($this->params as $param) {
-            $param->preinit($this->args);
+            $param->preinit();
         }
 
         // call the parameter init method
@@ -226,6 +224,7 @@ class Action implements IteratorAggregate
         }
         $this->init();
 
+        $this->setupArguments($args);
 
         // TODO: move to handle() method or some where else.
         $this->runParams();
@@ -541,12 +540,17 @@ class Action implements IteratorAggregate
     /**
      * Invoke is a run method wraper
      */
-    final public function handle(ActionRequest $request)
+    final public function handle(ActionRequest $request = null)
     {
-        // TODO: use the args here to run the action
-        $args = $request->getArguments();
-        $this->currentRequest = $request;
+        // TODO: two case:
+        // 1. preset arguments, run with request
+        // 1. no preset arguments, run with request
+        if (!$this->args) {
+            $args = $request->getArguments();
+            $this->setupArguments($args);
+        }
 
+        $this->currentRequest = $request;
 
 
         if (session_id() && $this->csrf && $this->enableCSRFToken) {

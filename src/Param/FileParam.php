@@ -148,6 +148,11 @@ class FileParam extends Param
         }
     }
 
+    /**
+     * the core logic of the action
+     *
+     * This should not be executed directly.
+     */
     public function run()
     {
         $file = null;
