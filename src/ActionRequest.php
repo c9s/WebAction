@@ -54,6 +54,10 @@ class ActionRequest extends HttpRequest
         return $this->arguments;
     }
 
+    public function updateArgs(array $args)
+    {
+        $this->arguments = array_merge($this->arguments, $args);
+    }
 
     /**
      * isInvalidActionName returns int

@@ -251,7 +251,7 @@ class ProductActionTest extends ModelTestCase
         $this->assertNotNull($bulkDelete->handle(), 'items deleted' );
     }
 
-    public function testBulkRecordCopy()
+    public function testBulkRecordCopyAction()
     {
         $idList = array();
         foreach( range(1,20) as $num ) {
@@ -261,31 +261,27 @@ class ProductActionTest extends ModelTestCase
         }
 
         $class = $this->createProductActionClass('BulkCopy');
-
         $bulkCopy = new $class(['items' => $idList ]);
         $this->assertNotNull($bulkCopy->handle(), 'items copy');
     }
 
-    public function testRecordUpdate()
+    public function testRecordUpdateWithPrimaryKeyDefinedInArgsShouldBeAbleToUpdateRecord()
     {
         $product = $this->createProduct('Book A');
         $this->assertNotNull($product->id);
         $this->assertEquals(1, $product->id, 'product id');
 
         $class = $this->createProductActionClass('Update');
-        $this->assertEquals('ProductBundle\\Action\\UpdateProduct', $class);
+        $this->assertEquals(UpdateProduct::class, $class);
 
-
-        $args = array('id' => $product->id , 'name' => 'Foo');
+        $args = ['id' => $product->id , 'name' => 'Foo'];
         $update = new $class($args);
-        $success = $update->handle(new ActionRequest($args));
-
+        $success = $update->handle();
         $this->assertTrue($success, $update->result);
 
         $record = $update->getRecord();
         $this->assertNotNull($record->id);
         $this->assertEquals('Foo', $record->name);
-        $record->delete();
     }
 
     public function testCreateRecordActionShouldBeAbleToCreateRecordWithPredefinedArguments()

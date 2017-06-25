@@ -507,7 +507,9 @@ class Action implements IteratorAggregate
             if ($request) {
                 // Update action request with the original parameters, 
                 // this reconstructs the arguments array defined in ActionRequest.
-                $request = new ActionRequest(array_merge($this->args, $request->parameters), $request->files);
+                // Respect the predefined arguments.
+                $request->updateArgs($this->args);
+
             } else {
                 // widen the args to parameters
                 $request = new ActionRequest($this->args);
