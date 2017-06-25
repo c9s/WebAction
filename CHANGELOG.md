@@ -15,6 +15,10 @@ Version 4.0.x - Sat Jun 24 10:48:06 2017
 - 'handle' method now requires ActionRequest object instance.
 - currentRequest property is added to the Action class.
 
+- Action's prototype has been changed to ($args = null), to allow pre-defined arguments to be null.
+- Arguments that needs to be executed must be passed through ActionRequest.
+- Record loading is included in the loadParamValues method, which is overrided in the BaseRecordAction class.
+
 
 Version 3.x - Sun Nov 15 13:07:53 2015
 

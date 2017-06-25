@@ -22,11 +22,13 @@ use IteratorAggregate;
 use FormKit\Widget\HiddenInput;
 use FormKit\Widget\SubmitInput;
 
+use WebAction\FieldView\DivFieldView;
+
 class Action implements IteratorAggregate
 {
     const moniker = 0;
 
-    public static $defaultFieldView = 'WebAction\FieldView\DivFieldView';
+    public static $defaultFieldView = DivFieldView::class;
 
     protected $currentUser;
 
@@ -140,8 +142,8 @@ class Action implements IteratorAggregate
         // we use service container to get:
         //   1. MessagePool
         //   2. CsrfTokenProvider
-        if (isset($options['services'])) {
-            $this->services = $options['services'];
+        if (isset($options['configurations'])) {
+            $this->services = $options['configurations'];
         } else {
             $this->services = new DefaultConfigurations;
         }
@@ -340,7 +342,15 @@ class Action implements IteratorAggregate
 
         if ($this->takeFields) {
             // take these fields only
-            return array_intersect_key($args, array_fill_keys($this->takeFields, 1));
+            return array_intersect_key($args,
+                array_fill_keys($this->takeFields, 1),
+                [
+                    '__ajax_request' => 1,
+                    '__action' => 1,
+                    '__nested' => 1,
+                    '__csrf_token' => 1,
+                ]
+            );
         } elseif ($this->filterOutFields) {
             return array_diff_key($args, array_fill_keys($this->filterOutFields, 1));
         }

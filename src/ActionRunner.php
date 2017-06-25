@@ -199,11 +199,10 @@ class ActionRunner extends ArrayObject
             }
         }
 
-        $a = new $class($args, [
-            'services' => $this->configurations
+        return new $class($args, [
+            'configurations' => $this->configurations,
+            'current_user' => $this->currentUser,
         ]);
-        $a->setCurrentUser($this->currentUser);
-        return $a;
     }
 
     public function setCurrentUser($user)
