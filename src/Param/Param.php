@@ -99,7 +99,7 @@ class Param extends CascadingAttribute
 
     }
 
-    public function handle(ActionRequest $request)
+    public function run(ActionRequest $request)
     {
 
     }

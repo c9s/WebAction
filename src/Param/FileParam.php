@@ -148,7 +148,7 @@ class FileParam extends Param
      *
      * This should not be executed directly.
      */
-    public function handle(ActionRequest $request)
+    public function run(ActionRequest $request)
     {
         $file = null;
         $upload = false;
@@ -158,11 +158,11 @@ class FileParam extends Param
          * if not, check sourceField.
          * */
 
-        if ($fileArg = $this->action->request->file($this->name)) {
+        if ($fileArg = $request->file($this->name)) {
             $upload = true;
             $file = $fileArg;
         } else if ($this->sourceField) {
-            if ($fileArg = $this->action->request->file($this->sourceField)) {
+            if ($fileArg = $request->file($this->sourceField)) {
                 $file = $fileArg;
             }
         }

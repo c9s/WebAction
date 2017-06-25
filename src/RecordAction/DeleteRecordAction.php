@@ -1,5 +1,8 @@
 <?php
+
 namespace WebAction\RecordAction;
+
+use WebAction\ActionRequest;
 
 abstract class DeleteRecordAction extends BaseRecordAction
 {
@@ -45,7 +48,7 @@ abstract class DeleteRecordAction extends BaseRecordAction
     /**
      * @inherit
      */
-    public function runValidate()
+    public function runValidate(ActionRequest $request)
     {
         if (isset($this->args['id'])) {
             return true;

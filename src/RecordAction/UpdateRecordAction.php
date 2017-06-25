@@ -1,5 +1,8 @@
 <?php
+
 namespace WebAction\RecordAction;
+
+use WebAction\ActionRequest;
 
 abstract class UpdateRecordAction extends BaseRecordAction
 {
@@ -71,7 +74,7 @@ abstract class UpdateRecordAction extends BaseRecordAction
     /**
      * TODO: seperate this to CRUD actions
      */
-    public function runValidate()
+    public function runValidate(ActionRequest $request)
     {
         // validate from args
         $error = false;

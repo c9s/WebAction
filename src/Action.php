@@ -216,7 +216,7 @@ class Action implements IteratorAggregate
     protected function runParams(ActionRequest $request)
     {
         foreach ($this->params as $param) {
-            $param->handle($request);
+            $param->run($request);
         }
     }
 
@@ -393,7 +393,7 @@ class Action implements IteratorAggregate
         return true;
     }
 
-    public function requireArgs()
+    protected function requireArgs()
     {
         $ns = func_get_args();
         $satisfied = true;
@@ -412,7 +412,7 @@ class Action implements IteratorAggregate
      *
      * @param string $name is a parameter name
      */
-    public function validateParam($name)
+    protected function validateParam($name)
     {
         // skip __ajax_request field
         if ($name === '__ajax_request') {
@@ -467,7 +467,7 @@ class Action implements IteratorAggregate
      *
      * @return bool pass flag, returns FALSE on error.
      */
-    public function runValidate()
+    public function runValidate(ActionRequest $request)
     {
         /* it's different behavior when running validation for create,update,delete,
          *
@@ -577,7 +577,7 @@ class Action implements IteratorAggregate
             return false;
         }
 
-        if ($this->enableValidation && false === $this->runValidate()) {  // if found error, return true;
+        if ($this->enableValidation && false === $this->runValidate($request)) {  // if found error, return true;
             return false;
         }
 

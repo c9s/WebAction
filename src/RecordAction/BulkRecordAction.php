@@ -2,6 +2,7 @@
 namespace WebAction\RecordAction;
 
 use WebAction\Action;
+use WebAction\ActionRequest;
 
 /**
  * This action requires 'items' param
@@ -19,7 +20,7 @@ class BulkRecordAction extends Action
         $this->param('items');
     }
 
-    public function runValidate()
+    public function runValidate(ActionRequest $request)
     {
         if (isset($this->args['items'])) {
             return true;  // no error

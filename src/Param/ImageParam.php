@@ -252,7 +252,7 @@ class ImageParam extends Param
     /**
      * This run method move the uploaded file to the target directory.
      */
-    public function handle(ActionRequest $request)
+    public function run(ActionRequest $request)
     {
         // Is the file upload from HTTP
         $requireUploadMove = false;
