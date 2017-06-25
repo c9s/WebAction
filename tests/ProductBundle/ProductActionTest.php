@@ -288,20 +288,27 @@ class ProductActionTest extends ModelTestCase
         $record->delete();
     }
 
-
-    public function testRecordCreate()
+    public function testCreateRecordActionShouldBeAbleToCreateRecordWithPredefinedArguments()
     {
         $class = $this->createProductActionClass('Create');
         $args = ['name' => 'Foo'];
-
         $create = new $class($args);
-
-        $this->assertTrue($create->handle(new ActionRequest($args)), 'create action returns success.' );
-
+        $this->assertTrue($create->handle(), 'create action returns success.' );
+        $this->assertTrue($create->getRecord()->hasKey());
         $this->assertResultSuccess($create->getRecord()->delete());
     }
 
-    public function testActionRelationship()
+    public function testCreateRecordActionShouldBeAbleToCreateRecordWithActionRequest()
+    {
+        $class = $this->createProductActionClass('Create');
+        $args = ['name' => 'Foo'];
+        $create = new $class;
+        $this->assertTrue($create->handle(new ActionRequest($args)), 'create action returns success.' );
+        $this->assertTrue($create->getRecord()->hasKey());
+        $this->assertResultSuccess($create->getRecord()->delete());
+    }
+
+    public function testRemoveActionRelationship()
     {
         $class = $this->createProductActionClass('Create');
         $create = new $class(array('name' => 'Foo'));
