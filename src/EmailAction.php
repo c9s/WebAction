@@ -36,21 +36,26 @@ class EmailAction extends Action
     public $email;
     public $template;
 
-    /* subclass can define: */
-    public $allowOverride = false;  /* let user can submit override fields from web form */
-    public $to;
-    public $subject;
-    public $message;
-    public $contentType = 'html';  #default content type
+    // subclass can define: 
+    public $allowOverride = false;  // let user can submit override fields from web form
 
-    public function __construct($args = null, $options = array())
+    public $to;
+
+    public $subject;
+
+    public $message;
+
+    public $contentType = "html"; // default content type
+
+    public function __construct(array $args = null, $options = array())
     {
+        return parent::__construct($args, $options);
+
         $this->email = new Email;
         if ($this->template) {
             # XXX: check template file
             $this->email->template($this->template);
         }
-        return parent::__construct($args, $options);
     }
 
     public function getContent()
@@ -61,7 +66,7 @@ class EmailAction extends Action
         return null;
     }
 
-    public function extractFieldsFromThis()
+    protected function extractFieldsFromThis()
     {
         if ($this->to) {
             $this->email->to($this->to);

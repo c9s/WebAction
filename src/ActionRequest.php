@@ -32,13 +32,10 @@ class ActionRequest extends HttpRequest
         }
 
         unset($this->arguments['__action']);
-        unset($this->arguments['action']);
-
-        // handle actionName
-        $actionKey = isset($requestParameters['__action']) ? '__action' : 'action';
-        if (isset($requestParameters[$actionKey])) {
-            $this->actionName = $requestParameters[$actionKey];
+        if (isset($requestParameters['__action'])) {
+            $this->actionName = $requestParameters['__action'];
         }
+
     }
 
     public function arg($field)

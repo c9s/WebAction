@@ -15,6 +15,8 @@ use Maghead\Runtime\Model;
 use Magsql\Raw;
 
 
+use FormKit\Element\Div;
+use FormKit\Widget\Label;
 
 use Maghead\Utils;
 
@@ -349,7 +351,7 @@ class Param extends CascadingAttribute
     public function createHintWidget($widgetClass = null, $attributes = array())
     {
         if ($this->hint) {
-            $class = $widgetClass ?: \FormKit\Element\Div::class;
+            $class = $widgetClass ?: Div::class;
             $widget = new $class($attributes);
             $widget->append($this->hint);
 
@@ -359,7 +361,7 @@ class Param extends CascadingAttribute
 
     public function createLabelWidget($widgetClass = null, $attributes = array())
     {
-        $class = $widgetClass ?: \FormKit\Widget\Label::class;
+        $class = $widgetClass ?: Label::class;
         if ($this->required) {
             return new $class('* ' . $this->getLabel());
         }

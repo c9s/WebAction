@@ -135,7 +135,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
 
         $stream = fopen('php://memory', 'rw');
         $result = $runner->handleWith($stream, [
-            'action' => 'User::Action::CreateUser',
+            '__action' => 'User::Action::CreateUser',
             '__ajax_request' => 1,
             'email' => 'foo@foo'
         ]);
@@ -168,7 +168,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array(
-            'action' => "_invalid"
+            '__action' => "_invalid"
         ));
     }
 
@@ -191,7 +191,7 @@ class ActionRunnerTest extends \Maghead\Testing\ModelTestCase
         $container = new DefaultConfigurations;
         $runner = new ActionRunner($container['loader']);
         $result = $runner->handleWith(STDOUT, array(
-            'action' => "User::Action::NotFoundAction",
+            '__action' => "User::Action::NotFoundAction",
         )); 
     }
 
