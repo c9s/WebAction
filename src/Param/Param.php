@@ -228,20 +228,25 @@ class Param extends CascadingAttribute
         // TODO: note, we should do this validation in File Param or Image Param
         if ($this->required) {
             if ($this instanceof FileParam) {
-                if (! $this->action->request->file($this->name) && ! $this->action->request->param($this->name)) {
-                    return [false, $this->action->messagePool->translate('file.required', $this->getLabel())];
+                if (! $request->file($this->name) && ! $request->param($this->name)) {
+                    return $this->error(
+                        $this->action->messagePool->translate('file.required', $this->getLabel())
+                    );
                 }
             } else {
                 // We use '==' here because form values might be "" zero length string.
-                if ($this->action->request->existsParam($this->name) && $this->action->request->param($this->name) == null && ! $this->default) {
-                    return [false, $this->action->messagePool->translate('param.required', $this->getLabel())];
+                if ($request->existsParam($this->name) && $request->param($this->name) == null && ! $this->default) {
+                    return $this->error(
+                        $this->action->messagePool->translate('param.required', $this->getLabel())
+                    );
                 }
             }
         }
 
         // isa should only work for non-null values.
         // empty string parameter is equal to null
-        if ($this->isa && $this->action->request->existsParam($this->name)) {
+        if ($this->isa && $request->existsParam($this->name)) {
+
             if ($value !== '' && $value !== null) {
                 $type = BaseType::create($this->isa);
                 if (false === $type->test($value)) {
@@ -251,10 +256,26 @@ class Param extends CascadingAttribute
         }
 
         if ($this->validator) {
-            return call_user_func($this->validator, $value);
+            if ($this->validator instanceof Closure) {
+                $this->validator->bindTo($this);
+                return $this->validator($value, $request);
+            }
+            return call_user_func($this->validator, $value, $request);
         }
         return true;
     }
+
+    protected function error($message)
+    {
+        return [false, $message];
+    }
+
+    protected function ok($message)
+    {
+        return [true, $message];
+    }
+
+
 
 
     public function getLabel()
