@@ -264,11 +264,11 @@ class BaseRecordAction extends Action
     {
         if ($ret->validations) {
             foreach ($ret->validations as $vld) {
-                $this->result->addValidation($vld['field'], array(
-                    'valid'   => $vld['valid'],
-                    'message' => $vld['message'],
-                    'field'   => $vld['field'],
-                ));
+                $this->result->addValidation($vld->field, [
+                    'valid'   => $vld->valid,
+                    'message' => $vld->message,
+                    'field'   => $vld->field,
+                ]);
             }
         }
     }
