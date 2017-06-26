@@ -16,11 +16,11 @@ class MetaQueryAction extends Action
 
         $this->param('field')
             ->isa('Str')
-            ->required();
+            ->required(true);
 
         $this->param('attribute')
             ->isa('Str')
-            ->required();
+            ->required(true);
     }
 
     public function run()
@@ -54,6 +54,6 @@ class MetaQueryAction extends Action
             break;
         }
 
-        return $this->error("$attr is unsupported.");
+        return $this->error("Attribute '$attr' is unsupported.");
     }
 }
