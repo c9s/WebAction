@@ -11,7 +11,7 @@
         "corneltek/imagekit": "^1",
         "corneltek/codegen": "@dev",
         "corneltek/cliframework": "@dev",
-        "corneltek/formkit": "^1",
+        "corneltek/formkit": "^1.4",
         "phifty/locale": "^3",
         "twig/twig": "^2",
         "pekkis/mime-types": "^1",

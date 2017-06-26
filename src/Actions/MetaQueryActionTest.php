@@ -34,8 +34,8 @@ class MetaQueryActionTest extends ModelTestCase
 
         $this->assertArrayHasKey('validValues', $data);
         $this->assertEquals([
-            '可販售' => 1,
-            '無法販售' => 0,
+            ["label" => "可販售",   "value" => 1],
+            ["label" => "無法販售", "value" => 0],
         ], $result->data['validValues']);
     }
 
@@ -61,8 +61,8 @@ class MetaQueryActionTest extends ModelTestCase
 
         $this->assertArrayHasKey('validValues', $data);
         $this->assertEquals([
-            'A' => 1,
-            'B' => 2,
+            ['label' => 'A', 'value' => 1],
+            ['label' => 'B', 'value' => 2],
         ], $result->data['validValues']);
     }
 }

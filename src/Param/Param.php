@@ -329,6 +329,8 @@ class Param extends CascadingAttribute
             return call_user_func($this->validator, $value, $request);
         }
 
+        // TODO: valid values validation
+
         return true;
     }
 

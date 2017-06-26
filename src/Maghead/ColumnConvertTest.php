@@ -103,8 +103,8 @@ class ColumnConvertTest extends ModelTestCase
 
         $this->assertNotEmpty($validValues = $param->getValidValues());
         $this->assertEquals([
-            'A' => 1,
-            'B' => 2,
+            ['label' => 'A', 'value' => 1],
+            ['label' => 'B', 'value' => 2],
         ], $validValues);
     }
 

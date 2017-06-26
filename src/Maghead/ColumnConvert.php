@@ -190,7 +190,7 @@ class ColumnConvert
                         $label = method_exists($item, 'dataLabel')
                                 ? $item->dataLabel()
                                 : $item->getKey();
-                        $options[ $label ] = $item->dataKeyValue();
+                        $options[] = ["label" =>  $label, "value" => $item->dataKeyValue() ];
                     }
                     $p->validValues = $options;
                 } else if (is_subclass_of($referClass, Model::class, true)) {
@@ -202,9 +202,11 @@ class ColumnConvert
                         $label = method_exists($item, 'dataLabel')
                                 ? $item->dataLabel()
                                 : $item->getKey();
-                        $options[ $label ] = $item->dataKeyValue();
+                        $options[] = [ "label" => $label, "value" => $item->dataKeyValue() ];
                     }
+
                     $p->validValues = $options;
+
                 } else if (is_subclass_of($referClass, DeclareSchema::class, true)
                     || is_a($referClass, DeclareSchema::class, true))
                 {
@@ -216,7 +218,8 @@ class ColumnConvert
                         $label = method_exists($item, 'dataLabel')
                                 ? $item->dataLabel()
                                 : $item->getKey();
-                        $options[ $label ] = $item->dataKeyValue();
+
+                        $options[] = ['label' => $label, 'value' => $item->dataKeyValue() ];
                     }
 
                     $p->validValues = $options;

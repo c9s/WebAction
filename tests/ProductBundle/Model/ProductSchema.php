@@ -54,8 +54,8 @@ class ProductSchema extends DeclareSchema
             ->renderAs('SelectInput')
             ->default(false)
             ->validValues([
-                _('可販售') => 1,
-                _('無法販售') => 0,
+                [ "label" => _("可販售"), "value" => 1],
+                [ "label" => _("無法販售"), "value" => 0],
             ])
             ->label( _('可販售') )
             ->hint( _('選擇可販售之後，請記得新增產品類別，前台才可以加到購物車。') )
