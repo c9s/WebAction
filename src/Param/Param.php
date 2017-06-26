@@ -234,6 +234,11 @@ class Param extends CascadingAttribute
         return $this->default;
     }
 
+    public function setValue($value)
+    {
+        // TODO: check valid values here.
+        $this->value = $value;
+    }
 
     /**
      * getValidValues is currently used in widget attributes.
