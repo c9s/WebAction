@@ -108,14 +108,14 @@ class ColumnConvert
             // $val = $r->{$name};
             // $val = $val instanceof Model ? $val->dataKeyValue() : $val;
             $val = $r->getValue($c->name);
-            $p->value   = $val;
+            $p->setValue($val);
 
             // XXX: should get default value (from column definition)
             //      default value is only used in create action.
         } else {
             $default = $c->getDefaultValue();
             if (!$default instanceof Raw) {
-                $p->value = $default;
+                $p->setValue($default);
             }
         }
     }
