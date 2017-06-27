@@ -437,6 +437,7 @@ class Action implements IteratorAggregate
         if (is_bool($ret)) {
             $ret = [$ret, $ret ? "succeed" : "failed"];
         }
+
         if (is_array($ret)) {
             if (isset($ret[0]) && $ret[0] === false) {
                 $this->result->addValidation($name, [

@@ -247,13 +247,12 @@ class Param extends CascadingAttribute
     {
         if (is_callable($this->validValues)) {
             if ($this->validValues instanceof Closure) {
-                $this->validValues->bindTo($this);
-                return $this->validValues->__invoke();
+                $cb = $this->validValues;
+                $cb->bindTo($this);
+                return $cb();
             }
             return call_user_func($this->validValues);
         }
-
-
 
         return $this->validValues;
     }
@@ -321,15 +320,16 @@ class Param extends CascadingAttribute
             if ($value !== '' && $value !== null) {
                 $type = BaseType::create($this->isa);
                 if (false === $type->test($value)) {
-                    return [false, "Invalid type value on {$this->isa}"];
+                    return $this->error("invalid type value on {$this->isa}");
                 }
             }
         }
 
         if ($this->validator) {
             if ($this->validator instanceof Closure) {
-                $this->validator->bindTo($this);
-                return $this->validator($value, $request);
+                $cb = $this->validator;
+                $cb->bindTo($this);
+                return $cb($value, $request);
             }
             return call_user_func($this->validator, $value, $request);
         }
