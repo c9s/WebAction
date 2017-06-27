@@ -432,18 +432,27 @@ class Action implements IteratorAggregate
          *
          *    [ boolean pass ]
          */
-        $ret = (array) $param->validate($request);
+        $ret = $param->validate($request);
+
+        if (is_bool($ret)) {
+            $ret = [$ret, $ret ? "succeed" : "failed"];
+        }
         if (is_array($ret)) {
-            if ($ret[0]) { // success
-                # $this->result->addValidation( $name, array( "valid" => $ret[1] ));
-            } else {
-                $this->result->addValidation($name, array(
+            if (isset($ret[0]) && $ret[0] === false) {
+                $this->result->addValidation($name, [
                     'valid' => false,
                     'message' => @$ret[1],
                     'field' => $name,
-                ));  // $ret[1] = message
+                ]);  // $ret[1] = message
                 return false;
             }
+        } else if (is_object($ret)) {
+            $this->result->addValidation($name, [
+                'valid' => $ret->valid,
+                'message' => $ret->message,
+                'field' => $name,
+            ]);
+            return false;
         } else {
             throw new \Exception("Unknown validate return value of $name => " . $this->getName());
         }
