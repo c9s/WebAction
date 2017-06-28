@@ -179,10 +179,20 @@ class FileParam extends Param
         if ($this->renameFile) {
             $newName = call_user_func($this->renameFile, $newName, $uploadedFile->getTmpName(), $uploadedFile, $this->action);
         }
-        $targetPath = $this->putIn . DIRECTORY_SEPARATOR . $newName;
+        $targetPath = new FilePath($this->putIn . DIRECTORY_SEPARATOR . $newName);
+
+        $cnt = 2;
         if ($targetPath->exists()) {
-            $targetPath->appendFilenameTimestamp();
+            $testPath = clone $targetPath;
+            while ($testPath->exists()) {
+                $testPath = $targetPath->renameAs("{$targetPath->filename}_{$cnt}");
+                $cnt++;
+            }
+            $targetPath = $testPath;
         }
+        $targetPath = $targetPath->__toString();
+
+
 
 
         // When sourceField enabled, we should either check saved_path or tmp_name

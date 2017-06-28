@@ -294,18 +294,20 @@ class ImageParam extends Param
             $newName = call_user_func($this->renameFile, $newName, $uploadedFile->getTmpName(), $uploadedFile, $this->action);
         }
         $targetPath = new FilePath($this->putIn . DIRECTORY_SEPARATOR . $newName);
+
+        $cnt = 1;
         if ($targetPath->exists()) {
-            $targetPath->appendFilenameTimestamp();
-        }
-
-
-        // TODO: improve the file rename approach
-        $renameLimit = 10;
-        while ($targetPath && file_exists($targetPath) && $renameLimit--) {
-            if ($a = Utils::filename_increase_suffix_number($targetPath)) {
-                $targetPath = $a;
+            $testPath = clone $targetPath;
+            while ($testPath->exists()) {
+                $testPath = $targetPath->renameAs("{$targetPath->filename}_{$cnt}");
+                $cnt++;
             }
+            $targetPath = $testPath;
         }
+        $targetPath = $targetPath->__toString();
+
+
+
 
 
         // If there is a file uploaded from HTTP
