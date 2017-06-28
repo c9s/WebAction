@@ -181,7 +181,7 @@ class ProductActionTest extends ModelTestCase
         foreach (range(1,20) as $num) {
             $product = $this->createProduct("Book $num");
             $this->assertNotNull($product);
-            $idList[] = ['record' => $product->id, 'ordering' => 21 - $num];
+            $idList[] = $product->getKey();
         }
 
 
@@ -207,7 +207,7 @@ class ProductActionTest extends ModelTestCase
 
         $tmp = $generatedAction->load();
 
-        $updateOrdering = new $className([ 'list' => json_encode($idList) ]);
+        $updateOrdering = new $className([ 'keys' => $idList ]);
         $this->assertEquals($updateOrdering->getName(), 'UpdateProductOrdering');
 
         $ret = $updateOrdering->handle();
@@ -215,7 +215,7 @@ class ProductActionTest extends ModelTestCase
         $this->assertTrue($ret);
 
         $record = $updateOrdering->loadRecord(9);
-        $this->assertEquals($record->ordering, 21 - 9);
+        $this->assertEquals($record->ordering, 8);
 
         $updateOrdering->mode = 99;
         $this->assertEquals(false, $updateOrdering->handle());
