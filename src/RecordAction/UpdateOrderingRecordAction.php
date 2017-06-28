@@ -26,7 +26,7 @@ abstract class UpdateOrderingRecordAction extends Action
 
     public function schema()
     {
-        $this->param('list')->isa('str');
+        $this->param('keys');
     }
 
 
@@ -40,14 +40,16 @@ abstract class UpdateOrderingRecordAction extends Action
         if ($this->mode !== self::MODE_INCREMENTALLY) {
             throw new Exception("Unsupported sort mode");
         }
-        if ($orderingList = json_decode($this->arg('list'))) {
-            foreach ($orderingList as $ordering) {
-                $record = $this->loadRecord($ordering->record);
+
+        if ($keys = $this->arg('keys')) {
+            $cnt = 0;
+            foreach ($keys as $key) {
+                $record = $this->loadRecord($key);
                 if (!$record) {
                     throw new Exception("Record not found.");
                 }
 
-                $ret = $record->update(array( $this->targetColumn => $ordering->ordering ));
+                $ret = $record->update([ $this->targetColumn => $cnt++ ]);
                 if ($ret->error) {
                     throw new Exception("Record update failed: {$ret->message}");
                 }
