@@ -60,6 +60,7 @@ abstract class UpdateRecordAction extends BaseRecordAction
             return $this->updateError($ret);
         }
 
+        $this->result->data($this->record->toInflatedArray());
         return $this->updateSuccess($ret);
     }
 

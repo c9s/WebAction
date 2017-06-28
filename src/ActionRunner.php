@@ -195,7 +195,7 @@ class ActionRunner extends ArrayObject
 
             // Check the action class existence
             if (! class_exists($class, true)) {
-                throw new ActionNotFoundException("Action class not found: $class, you might need to setup action autoloader");
+                throw new ActionNotFoundException("Action class '$class' not found, you might forget to setup action autoloader");
             }
         }
 

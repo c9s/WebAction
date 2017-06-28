@@ -336,7 +336,7 @@ class Param extends CascadingAttribute
 
         // TODO: valid values validation
 
-        return true;
+        return [true];
     }
 
     protected function error($message)

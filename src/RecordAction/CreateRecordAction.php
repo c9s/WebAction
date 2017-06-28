@@ -13,7 +13,7 @@ abstract class CreateRecordAction extends BaseRecordAction
             return $this->createError($ret);
         }
         $this->record = $this->recordClass::findByPrimaryKey($ret->key);
-        $this->result->data($this->record->getData());
+        $this->result->data($this->record->toInflatedArray());
         return $this->createSuccess($ret);
     }
 

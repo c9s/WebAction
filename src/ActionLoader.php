@@ -114,13 +114,14 @@ class ActionLoader
     /**
      * register method registers the action class with specified action template name and its arguments
      *
+     * This method is usually called by ActionTemplate class.
      */
     public function register($targetActionClass, $actionTemplateName, array $templateArguments = array())
     {
-        $this->pretreatments[$targetActionClass] = array(
+        $this->pretreatments[$targetActionClass] = [
             'template' => $actionTemplateName,
             'arguments' => $templateArguments,
-        );
+        ];
     }
 
     public function countOfPretreatments()
