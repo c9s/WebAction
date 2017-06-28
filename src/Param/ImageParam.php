@@ -12,6 +12,7 @@ use WebAction\Utils;
 use Universal\Http\UploadedFile;
 
 use WebAction\Storage\FileRenameMethods;
+use WebAction\Storage\FilePath;
 use WebAction\Storage\FileRename\Md5Rename;
 
 class ImageParam extends Param
@@ -287,13 +288,15 @@ class ImageParam extends Param
             return;
         }
 
+        // TODO: duplicated logics defined in both ImageParam and FileParam
         $newName = $uploadedFile->getOriginalFileName();
         if ($this->renameFile) {
             $newName = call_user_func($this->renameFile, $newName, $uploadedFile->getTmpName(), $uploadedFile, $this->action);
         }
-        $targetPath = $this->putIn . DIRECTORY_SEPARATOR . $newName;
-
-
+        $targetPath = new FilePath($this->putIn . DIRECTORY_SEPARATOR . $newName);
+        if ($targetPath->exists()) {
+            $targetPath->appendFilenameTimestamp();
+        }
 
 
         // TODO: improve the file rename approach

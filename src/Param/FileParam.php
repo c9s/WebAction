@@ -174,11 +174,15 @@ class FileParam extends Param
 
         $uploadedFile = UploadedFile::createFromArray($file);
 
+        // TODO: duplicated logics defined in both ImageParam and FileParam
         $newName = $uploadedFile->getOriginalFileName();
         if ($this->renameFile) {
             $newName = call_user_func($this->renameFile, $newName, $uploadedFile->getTmpName(), $uploadedFile, $this->action);
         }
         $targetPath = $this->putIn . DIRECTORY_SEPARATOR . $newName;
+        if ($targetPath->exists()) {
+            $targetPath->appendFilenameTimestamp();
+        }
 
 
         // When sourceField enabled, we should either check saved_path or tmp_name
