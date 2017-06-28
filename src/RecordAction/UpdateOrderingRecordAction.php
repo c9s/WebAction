@@ -43,6 +43,10 @@ abstract class UpdateOrderingRecordAction extends Action
         if ($orderingList = json_decode($this->arg('list'))) {
             foreach ($orderingList as $ordering) {
                 $record = $this->loadRecord($ordering->record);
+                if (!$record) {
+                    throw new Exception("Record not found.");
+                }
+
                 $ret = $record->update(array( $this->targetColumn => $ordering->ordering ));
                 if ($ret->error) {
                     throw new Exception("Record update failed: {$ret->message}");
