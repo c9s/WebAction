@@ -1,7 +1,7 @@
 <?php
 
 use WebAction\Testing\ActionTestCase;
-use WebAction\ActionTemplate\UpdateOrderingRecordActionTemplate;
+use WebAction\ActionTemplate\SaveOrderRecordActionTemplate;
 use WebAction\ActionRunner;
 use WebAction\ActionLoader;
 use WebAction\ActionGenerator;
@@ -10,7 +10,7 @@ use WebAction\GeneratedAction;
 /**
  * @group maghead
  */
-class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
+class SaveOrderRecordActionTemplateTest extends ActionTestCase
 {
     public function failingArgumentProvider()
     {
@@ -32,14 +32,14 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
      * @dataProvider failingArgumentProvider
      * @expectedException WebAction\Exception\RequiredConfigKeyException
      */
-    public function testUpdateOrderingRecordActionTemplateWithFailingArguments($arguments)
+    public function testSaveOrderRecordActionTemplateWithFailingArguments($arguments)
     {
         $recordClass = 'OrderingTest\Model\Foo';
         $className = 'OrderingTest\Action\UpdateFooOrdering';
 
-        $actionTemplate = new UpdateOrderingRecordActionTemplate;
+        $actionTemplate = new SaveOrderRecordActionTemplate;
         $loader = new ActionLoader(new ActionGenerator);
-        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', $arguments);
+        $actionTemplate->register($loader, 'SaveOrderRecordActionTemplate', $arguments);
     }
 
 
@@ -50,8 +50,8 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
 
         $loader = new ActionLoader(new ActionGenerator);
 
-        $actionTemplate = new UpdateOrderingRecordActionTemplate;
-        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', array(
+        $actionTemplate = new SaveOrderRecordActionTemplate;
+        $actionTemplate->register($loader, 'SaveOrderRecordActionTemplate', array(
             'record_class' => $recordClass,
         ));
         $this->assertCount(1, $loader->getPretreatments());
@@ -61,11 +61,11 @@ class UpdateOrderingRecordActionTemplateTest extends ActionTestCase
     }
 
 
-    public function testUpdateOrderingRecordActionTemplate()
+    public function testSaveOrderRecordActionTemplate()
     {
-        $actionTemplate = new UpdateOrderingRecordActionTemplate;
+        $actionTemplate = new SaveOrderRecordActionTemplate;
         $loader = new ActionLoader(new ActionGenerator);
-        $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', array(
+        $actionTemplate->register($loader, 'SaveOrderRecordActionTemplate', array(
             'namespace' => 'OrderingTest',
             'model' => 'Test2Model'   // model's name
         ));

@@ -4,7 +4,7 @@ namespace WebAction\RecordAction;
 use WebAction\Action;
 use Exception;
 
-abstract class UpdateOrderingRecordAction extends Action
+abstract class SaveOrderRecordAction extends Action
 {
     const MODE_INCREMENTALLY = 1;
     const MODE_BYDATE = 2;

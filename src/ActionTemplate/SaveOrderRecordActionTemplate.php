@@ -4,14 +4,14 @@ namespace WebAction\ActionTemplate;
 use WebAction\ActionLoader;
 use WebAction\Exception\RequiredConfigKeyException;
 use WebAction\ActionRunner;
-use WebAction\RecordAction\UpdateOrderingRecordAction;
+use WebAction\RecordAction\SaveOrderRecordAction;
 
 /**
  *  Update Ordering Record Action Template Synopsis
  *
- *    $actionTemplate = new UpdateOrderingRecordActionTemplate;
+ *    $actionTemplate = new SaveOrderRecordActionTemplate;
  *    $loader = new WebAction\ActionRunner;
- *    $actionTemplate->register($loader, 'UpdateOrderingRecordActionTemplate', array(
+ *    $actionTemplate->register($loader, 'SaveOrderRecordActionTemplate', array(
  *        'namespace' => 'test2',
  *        'model' => 'Test2Model',   // model's name
  *    ));
@@ -22,7 +22,7 @@ use WebAction\RecordAction\UpdateOrderingRecordAction;
  *
  *    $generatedAction->load();
  */
-class UpdateOrderingRecordActionTemplate extends RecordActionTemplate
+class SaveOrderRecordActionTemplate extends RecordActionTemplate
 {
     public function register(ActionLoader $loader, $asTemplate, array $options = array())
     {
@@ -52,7 +52,7 @@ class UpdateOrderingRecordActionTemplate extends RecordActionTemplate
 
         $actionClass = $options['namespace'] . '\\Action\\Update' . $options['model'] . 'Ordering';
         $loader->register($actionClass, $asTemplate, [
-            'extends' => "\\WebAction\\RecordAction\\UpdateOrderingRecordAction",
+            'extends' => "\\WebAction\\RecordAction\\SaveOrderRecordAction",
             'properties' => [
                 'recordClass' => $options['namespace'] . "\\Model\\" . $options['model'],
             ]
