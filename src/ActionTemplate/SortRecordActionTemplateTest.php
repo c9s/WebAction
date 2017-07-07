@@ -35,7 +35,7 @@ class SortRecordActionTemplateTest extends ActionTestCase
     public function testSortRecordActionTemplateWithFailingArguments($arguments)
     {
         $recordClass = 'OrderingTest\Model\Foo';
-        $className = 'OrderingTest\Action\UpdateFooOrdering';
+        $className = 'OrderingTest\Action\SortFoo';
 
         $actionTemplate = new SortRecordActionTemplate;
         $loader = new ActionLoader(new ActionGenerator);
@@ -46,7 +46,7 @@ class SortRecordActionTemplateTest extends ActionTestCase
     public function testGenerationWithRecordClassOption()
     {
         $recordClass = 'OrderingTest\Model\Foo';
-        $className = 'OrderingTest\Action\UpdateFooOrdering';
+        $className = 'OrderingTest\Action\SortFoo';
 
         $loader = new ActionLoader(new ActionGenerator);
 
@@ -70,7 +70,7 @@ class SortRecordActionTemplateTest extends ActionTestCase
             'model' => 'Test2Model'   // model's name
         ));
 
-        $className = 'OrderingTest\Action\UpdateTest2ModelOrdering';
+        $className = 'OrderingTest\Action\SortTest2Model';
 
         $this->assertCount(1, $loader->getPretreatments());
         $this->assertNotNull($pretreatment = $loader->getPretreatment($className));

@@ -21,7 +21,7 @@ use ProductBundle\Model\CategorySchema;
 use ProductBundle\Model\ProductFeatureSchema;
 use ProductBundle\Model\FeatureSchema;
 
-use ProductBundle\Action\UpdateProductOrdering;
+use ProductBundle\Action\SortProduct;
 
 // use DateTime;
 
@@ -198,7 +198,7 @@ class ProductActionTest extends ModelTestCase
             'model'     => 'Product'   // model's name
         ]);
 
-        $className = UpdateProductOrdering::class;
+        $className = SortProduct::class;
 
         $this->assertNotNull($pretreatment = $loader->getPretreatment($className));
 
@@ -208,7 +208,7 @@ class ProductActionTest extends ModelTestCase
         $tmp = $generatedAction->load();
 
         $updateOrdering = new $className([ 'keys' => $idList ]);
-        $this->assertEquals($updateOrdering->getName(), 'UpdateProductOrdering');
+        $this->assertEquals($updateOrdering->getName(), 'SortProduct');
 
         $ret = $updateOrdering->handle();
         $result = $updateOrdering->getResult();

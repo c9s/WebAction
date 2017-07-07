@@ -81,11 +81,11 @@ class ProductBundleTest extends ModelTestCase
     public function orderingActionMapProvider() 
     {
         return [
-            ['ProductBundle\\Action\\UpdateProductImageOrdering'      , 'ProductBundle\\Model\\ProductImage']      , 
-            ['ProductBundle\\Action\\UpdateProductPropertyOrdering'   , 'ProductBundle\\Model\\ProductProperty']   , 
-            ['ProductBundle\\Action\\UpdateProductLinkOrdering'       , 'ProductBundle\\Model\\ProductLink']       , 
-            ['ProductBundle\\Action\\UpdateProductProductOrdering'    , 'ProductBundle\\Model\\ProductProduct']    , 
-            ['ProductBundle\\Action\\UpdateProductSubsectionOrdering' , 'ProductBundle\\Model\\ProductSubsection'] , 
+            ['ProductBundle\\Action\\SortProductImage'      , 'ProductBundle\\Model\\ProductImage']      , 
+            ['ProductBundle\\Action\\SortProductProperty'   , 'ProductBundle\\Model\\ProductProperty']   , 
+            ['ProductBundle\\Action\\SortProductLink'       , 'ProductBundle\\Model\\ProductLink']       , 
+            ['ProductBundle\\Action\\SortProductProduct'    , 'ProductBundle\\Model\\ProductProduct']    , 
+            ['ProductBundle\\Action\\SortProductSubsection' , 'ProductBundle\\Model\\ProductSubsection'] , 
         ];
     }
 
