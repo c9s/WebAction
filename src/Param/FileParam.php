@@ -177,6 +177,11 @@ class FileParam extends Param
 
         // TODO: duplicated logics defined in both ImageParam and FileParam
         $newName = $uploadedFile->getOriginalFileName();
+
+        if (!$newName) {
+            return;
+        }
+
         if ($this->renameFile) {
             $newName = call_user_func($this->renameFile, $newName, $uploadedFile->getTmpName(), $uploadedFile, $this->action);
         }
