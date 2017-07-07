@@ -4,7 +4,7 @@ use WebAction\ActionRequest;
 use WebAction\Testing\ActionTestCase;
 use WebAction\DefaultConfigurations;
 use WebAction\ActionTemplate\TwigActionTemplate;
-use WebAction\ActionTemplate\SaveOrderRecordActionTemplate;
+use WebAction\ActionTemplate\SortRecordActionTemplate;
 use WebAction\Testing\ActionTestAssertions;
 use OrderBundle\Model\Order;
 use OrderBundle\Model\OrderCollection;

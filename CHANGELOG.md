@@ -42,7 +42,7 @@ Version 2.0.0 - Tue Jun 30 14:23:00 2015
 3. Added CSRF token support.
 4. Added service container.
 5. Added image process.
-6. Renamed SortRecordAction to SaveOrderRecordAction.
+6. Renamed SortRecordAction to SortRecordAction.
 7. Refactored RecordAction options
   - Added options for 'request', 'parent', 'files' 
   - Added ActionRequest for managing $_REQUEST, $_FILES parameters.

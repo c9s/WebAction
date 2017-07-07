@@ -7,7 +7,7 @@ use WebAction\ActionGenerator;
 use WebAction\Testing\ActionTestCase;
 use WebAction\DefaultConfigurations;
 use WebAction\ActionTemplate\TwigActionTemplate;
-use WebAction\ActionTemplate\SaveOrderRecordActionTemplate;
+use WebAction\ActionTemplate\SortRecordActionTemplate;
 use WebAction\ActionTemplate\RecordActionTemplate;
 use WebAction\Testing\ActionTestAssertions;
 use WebAction\RecordAction\UpdateRecordAction;
@@ -167,10 +167,10 @@ class ProductBundleTest extends ModelTestCase
         $container = new DefaultConfigurations;
         $generator = $container['generator'];
         $generator->registerTemplate('TwigActionTemplate', new TwigActionTemplate());
-        $generator->registerTemplate('SaveOrderRecordActionTemplate', new SaveOrderRecordActionTemplate());
+        $generator->registerTemplate('SortRecordActionTemplate', new SortRecordActionTemplate());
 
         $loader = new ActionLoader($generator);
-        $loader->registerTemplateAction('SaveOrderRecordActionTemplate', array(
+        $loader->registerTemplateAction('SortRecordActionTemplate', array(
             'namespace' => 'ProductBundle',
             'record_class'     => $recordClass,   // model's name
         ));

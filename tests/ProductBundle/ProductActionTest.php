@@ -1,7 +1,7 @@
 <?php
 
 use WebAction\RecordAction\BaseRecordAction;
-use WebAction\ActionTemplate\SaveOrderRecordActionTemplate;
+use WebAction\ActionTemplate\SortRecordActionTemplate;
 use WebAction\ActionRunner;
 use WebAction\ActionRequest;
 use WebAction\ActionGenerator;
@@ -192,8 +192,8 @@ class ProductActionTest extends ModelTestCase
 
         $runner = new ActionRunner($loader);
 
-        $actionTemplate = new SaveOrderRecordActionTemplate;
-        $actionTemplate->register($loader, 'SaveOrderRecordActionTemplate', [
+        $actionTemplate = new SortRecordActionTemplate;
+        $actionTemplate->register($loader, 'SortRecordActionTemplate', [
             'namespace' => 'ProductBundle',
             'model'     => 'Product'   // model's name
         ]);
