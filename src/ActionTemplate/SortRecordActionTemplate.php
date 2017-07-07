@@ -50,7 +50,7 @@ class SortRecordActionTemplate extends RecordActionTemplate
             throw new RequiredConfigKeyException('namespace', 'namespace');
         }
 
-        $actionClass = $options['namespace'] . '\\Action\\Sort' . $options['model'];
+        $actionClass = "{$options['namespace']}\\Action\\Sort{$options['model']}";
         $loader->register($actionClass, $asTemplate, [
             'extends' => "\\WebAction\\RecordAction\\SortRecordAction",
             'properties' => [
