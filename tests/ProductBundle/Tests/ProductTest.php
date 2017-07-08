@@ -5,28 +5,28 @@ use WebAction\ActionRequest;
 use WebAction\ActionLoader;
 use WebAction\ActionGenerator;
 use WebAction\Testing\ActionTestCase;
+use WebAction\Testing\ActionTestAssertions;
 use WebAction\DefaultConfigurations;
 use WebAction\ActionTemplate\TwigActionTemplate;
 use WebAction\ActionTemplate\SortRecordActionTemplate;
 use WebAction\ActionTemplate\RecordActionTemplate;
-use WebAction\Testing\ActionTestAssertions;
 use WebAction\RecordAction\UpdateRecordAction;
-
 use WebAction\Param\Param;
 use WebAction\Result;
 
 use ProductBundle\Model\Product;
 use ProductBundle\Model\ProductCollection;
 use ProductBundle\Model\ProductImage;
+use ProductBundle\Model\Category;
 use ProductBundle\Model\ProductImageCollection;
-use ProductBundle\Model\ProductSchema;
+
 use ProductBundle\Model\ProductImageSchema;
+use ProductBundle\Model\ProductSchema;
 use ProductBundle\Model\ProductFeatureSchema;
 use ProductBundle\Model\ProductCategorySchema;
 use ProductBundle\Model\ProductProductSchema;
 use ProductBundle\Model\ProductFileSchema;
 use ProductBundle\Model\CategorySchema;
-use ProductBundle\Model\Category;
 use ProductBundle\Model\FeatureSchema;
 
 use ProductBundle\Action\CreateProduct;
@@ -35,40 +35,6 @@ use ProductBundle\Action\UpdateProduct;
 use ProductBundle\Action\CreateProductFile;
 use ProductBundle\Action\CreateProductImage;
 use Maghead\Testing\ModelTestCase;
-
-class CustomCreateProductImageAction extends CreateProductImage {
-
-}
-
-function CreateFilesArrayWithAssociateKey(array $files) {
-    $array = [ 
-        'name' => [],
-        'type' => [],
-        'tmp_name' => [],
-        'saved_path' => [],
-        'error' => [],
-        'size' => [],
-    ];
-    foreach ($files as $key => $file) {
-        foreach ($array as $field => & $subfields) {
-            foreach ($file as $fileField => $fileValue) {
-                $array[$field][$key][$fileField] = $fileValue[ $field ];
-            }
-        }
-    }
-    return $array;
-}
-
-function CreateFileArray($filename, $type, $tmpname) {
-    return [
-        'name' => $filename,
-        'type' => $type,
-        'tmp_name' => $tmpname,
-        'saved_path' => $tmpname,
-        'error' => UPLOAD_ERR_OK,
-        'size' => filesize($tmpname),
-    ];
-}
 
 
 /**
@@ -190,9 +156,9 @@ class ProductBundleTest extends ModelTestCase
         $tmpfile = tempnam('/tmp', 'test_image_');
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'images' => CreateFilesArrayWithAssociateKey([
-                'a' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-                'b' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
+            'images' => $this->createFilesArrayWithAssociateKey([
+                'a' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
+                'b' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
             ]),
         ];
         $args = ['name' => 'Test Product', 'images' => [ 
@@ -210,48 +176,15 @@ class ProductBundleTest extends ModelTestCase
         $create->handle(new ActionRequest($args));
     }
 
-    public function testProductCreateWithCustomProductImageSubAction()
-    {
-        $tmpfile = tempnam('/tmp', 'test_image_');
-        copy('tests/data/404.png', $tmpfile);
-        $files = [
-            'images' => CreateFilesArrayWithAssociateKey([
-                'a' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-                'b' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-            ]),
-        ];
-        $args = ['name' => 'Test Product', 'images' => [ 
-            // files are in another array
-            'a' => [ ],
-            'b' => [ ],
-        ]];
-
-        $request = new ActionRequest($args, $files);
-        $create = new CreateProduct($args, ['request' => $request ]);
-
-        $relation = clone $create->getRelation('images');
-        $relation['action'] = 'CustomCreateProductImageAction';
-
-        $create->addRelation('images', $relation);
-
-        $result = $this->assertActionInvokeSuccess($create, $request);
-
-        $product = $create->getRecord();
-        $this->assertNotNull($product);
-        $this->assertNotNull($product->id, 'product created');
-
-        $images = $product->images;
-        $this->assertCount(2, $images);
-    }
 
     public function testFetchOneToManyRelationCollection()
     {
         $tmpfile = tempnam('/tmp', 'test_image_');
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'images' => CreateFilesArrayWithAssociateKey([
-                'a' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-                'b' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
+            'images' => $this->createFilesArrayWithAssociateKey([
+                'a' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
+                'b' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
             ]),
         ];
         $args = [
@@ -280,20 +213,6 @@ class ProductBundleTest extends ModelTestCase
     }
 
 
-    /**
-     * XXX: add test details later
-     */
-    public function testConvertRecordValidation()
-    {
-        $ret = ProductImage::create([]);
-
-        $create = new CreateProductImage;
-        $create->convertRecordValidation($ret);
-
-        $result = $create->getResult();
-        $data = $result->data;
-    }
-
     public function testFetchOneToManyRelationCollectionOnInexistingRelationIdShouldReturnNull()
     {
         $create = new CreateProduct;
@@ -313,58 +232,15 @@ class ProductBundleTest extends ModelTestCase
 
 
 
-    public function testProductCreateWithProductImageSubAction()
-    {
-        $tmpfile = tempnam('/tmp', 'test_image_');
-        copy('tests/data/404.png', $tmpfile);
-        $files = [
-            'images' => CreateFilesArrayWithAssociateKey([
-                'a' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-                'b' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-            ]),
-        ];
-        $args = ['name' => 'Test Product', 'images' => [ 
-            // files are in another array
-            'a' => [ ],
-            'b' => [ ],
-        ]];
-        $request = new ActionRequest($args, $files);
-        $create = new CreateProduct($args, [ 'request' => $request ]);
-        $result = $this->assertActionInvokeSuccess($create, $request);
-
-        $product = $create->getRecord();
-        $this->assertNotNull($product);
-        $this->assertNotNull($product->id, 'product created');
-
-        $images = $product->images;
-        $this->assertCount(2, $images);
-        foreach($images as $image) { $image->delete(); }
-    }
-
-    public function testProductCreateSubActionWithCreateProductImage()
-    {
-        $files = [ ];
-        $request = new ActionRequest(['name' => 'Test Product'], $files);
-        $ret = Product::create([
-            'name' => 'Testing Product',
-        ]);
-        $this->assertResultSuccess($ret);
-
-        $product = Product::load($ret->key);
-        $this->assertNotNull($product->id);
-        $create = new CreateProduct(['name' => 'Test Product'], [ 'request' => $request, 'record' => $product ]);
-        $createImage = $create->createSubAction('images', [ ]);
-        $this->assertNotNull($createImage);
-    }
 
     public function testCreateSubActionWithRelationshipForSubRecordCreate()
     {
         $tmpfile = tempnam('/tmp', 'test_image_');
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'images' => CreateFilesArrayWithAssociateKey([
-                'a' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
-                'b' => [ 'image' => CreateFileArray('404.png', 'image/png', $tmpfile) ], 
+            'images' => $this->createFilesArrayWithAssociateKey([
+                'a' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
+                'b' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
             ]),
         ];
         $args = ['name' => 'Test Product', 'images' => [ 
@@ -387,7 +263,7 @@ class ProductBundleTest extends ModelTestCase
         $tmpfile = tempnam('/tmp', 'test_image_') . '.png';
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'image' => CreateFileArray('404.png', 'image/png', $tmpfile),
+            'image' => $this->createFileArray('404.png', 'image/png', $tmpfile),
         ];
 
         // new ActionRequest(['title' => 'Test Image'], $files);
@@ -432,7 +308,7 @@ class ProductBundleTest extends ModelTestCase
         $tmpfile = tempnam('/tmp', 'test_image_') . '.png';
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'image' => CreateFileArray('404.png', 'image/png', $tmpfile),
+            'image' => $this->createFileArray('404.png', 'image/png', $tmpfile),
         ];
 
         $args = ['title' => 'Test Image'];
@@ -452,7 +328,7 @@ class ProductBundleTest extends ModelTestCase
         $tmpfile = tempnam('/tmp', 'test_image_') . '.png';
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'image' => CreateFileArray('404.png', 'image/png', $tmpfile),
+            'image' => $this->createFileArray('404.png', 'image/png', $tmpfile),
         ];
 
         // new ActionRequest(['title' => 'Test Image'], $files);
@@ -473,7 +349,7 @@ class ProductBundleTest extends ModelTestCase
         $tmpfile = tempnam('/tmp', 'test_image_') . '.png';
         copy('tests/data/404.png', $tmpfile);
         $files = [
-            'image' => CreateFileArray('404.png', 'image/png', $tmpfile),
+            'image' => $this->createFileArray('404.png', 'image/png', $tmpfile),
         ];
 
         $args = ['title' => 'Test Image'];
@@ -522,7 +398,7 @@ class ProductBundleTest extends ModelTestCase
 
         $args = [];
         $files = [
-            'file' => CreateFileArray('404.png', 'image/png', $tmpfile),
+            'file' => $this->createFileArray('404.png', 'image/png', $tmpfile),
         ];
 
         $request = new ActionRequest($args, $files);
@@ -532,8 +408,6 @@ class ProductBundleTest extends ModelTestCase
         $this->assertTrue($ret);
         $this->assertInstanceOf(Result::class, $create->getResult());
     }
-
-
 }
 
 

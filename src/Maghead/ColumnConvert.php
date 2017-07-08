@@ -3,6 +3,9 @@
 namespace WebAction\Maghead;
 
 use WebAction\Param\Param;
+use WebAction\Param\ImageParam;
+use WebAction\Param\FileParam;
+
 use WebAction\Action;
 use WebAction\RecordAction\BaseRecordAction;
 use WebAction\RecordAction\CreateRecordAction;
@@ -233,7 +236,20 @@ class ColumnConvert
                 throw new Exception('Unsupported refer type');
             }
         }
+    }
 
+
+    public static function getParamClass(RuntimeColumn $c)
+    {
+        switch ($c->contentType) {
+
+        case "ImageFile":
+            return ImageParam::class;
+        case "File":
+            return FileParam::class;
+        }
+
+        return Param::class;
     }
 
 
@@ -246,7 +262,9 @@ class ColumnConvert
      */
     public static function toParam(RuntimeColumn $c, Action $action, Model $record = null)
     {
-        $p = new Param($c->name, $action);
+        $paramClass = self::getParamClass($c);
+
+        $p = new $paramClass($c->name, $action);
         self::setupIsa($p, $c);
         self::setupDefault($p, $c);
         self::setupRequired($p, $c, $action);

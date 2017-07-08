@@ -11,6 +11,40 @@ use WebAction\Testing\ActionTestCase;
 
 trait ActionTestAssertions
 {
+
+    public function createFileArray($filename, $type, $tmpname)
+    {
+        return [
+            'name' => $filename,
+            'type' => $type,
+            'tmp_name' => $tmpname,
+            'saved_path' => $tmpname,
+            'error' => UPLOAD_ERR_OK,
+            'size' => filesize($tmpname),
+        ];
+    }
+
+    public function createFilesArrayWithAssociateKey(array $files)
+    {
+        $array = [ 
+            'name' => [],
+            'type' => [],
+            'tmp_name' => [],
+            'saved_path' => [],
+            'error' => [],
+            'size' => [],
+        ];
+        foreach ($files as $key => $file) {
+            foreach ($array as $field => & $subfields) {
+                foreach ($file as $fileField => $fileValue) {
+                    $array[$field][$key][$fileField] = $fileValue[ $field ];
+                }
+            }
+        }
+        return $array;
+    }
+
+
     public function assertRequireGeneratedAction($className, GeneratedAction $generatedAction)
     {
         $this->assertNotNull($generatedAction);

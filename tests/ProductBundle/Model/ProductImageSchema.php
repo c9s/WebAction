@@ -24,10 +24,12 @@ class ProductImageSchema extends DeclareSchema
         $this->column('image')
             ->varchar(130)
             ->required()
+            ->contentType('ImageFile')
             ->label('圖');
 
         $this->column('large')
             ->varchar(130)
+            ->contentType('ImageFile')
             ->label('最大圖');
 
     }
