@@ -63,23 +63,23 @@ class ImageParam extends Param
 
     protected function build()
     {
-        $this->supportedAttributes[ 'validExtensions' ] = self::ATTR_ARRAY;
-        $this->supportedAttributes[ 'size' ] = self::ATTR_ARRAY;
-        $this->supportedAttributes[ 'putIn' ] = self::ATTR_STRING;
-        $this->supportedAttributes[ 'prefix' ] = self::ATTR_STRING;
-        $this->supportedAttributes[ 'renameFile'] = self::ATTR_ANY;
-        $this->supportedAttributes[ 'compression' ] = self::ATTR_ANY;
-        $this->supportedAttributes[ 'argumentPostFilter' ] = self::ATTR_ANY;
+        $this->supportedAttributes['validExtensions']    = self::ATTR_ARRAY;
+        $this->supportedAttributes['size']               = self::ATTR_ARRAY;
+        $this->supportedAttributes['putIn']              = self::ATTR_STRING;
+        $this->supportedAttributes['prefix']             = self::ATTR_STRING;
+        $this->supportedAttributes['renameFile']         = self::ATTR_ANY;
+        $this->supportedAttributes['compression']        = self::ATTR_ANY;
+        $this->supportedAttributes['argumentPostFilter'] = self::ATTR_ANY;
         $this->renameFile = new Md5Rename;
 
         if (static::$defaultUploadDirectory) {
             $this->putIn(static::$defaultUploadDirectory);
         }
 
-        $this->renderAs('ThumbImageFileInput', array(
-            /* prefix path for widget rendering */
+        $this->renderAs('ThumbImageFileInput', [
+            // prefix path for widget rendering
             'prefix' => '/',
-        ));
+        ]);
     }
 
     public function autoResize($enable = true)
@@ -128,8 +128,8 @@ class ImageParam extends Param
     public function displaySize($size)
     {
         $this->displaySize = $size;
-        $this->widgetAttributes['dataDisplayWidth'] = $size['width'];
-        $this->widgetAttributes['dataDisplayHeight'] = $size['height'];
+        $this->widgetAttributes['dataDisplayWidth'] = $this->displaySize['width'];
+        $this->widgetAttributes['dataDisplayHeight'] = $this->displaySize['height'];
         return $this;
     }
 
@@ -141,8 +141,8 @@ class ImageParam extends Param
     public function size($size)
     {
         $this->size = $size;
-        $this->widgetAttributes['dataWidth'] = $size['width'];
-        $this->widgetAttributes['dataHeight'] = $size['height'];
+        $this->widgetAttributes['dataWidth'] = $this->size['width'];
+        $this->widgetAttributes['dataHeight'] = $this->size['height'];
         return $this;
     }
 

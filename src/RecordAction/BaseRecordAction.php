@@ -343,6 +343,10 @@ class BaseRecordAction extends Action
         $recordClass  = "{$modelNs}\\Model\\{$modelName}";
         $baseAction   = "\\WebAction\\RecordAction\\{$type}RecordAction";
 
+        if (class_exists($actionFullClass, true)) {
+            return $actionFullClass;
+        }
+
         $template = new RecordActionTemplate;
         $generatedAction = $template->generate($actionFullClass, [
             'extends' => $baseAction,
@@ -397,7 +401,7 @@ class BaseRecordAction extends Action
         // create record object, and load it with primary id
         $primaryKey = $schema->primaryKey;
         if (isset($args[$primaryKey]) && $args[$primaryKey]) {
-            $subrecord = $recordClass::load($args[$primaryKey]);
+            $subrecord = $recordClass::findByPrimaryKey($args[$primaryKey]);
         } else {
             $subrecord = new $recordClass;
         }
@@ -411,9 +415,11 @@ class BaseRecordAction extends Action
         // for relationships that has defined a custom action class,
         // we should just use it.
         if (isset($relation['action'])) {
+
             $class = $relation['action'];
             return new $class($args, $actionOptions);
-        } elseif ($subrecord && $subrecord->id) {
+
+        } elseif ($subrecord && $subrecord->hasKey()) {
 
             // if the update_action field is defined,
             // then we should use the customized class to process our data.
@@ -422,6 +428,7 @@ class BaseRecordAction extends Action
                 return new $class($args, $actionOptions);
             }
             return $subrecord->asUpdateAction($args, $actionOptions);
+
         } else {
 
             // we are going to create related records with subactions
@@ -432,6 +439,7 @@ class BaseRecordAction extends Action
                 return new $class($args, $actionOptions);
             }
             return $subrecord->asCreateAction($args, $actionOptions);
+
         }
     }
 

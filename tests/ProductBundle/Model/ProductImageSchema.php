@@ -25,13 +25,29 @@ class ProductImageSchema extends DeclareSchema
             ->varchar(130)
             ->required()
             ->contentType('ImageFile')
-            ->label('圖');
+            ->label('圖')
+            ->buildParam(function($param) {
+                return $param
+                    ->sizeLimit(1024 * 1024 * 10) // 10MB
+                    ->size([ 'width' => 120, 'height' => 120 ])
+                    ->autoResize(true)
+                    ->putIn('tests/upload')
+                    ;
+            })
+            ;
 
         $this->column('large')
             ->varchar(130)
             ->contentType('ImageFile')
-            ->label('最大圖');
-
+            ->label('最大圖')
+            ->buildParam(function($param) {
+                return $param->sizeLimit(1024 * 1024 * 10) // 10MB
+                    ->size([ 'width' => 120, 'height' => 120 ])
+                    ->autoResize(true)
+                    ->putIn('tests/upload')
+                    ;
+            })
+            ;
     }
 }
 

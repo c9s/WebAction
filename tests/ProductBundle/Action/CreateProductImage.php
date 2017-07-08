@@ -1,10 +1,13 @@
 <?php
 namespace ProductBundle\Action;
+
+
 use WebAction\RecordAction\CreateRecordAction;
+use ProductBundle\Model\ProductImage;
 
 class CreateProductImage  extends CreateRecordAction
 {
-    public $recordClass = 'ProductBundle\Model\ProductImage';
+    public $recordClass = ProductImage::class;
 
     public function schema()
     {
@@ -17,7 +20,7 @@ class CreateProductImage  extends CreateRecordAction
         ];
         $autoResize = true;
 
-        $this->replaceParam('image','Image')
+        $this->replaceParam('image', 'Image')
             ->sizeLimit($imageSizeLimit)
             ->size( $imageSize )
             ->autoResize($autoResize)
@@ -39,7 +42,6 @@ class CreateProductImage  extends CreateRecordAction
             ->label('product large image label')
             ->putIn('tests/upload')
             ;
-
     }
 
 

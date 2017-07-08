@@ -66,6 +66,30 @@ class ProductImageTest extends ModelTestCase
         ];
     }
 
+
+    public function testImageParamPutInShouldBeCustomizedPath()
+    {
+        $create = new CreateProductImage;
+        $this->assertEquals('tests/upload', $create->param('large')->putIn);
+        $this->assertEquals('tests/upload', $create->param('image')->putIn);
+    }
+
+    public function testAsCreateActionImageParamPutInShouldBeCustomizedPath()
+    {
+        $image = new ProductImage;
+        $create = $image->asCreateAction();
+        $this->assertEquals('tests/upload', $create->param('large')->putIn);
+        $this->assertEquals('tests/upload', $create->param('image')->putIn);
+    }
+
+    public function testAsUpdateActionImageParamPutInShouldBeCustomizedPath()
+    {
+        $image = new ProductImage;
+        $update = $image->asUpdateAction();
+        $this->assertEquals('tests/upload', $update->param('large')->putIn);
+        $this->assertEquals('tests/upload', $update->param('image')->putIn);
+    }
+
     public function testProductCreateWithCustomProductImageSubAction()
     {
         $tmpfile = tempnam('/tmp', 'test_image_');
@@ -158,6 +182,93 @@ class ProductImageTest extends ModelTestCase
         $create = new CreateProduct(['name' => 'Test Product'], [ 'request' => $request, 'record' => $product ]);
         $createImage = $create->createSubAction('images', [ ]);
         $this->assertNotNull($createImage);
+    }
+
+    public function testCreateSubActionWithRelationshipForSubRecordCreate()
+    {
+        $tmpfile = tempnam('/tmp', 'test_image_');
+        copy('tests/data/404.png', $tmpfile);
+        $files = [
+            'images' => $this->createFilesArrayWithAssociateKey([
+                'a' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
+                'b' => [ 'image' => $this->createFileArray('404.png', 'image/png', $tmpfile) ], 
+            ]),
+        ];
+        $args = ['name' => 'Test Product', 'images' => [ 
+            // files are in another array
+            'a' => [ ],
+            'b' => [ ],
+        ]];
+
+        $request = new ActionRequest($args, $files);
+        $createProduct = new CreateProduct($args, [ 'request' => $request ]);
+
+        $relation = clone $createProduct->getRelation('images');
+        $relation['create_action'] = 'ProductBundle\Action\CreateProductImage';
+        $createProduct->addRelation('images',$relation);
+        $this->assertActionInvokeSuccess($createProduct, $request);
+    }
+
+    public function testCreateSubActionWithRelationshipAndReloadExistingSubRecord()
+    {
+        $tmpfile = tempnam('/tmp', 'test_image_') . '.png';
+        copy('tests/data/404.png', $tmpfile);
+        $files = [
+            'image' => $this->createFileArray('404.png', 'image/png', $tmpfile),
+        ];
+
+        // new ActionRequest(['title' => 'Test Image'], $files);
+        $args = ['title' => 'Test Image'];
+        $request = new ActionRequest($args, $files);
+        $createImage = new CreateProductImage($args, ['request' => $request ]);
+        $this->assertActionInvokeSuccess($createImage, $request);
+        $image = $createImage->getRecord();
+        $this->assertNotNull($image);
+        $this->assertNotNull($image->id);
+
+
+        $ret = Product::create([ 'name' => 'Test Product' ]);
+        $product = Product::load($ret->key);
+
+        $updateProduct = new UpdateProduct(['name' => 'Updated Product'], [ 'record' => $product ]);
+
+        $relation = clone $updateProduct->getRelation('images');
+
+        $updateImage = $updateProduct->createSubActionWithRelationship($relation, [ 'id' => $image->id ], $files);
+
+        $this->assertInstanceOf(UpdateRecordAction::class, $updateImage);
+        $this->assertEquals('tests/upload', $updateImage->param('large')->putIn);
+        $this->assertEquals('tests/upload', $updateImage->param('image')->putIn);
+
+        $this->assertActionInvokeSuccess($updateImage, $request);
+
+        $relation = clone $updateProduct->getRelation('images');
+        $relation['update_action'] = \ProductBundle\Action\UpdateProductImage::class;
+
+
+        $args = [ 'id' => $image->id ];
+        $updateImage = $updateProduct->createSubActionWithRelationship($relation, $args, $files);
+        $this->assertInstanceOf(UpdateRecordAction::class, $updateImage);
+        $this->assertActionInvokeSuccess($updateImage, new ActionRequest($args, $files));
+    }
+
+    /**
+     * @requires extension gd
+     */
+    public function testCreateProductImageWithActionRequest()
+    {
+        $tmpfile = tempnam('/tmp', 'test_image_') . '.png';
+        copy('tests/data/404.png', $tmpfile);
+        $files = [
+            'image' => $this->createFileArray('404.png', 'image/png', $tmpfile),
+        ];
+
+        $args = ['title' => 'Test Image'];
+        $request = new ActionRequest($args, $files);
+        $create = new CreateProductImage($args, [ 'request' => $request ]);
+        $ret = $create->handle($request);
+        $this->assertTrue($ret);
+        $this->assertInstanceOf(Result::class, $create->getResult());
     }
 
 }

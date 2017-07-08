@@ -284,6 +284,14 @@ class ColumnConvert
         self::setupValidValues($p, $c);
         self::setupWidget($p, $c);
         self::setupWidgetType($p, $c);
+
+        if ($call = $c->buildParam) {
+            // if something is returned, replace the original param
+            if ($p2 = $call($p)) {
+                $p = $p2;
+            }
+        }
+
         return $p;
     }
 }

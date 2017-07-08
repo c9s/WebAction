@@ -38,7 +38,6 @@ trait ActionCreatorTrait
         $class = get_class($this);
         $actionClass = BaseRecordAction::createCRUDClass($class, $type);
         $options['record'] = $this;
-
         return new $actionClass($args, $options);
     }
 
