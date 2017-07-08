@@ -285,9 +285,10 @@ class ColumnConvert
         self::setupWidget($p, $c);
         self::setupWidgetType($p, $c);
 
+        // Customized build process
         if ($call = $c->buildParam) {
             // if something is returned, replace the original param
-            if ($p2 = $call($p)) {
+            if ($p2 = $call($p, $c)) {
                 $p = $p2;
             }
         }

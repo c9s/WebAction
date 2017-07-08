@@ -267,6 +267,7 @@ class ImageParam extends Param
         // Is the file upload from HTTP
         $requireUploadMove = false;
         $uploadedFile = $this->_findUploadedFile($request, $this->name, $requireUploadMove);
+
         if (!$uploadedFile) {
             // Try to load uploadedFile from sourceField
             if ($this->sourceField) {
@@ -279,6 +280,7 @@ class ImageParam extends Param
         }
 
         if ($uploadedFile->hasError()) {
+            error_log('ImageParam: upload has error');
             return;
         }
 
@@ -305,9 +307,6 @@ class ImageParam extends Param
             $targetPath = $testPath;
         }
         $targetPath = $targetPath->__toString();
-
-
-
 
 
         // If there is a file uploaded from HTTP
