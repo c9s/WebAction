@@ -650,6 +650,21 @@ class BaseRecordAction extends Action
         return $input->render($attrs);
     }
 
+    public function renderEditorAttributes()
+    {
+        $attrs = [];
+        $attrs[] = [ "data-action", $this->getSignature() ];
+        $attrs[] = [ "data-token", $this->getCSRFToken() ];
+        $record = $this->getRecord();
+        if ($record) {
+            $attrs[] = [ "data-record-key", $this->getRecord()->getKey() ];
+            $attrs[] = [ "data-record-key-name", $this->getRecord()->getKeyName() ];
+        }
+        $parts = array_map(function(array $attr) {
+            return join('=', $attr);
+        }, $attrs);
+        return join(" ", $parts);
+    }
 
 
 

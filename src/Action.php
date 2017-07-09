@@ -1116,6 +1116,17 @@ class Action implements IteratorAggregate
     }
 
 
+    public function renderEditorAttributes()
+    {
+        $attrs = [];
+        $attrs[] = [ "data-action", $this->getSignature() ];
+        $attrs[] = [ "data-token", $this->getCSRFToken() ];
+        $parts = array_map(function(array $attr) {
+            return join('=', $attr);
+        }, $attrs);
+        return join(" ", $parts);
+    }
+
 
     /**
      * Render column with field view class
