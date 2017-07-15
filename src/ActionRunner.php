@@ -138,7 +138,7 @@ class ActionRunner extends ArrayObject
         try {
             $request = new ActionRequest($arguments, $files);
             $result = $this->handle($request);
-            if ($result && $request->isAjax()) {
+            if ($request->isAjax()) {
                 if ($result->responseCode) {
                     http_response_code($result->responseCode);
                 }
@@ -154,6 +154,7 @@ class ActionRunner extends ArrayObject
                 fwrite($stream, $result->__toString());
                 return true;
             }
+
         } catch (Exception $e) {
             @header('HTTP/1.1 403 Action API Error');
             if ($request->isAjax()) {
