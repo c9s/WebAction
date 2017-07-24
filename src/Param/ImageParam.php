@@ -85,6 +85,8 @@ class ImageParam extends Param
 
     public function loadConfig($config)
     {
+        parent::loadConfig($config);
+
         if (isset($config['upload_dir'])) {
             $this->putIn($config['upload_dir']);
         }
@@ -100,6 +102,8 @@ class ImageParam extends Param
         if (isset($config['hint'])) {
             $this->hint($config['hint']);
         }
+
+        return $this;
     }
 
 

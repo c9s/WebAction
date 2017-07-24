@@ -386,6 +386,20 @@ class Param extends CascadingAttribute
         return new $class($this->getLabel());
     }
 
+    public function loadConfig($config)
+    {
+        if (isset($config['content_type'])) {
+            $this->contentType($config['content_type']);
+        }
+        if (isset($config['isa'])) {
+            $this->isa($config['isa']);
+        }
+        if (isset($config['render_as'])) {
+            $this->renderAs($config['render_as']);
+        }
+
+        return $this;
+    }
 
     public function getRenderableCurrentValue()
     {
