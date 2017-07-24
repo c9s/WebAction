@@ -82,6 +82,28 @@ class ImageParam extends Param
         ]);
     }
 
+
+    public function loadConfig($config)
+    {
+        if (isset($config['upload_dir'])) {
+            $this->putIn($config['upload_dir']);
+        }
+        if (isset($config['size'])) {
+            $this->size($config['size']);
+        }
+        if (isset($config['size_limit'])) {
+            $this->sizeLimit($config['size_limit']);
+        }
+        if (isset($config['resize_width'])) {
+            $this->resizeWidth($config['resize_width']);
+        }
+        if (isset($config['hint'])) {
+            $this->hint($config['hint']);
+        }
+    }
+
+
+
     public function autoResize($enable = true)
     {
         if ($enable) {
