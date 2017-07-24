@@ -180,9 +180,6 @@ class Param extends CascadingAttribute
 
 
 
-
-
-
     public function inflate($formValue)
     {
         if ($this->inflator) {
@@ -191,7 +188,18 @@ class Param extends CascadingAttribute
 
         if ($this->isa) {
             $type = BaseType::create($this->isa);
-            return $type->parse($formValue);
+            $val = $type->parse($formValue);
+
+            // pre-filter the value posted from form
+            if ($this->refer) {
+                // reset 0, "0", false to NULL when param is a reference
+                // which refers to an incremental integer or an UUID string
+                if ($val === 0 || $val === "0" || $val === false) {
+                    $val = NULL;
+                }
+            }
+
+            return $val;
         }
 
         return $formValue;

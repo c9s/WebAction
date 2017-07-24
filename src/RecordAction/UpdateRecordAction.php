@@ -54,6 +54,8 @@ abstract class UpdateRecordAction extends BaseRecordAction
             }
         }
 
+        $this->services['logger']->info("{$this}::update", [ 'args' => $args ]);
+
         $ret = $this->record->update($args);
         if (! $ret->success) {
             $this->convertRecordValidation($ret);
