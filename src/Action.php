@@ -122,7 +122,7 @@ class Action implements IteratorAggregate
     /**
      * @var Pimple\Container
      */
-    protected $services;
+    public $services;
 
 
     /**
@@ -204,7 +204,6 @@ class Action implements IteratorAggregate
             $param->init();
         }
         $this->init();
-
         if ($args) {
             $this->setupArguments($args);
         }
@@ -217,6 +216,7 @@ class Action implements IteratorAggregate
      */
     protected function runParams(ActionRequest $request)
     {
+        $this->services['logger']->info("{$this}::runParams", [ 'request' => $request ]);
         foreach ($this->params as $param) {
             $param->run($request);
         }
@@ -224,12 +224,14 @@ class Action implements IteratorAggregate
 
     protected function setupArguments(array $args)
     {
+
         // save the original arguments
         $this->originalArgs = $args;
 
         // use the schema definitions to filter arguments
         $this->args = $this->filterArguments($args);
         $this->args = $this->inflateArguments($this->args);
+
 
         // See if we need to render the input names with relationship ID and
         // index?
@@ -243,6 +245,11 @@ class Action implements IteratorAggregate
         $this->loadParamValues($this->args);
 
         $this->result->args($this->args);
+
+        $this->services['logger']->info("{$this}: setupArguments", [
+            "originalArgs" => $this->originalArgs,
+            "args" => $this->args,
+        ]);
     }
 
     public function mixins()
@@ -259,7 +266,10 @@ class Action implements IteratorAggregate
         // load param values from $arguments
         $overlap = array_intersect_key($args, $this->params);
         foreach ($overlap as $name => $val) {
-            $this->getParam($name)->value($val);
+            $this->services['logger']->info("{$this}: loadParamValue: $name", [
+                "val" => $val,
+            ]);
+            $this->getParam($name)->setValue($val);
         }
     }
 
@@ -1407,5 +1417,10 @@ class Action implements IteratorAggregate
     public function saveUploadedFile($fieldName, $index, $file)
     {
         return $this->uploadedFiles[$fieldName][$index] = $file;
+    }
+
+    public function __toString()
+    {
+        return get_class($this);
     }
 }

@@ -13,6 +13,7 @@ class ActionRequest extends HttpRequest
 
     protected $actionName;
 
+
     /**
      * @var array[Universal\Http\UploadedFile] the request-wide file objects.
      */
@@ -109,5 +110,15 @@ class ActionRequest extends HttpRequest
     public function saveUploadedFile($fieldName, $index, $file)
     {
         return $this->uploadedFiles[$fieldName][$index] = $file;
+    }
+
+
+    public function __debugInfo()
+    {
+        return [
+            'actionName' => $this->actionName,
+            'arguments'  => $this->arguments,
+            'files'      => $this->files,
+        ];
     }
 }

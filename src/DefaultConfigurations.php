@@ -14,6 +14,9 @@ use Phifty\MessagePool;
 use Twig_Loader_Filesystem;
 use ReflectionClass;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Provided services:
  *
@@ -80,6 +83,19 @@ class DefaultConfigurations extends Container
             $loader = new Twig_Loader_Filesystem([]);
             $loader->addPath($templateDirectory, 'WebAction');
             return $loader;
+        };
+
+        $this['log_level'] = Logger::INFO;
+
+        // $this['log_dir'] = __DIR__ . DIRECTORY_SEPARATOR . 'Logs';
+
+        $this['logger'] = function($c) {
+            $logger = new Logger('webaction');
+
+            if (isset($this['log_dir'])) {
+                $logger->pushHandler(new StreamHandler($this['log_dir'] . DIRECTORY_SEPARATOR . 'access_log', $c['log_level']));
+            }
+            return $logger;
         };
 
 

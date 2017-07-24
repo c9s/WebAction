@@ -124,9 +124,9 @@ class BaseRecordAction extends Action
                     $param = $this->params[$name];
                     $value = $this->record->getValue($name);
                     if ($value !== null) {
-                        $param->value($value);
+                        $param->setValue($value);
                     } else {
-                        $param->value($column->getDefaultValue());
+                        $param->setValue($column->getDefaultValue());
                     }
                 }
             }

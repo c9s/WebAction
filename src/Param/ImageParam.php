@@ -15,6 +15,7 @@ use WebAction\Storage\FileRenameMethods;
 use WebAction\Storage\FilePath;
 use WebAction\Storage\FileRename\Md5Rename;
 
+
 class ImageParam extends Param
 {
     public $resizeWidth;
@@ -90,15 +91,19 @@ class ImageParam extends Param
         if (isset($config['upload_dir'])) {
             $this->putIn($config['upload_dir']);
         }
+
         if (isset($config['size'])) {
             $this->size($config['size']);
         }
+
         if (isset($config['size_limit'])) {
             $this->sizeLimit($config['size_limit']);
         }
+
         if (isset($config['resize_width'])) {
             $this->resizeWidth($config['resize_width']);
         }
+
         if (isset($config['hint'])) {
             $this->hint($config['hint']);
         }
@@ -290,9 +295,14 @@ class ImageParam extends Param
      */
     public function run(ActionRequest $request)
     {
+        $logger = $this->action->services['logger'];
+
         // Is the file upload from HTTP
         $requireUploadMove = false;
+
+
         $uploadedFile = $this->_findUploadedFile($request, $this->name, $requireUploadMove);
+
 
         if (!$uploadedFile) {
             // Try to load uploadedFile from sourceField
@@ -302,17 +312,19 @@ class ImageParam extends Param
         }
 
         if (!$uploadedFile) {
+            $logger->info("upload file not found.");
             return;
         }
 
+
         if ($uploadedFile->hasError()) {
-            error_log('ImageParam: upload has error');
+            $logger->info("{$this}: upload error");
             return;
         }
 
         $origFilename = $uploadedFile->getOriginalFileName();
         if (!$origFilename) {
-            error_log('ImageParam: source field file not found');
+            $logger->info("{$this}: upload error source field file not found");
             return;
         }
 
@@ -337,11 +349,14 @@ class ImageParam extends Param
 
         // If there is a file uploaded from HTTP
         if ($requireUploadMove) {
+            $logger->info("requireUploadMove");
 
             // The file array might be created from file system
             if ($savedPath = $uploadedFile->getSavedPath()) {
+
                 copy($savedPath, $targetPath);
-            } elseif ($uploadedFile->isUploadedFile()) {
+
+            } else if ($uploadedFile->isUploadedFile()) {
 
                 // move calls move_uploaded_file, which is only available for files uploaded from HTTP
                 $uploadedFile->move($targetPath);

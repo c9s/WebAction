@@ -391,6 +391,7 @@ class Param extends CascadingAttribute
         if (isset($config['content_type'])) {
             $this->contentType($config['content_type']);
         }
+
         if (isset($config['isa'])) {
             $this->isa($config['isa']);
         }
@@ -485,4 +486,8 @@ class Param extends CascadingAttribute
         return new $class($this->name, $newAttributes);
     }
 
+    public function __toString()
+    {
+        return get_class($this->action) . ":{$this->name}";
+    }
 }
