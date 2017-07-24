@@ -96,6 +96,10 @@ class ImageParam extends Param
             $this->size($config['size']);
         }
 
+        if (isset($config['display_size'])) {
+            $this->displaySize($config['display_size']);
+        }
+
         if (isset($config['size_limit'])) {
             $this->sizeLimit($config['size_limit']);
         }
