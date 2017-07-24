@@ -12,10 +12,12 @@ use WebAction\Csrf\CsrfStorage;
 use WebAction\Csrf\CsrfTokenRegister;
 use Phifty\MessagePool;
 use Twig_Loader_Filesystem;
-use ReflectionClass;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+
+use ReflectionClass;
+use RuntimeException;
 
 /**
  * Provided services:
@@ -93,6 +95,11 @@ class DefaultConfigurations extends Container
             $logger = new Logger('webaction');
 
             if (isset($this['log_dir'])) {
+
+                if (!is_writable($this['log_dir'])) {
+                    throw new RuntimeException("log dir {$this['log_dir']} is not writable.");
+                }
+
                 $logger->pushHandler(new StreamHandler($this['log_dir'] . DIRECTORY_SEPARATOR . 'access_log', $c['log_level']));
             }
             return $logger;
