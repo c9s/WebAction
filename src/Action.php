@@ -787,7 +787,7 @@ class Action implements IteratorAggregate
 
         // getting values
         if (1 === $nOfArgs) {
-            if (array_key_exists($name, $this->args)) {
+            if ($this->args && array_key_exists($name, $this->args)) {
                 return $this->args[$name];
             }
             return null;
