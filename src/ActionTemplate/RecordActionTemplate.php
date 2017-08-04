@@ -5,6 +5,7 @@ use WebAction\ActionLoader;
 use WebAction\ActionTemplate\CodeGenActionTemplate;
 use WebAction\GeneratedAction;
 use WebAction\Exception\RequiredConfigKeyException;
+use WebAction\ActionTrait\RoleChecker;
 
 class RecordActionTemplate extends CodeGenActionTemplate
 {
@@ -53,8 +54,9 @@ class RecordActionTemplate extends CodeGenActionTemplate
             $traits = array();
             if (isset($options['allowed_roles']) || isset($type['allowed_roles'])) {
                 $properties['allowedRoles'] = isset($type['allowed_roles']) ? $type['allowed_roles'] : $options['allowed_roles'];
-                $traits = ['WebAction\\ActionTrait\\RoleChecker'];
+                $traits[] = RoleChecker::class;
             }
+
             $configs = [
                 'extends' => "\\WebAction\\RecordAction\\{$type['prefix']}RecordAction",
                 'properties' => $properties,
